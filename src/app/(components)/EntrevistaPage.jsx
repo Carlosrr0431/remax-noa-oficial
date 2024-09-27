@@ -38,9 +38,6 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
-import { FileUploader } from 'react-drag-drop-files';
-import { HiOutlineXMark } from 'react-icons/hi2';
-
 const override = {
     display: "block",
     margin: "0 auto",
@@ -64,10 +61,10 @@ const formSchema = z.object({
 
     file: z
         .instanceof(File, { message: "No ingreso su CV" })
-        .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
+        .refine((file) => file.size <= MAX_FILE_SIZE, `El tamaño del archivo debe ser menor de 5MB`)
         .refine(
             (file) => ACCEPTED_FILE_TYPES.includes(file.type),
-            "Only PDF files are allowed."
+            "Solo se aceptan archivos PDF"
         )
 })
 
@@ -96,7 +93,7 @@ export const EntrevistaPage = () => {
     const [isUploading, setIsUploading] = useState(false)
     const defaultValues = {
         email: "",
-        oficina: "",
+        file: null
 
     }
     const form = useForm({
@@ -121,15 +118,18 @@ export const EntrevistaPage = () => {
                 toast.success('Tus datos fueron enviados correctamente.', {
                     description: "Nos contactaremos contigo lo antes posible."
                 })
-                form.reset()
+                form.reset({
+                    email: "",
+                    file: null
+                })
             } else {
-                toast.error('Tus datos fueron enviados correctamente.', {
-                    description: "Nos contactaremos contigo lo antes posible."
+                toast.error('Tus no datos fueron enviados correctamente.', {
+                    description: "Intenta nuevamente."
                 })
             }
         } catch (error) {
-            toast.error('Tus datos fueron enviados correctamente.', {
-                description: "Nos contactaremos contigo lo antes posible."
+            toast.error('Tus no datos fueron enviados correctamente.', {
+                description: "Intenta nuevamente."
             })
         } finally {
             setIsUploading(false)
@@ -204,7 +204,7 @@ export const EntrevistaPage = () => {
                                                     <FormLabel>Oficina</FormLabel>
 
                                                     <FormControl>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <Select value={field.value} onValueChange={field.onChange} >
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Seleccioná una oficina" />

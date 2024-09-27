@@ -13,9 +13,9 @@ const WhatsApp = () => {
 
     return (
         // fixed right-0 bottom-0 z-50 mb-8 mr-8
-        <div className={`${pathname == '/dashboard' || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/user' || pathname == '/login' ? 'hidden' : 'block'} `}>
+        <div className={`${pathname == '/dashboard' || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/user' || pathname == '/mailingSystem' || pathname == '/login' ? 'hidden' : 'block'} `}>
             <Link
-             
+
                 rel="noopener noreferrer"
                 target="_blank"
                 href="https://wa.me/+5493876852073?text=Quiero mas info..."

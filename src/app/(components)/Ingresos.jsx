@@ -56,7 +56,7 @@ export const Ingresos = () => {
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex items-center gap-3">
-                                            <Image width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
+                                            <img width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
                                                 alt="John Michael" class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" />
                                             <div class="flex flex-col">
                                                 <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">

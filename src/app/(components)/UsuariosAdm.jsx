@@ -27,10 +27,6 @@ export const UsuariosAdm = () => {
             setUsuarios(datos);
         }
 
-
-
-
-
         getUsuarios2();
 
 
