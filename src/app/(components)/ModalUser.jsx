@@ -4,7 +4,14 @@ import { adminUser, userAdmin } from '../action';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { sendContactForm } from "../lib/api.js";
+import { v2 as cloudinary } from "cloudinary";
 
+
+cloudinary.config({
+    cloud_name: "dlxwkq6bm",
+    api_key: "312155376375165",
+    api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
+  });
 
 export const ModalUser = ({ setShowModal, info }) => {
 
@@ -14,17 +21,24 @@ export const ModalUser = ({ setShowModal, info }) => {
     const sendMail = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('/api/sendEmail', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                subject,
-                message
-            })
-        })
-        console.log(await response.json())
+        // const response = await fetch('/api/sendEmail', {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         subject,
+        //         message
+        //     })
+        // })
+        // console.log(await response.json())
+
+        // export const getImageAttachment = async (id) => {
+        //     return await cloudinary.url(id, {
+        //         flags: "attachment:imgname"
+        //     })
+
+        //     getImageAttachment()
     }
 
     return (
