@@ -83,17 +83,16 @@ export const FormulariosCVDashboard = () => {
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex flex-col">
                                             <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                      
+
+                                                <Link href={user.cv} target='_blank'>
                                                     <Button
-                                                        onClick = {() => {
-                                                           return  fileDownload('https://res.cloudinary.com/dlxwkq6bm/image/upload/f_auto,q_auto/ggqd80vs5rr8avzzsemq', "cv.pdf")
-                                                        }}
+
                                                         className="flex items-center space-x-2 bg-primary text-primary-foreground hover:bg-primary/90"
                                                     >
                                                         <FileDown className="w-4 h-4" />
                                                         Descargar PDF
                                                     </Button>
-                                
+                                                </Link>
                                             </p>
 
                                         </div>
