@@ -1,8 +1,5 @@
-import { Email } from "@/app/(components)/Email";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { render } from "@react-email/render";
-import EmailTemplate from "@/app/(components)/EmailTemplate";
 
 export async function POST(request) {
   try {
