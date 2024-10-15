@@ -4,10 +4,15 @@ import { adminUser, userAdmin } from '../action';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { sendContactForm } from "../lib/api.js";
+<<<<<<< HEAD
+=======
+import { LeerCSV } from './LeerCSV';
+>>>>>>> 5580855 (Mensaje)
 
 
 export const ModalUser = ({ setShowModal, info }) => {
 
+<<<<<<< HEAD
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('')
 
@@ -30,6 +35,14 @@ export const ModalUser = ({ setShowModal, info }) => {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
             <form onSubmit={sendMail} className="h-full w-1/3 space-y-6">
+=======
+ 
+    return (
+        <main className="flex min-h-screen flex-col items-center justify-center p-24">
+
+            <LeerCSV/>
+            {/* <form onSubmit={sendMail} className="h-full w-1/3 space-y-6">
+>>>>>>> 5580855 (Mensaje)
                 <div className="flex flex-col items-start w-full justify-start">
                     <h1 className="text-xl font-semibold">Tutorial Email</h1>
                 </div>
@@ -71,7 +84,11 @@ export const ModalUser = ({ setShowModal, info }) => {
                 <button type='submit' className="ml-auto flex w-1/2 items-center justify-center space-x-3 rounded-lg bg-blue-600 p-2 text-white shadow-blue-500 hover:bg-blue-700 hover:shadow-md">
                     <span>Send Message</span>
                 </button>
+<<<<<<< HEAD
             </form>
+=======
+            </form> */}
+>>>>>>> 5580855 (Mensaje)
         </main>
     )
 }

@@ -1,14 +1,27 @@
+<<<<<<< HEAD
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(request) {
   try {
     const { nombre, email } = await request.json();
+=======
+import { Email } from "@/app/(components)/Email";
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+import { render } from "@react-email/render";
+import EmailTemplate from "@/app/(components)/EmailTemplate";
+
+export async function POST(request) {
+  try {
+    const { listaEmail, htmlContenido } = await request.json();
+>>>>>>> 5580855 (Mensaje)
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       host: "smtp.gmail.com",
       port: 465,
+<<<<<<< HEAD
       secure: true,
       auth: {
         user: "carlos.facundo.rr@gmail.com",
@@ -16,6 +29,24 @@ export async function POST(request) {
       },
     });
 
+=======
+      auth: {
+        user: process.env.EMAIL2,
+        pass: process.env.EMAIL_PASS2,
+      },
+      logger: true,
+      debug: true,
+    });
+
+    // imagen banner: https://images.unsplash.com/photo-1526948531399-320e7e40f0ca?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+    // url: https://www.remaxnoa.com.ar/contactanos
+    // Linkedin: https://www.linkedin.com/company/64931051/admin/dashboard/
+    // Instagram: https://www.instagram.com/remaxnoa.arg/
+    // Facebook: https://www.facebook.com/remaxnoasalta
+    // WhatsApp: https://wa.me/+5493876852073?text=Quiero mas info...
+    // castanedasantos@gmail.com
+
+>>>>>>> 5580855 (Mensaje)
     // const transporter = nodemailer.createTransport({
     //   host: "smtp-relay.brevo.com",
     //   port: 587,
@@ -26,6 +57,7 @@ export async function POST(request) {
     //   },
     // });
 
+<<<<<<< HEAD
     const mailOption = {
       from: {
         name: "Carlos RR",
@@ -192,17 +224,38 @@ export async function POST(request) {
 <td valign="top" align="center" style="padding:0;Margin:0;width:560px"><table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr style="border-collapse:collapse"><td align="center" class="es-infoblock made_with" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=real_estate&utm_content=promo_newsletter" style="mso-line-height-rule:exactly;text-decoration:underline;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;font-size:12px;color:#CCCCCC"><img src="https://fndeibz.stripocdn.email/content/guids/CABINET_9df86e5b6c53dd0319931e2447ed854b/images/64951510234941531.png" alt="" width="125" height="56" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></a> </td></tr></table></td></tr></table>
 </td></tr></table></td></tr></table></td></tr></table></div></body></html>
         `,
+=======
+    // const emailHtml = render(EmailTemplate());
+
+    const mailOption = {
+      from: {
+        name: "RE/MAX NOA RRHH",
+        address: "giu40150135@gmail.com",
+      },
+      to: listaEmail,
+      // to: email,
+      subject: "¡Tu proximo trabajo esta cerca en RE/MAX NOA!",
+      html: htmlContenido,
+>>>>>>> 5580855 (Mensaje)
     };
 
     await transporter.sendMail(mailOption);
 
     return NextResponse.json(
+<<<<<<< HEAD
       { message: "Email Sent Successfully" },
+=======
+      { message: "Email Masivo enviado exitosamente!" },
+>>>>>>> 5580855 (Mensaje)
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
+<<<<<<< HEAD
       { message: "Failed to Send Email" },
+=======
+      { message: "Email Masivo fallado." },
+>>>>>>> 5580855 (Mensaje)
       { status: 500 }
     );
   }

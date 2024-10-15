@@ -38,6 +38,12 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
+<<<<<<< HEAD
+=======
+import { FileUploader } from 'react-drag-drop-files';
+import { HiOutlineXMark } from 'react-icons/hi2';
+
+>>>>>>> 5580855 (Mensaje)
 const override = {
     display: "block",
     margin: "0 auto",
@@ -61,10 +67,17 @@ const formSchema = z.object({
 
     file: z
         .instanceof(File, { message: "No ingreso su CV" })
+<<<<<<< HEAD
         .refine((file) => file.size <= MAX_FILE_SIZE, `El tamaño del archivo debe ser menor de 5MB`)
         .refine(
             (file) => ACCEPTED_FILE_TYPES.includes(file.type),
             "Solo se aceptan archivos PDF"
+=======
+        .refine((file) => file.size <= MAX_FILE_SIZE, `File size should be less than 5MB.`)
+        .refine(
+            (file) => ACCEPTED_FILE_TYPES.includes(file.type),
+            "Only PDF files are allowed."
+>>>>>>> 5580855 (Mensaje)
         )
 })
 
@@ -93,7 +106,11 @@ export const EntrevistaPage = () => {
     const [isUploading, setIsUploading] = useState(false)
     const defaultValues = {
         email: "",
+<<<<<<< HEAD
         file: null
+=======
+        oficina: "",
+>>>>>>> 5580855 (Mensaje)
 
     }
     const form = useForm({
@@ -118,6 +135,7 @@ export const EntrevistaPage = () => {
                 toast.success('Tus datos fueron enviados correctamente.', {
                     description: "Nos contactaremos contigo lo antes posible."
                 })
+<<<<<<< HEAD
                 form.reset({
                     email: "",
                     file: null
@@ -130,6 +148,17 @@ export const EntrevistaPage = () => {
         } catch (error) {
             toast.error('Tus no datos fueron enviados correctamente.', {
                 description: "Intenta nuevamente."
+=======
+                form.reset()
+            } else {
+                toast.error('Tus datos fueron enviados correctamente.', {
+                    description: "Nos contactaremos contigo lo antes posible."
+                })
+            }
+        } catch (error) {
+            toast.error('Tus datos fueron enviados correctamente.', {
+                description: "Nos contactaremos contigo lo antes posible."
+>>>>>>> 5580855 (Mensaje)
             })
         } finally {
             setIsUploading(false)
@@ -204,7 +233,11 @@ export const EntrevistaPage = () => {
                                                     <FormLabel>Oficina</FormLabel>
 
                                                     <FormControl>
+<<<<<<< HEAD
                                                         <Select value={field.value} onValueChange={field.onChange} >
+=======
+                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+>>>>>>> 5580855 (Mensaje)
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Seleccioná una oficina" />

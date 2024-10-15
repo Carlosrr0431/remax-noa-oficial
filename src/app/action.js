@@ -40,6 +40,34 @@ export async function guardarFomulario(datos) {
   return { message: "Success" };
 }
 
+<<<<<<< HEAD
+=======
+export async function guardarFomularioBaja(datos) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const result3 = await supabase.from("formularioBaja").insert({
+    nombre: datos.name,
+    email: datos.email,
+    economicReason: datos.economicReason,
+    personalReason: datos.personalReason,
+    emotionalReason: datos.emotionalReason,
+    companyReason: datos.companyReason,
+  });
+
+  console.log(result3);
+
+  return { message: "Success" };
+}
+
+>>>>>>> 5580855 (Mensaje)
 export async function uploadPDF(formData) {
   const cookieStore = cookies();
 

@@ -4,7 +4,11 @@ import Jimena from '../public/JIMENA CORNEJO (1).jpg'
 import Alejandro from '../public/ALEJANDRO 2 (1).jpg'
 import Matias from '../public/MATIAS FRADEJAS (1).jpg'
 import Alberto from '../public/ALBERTO (1).jpg'
+<<<<<<< HEAD
 import Silvana from '../public/SILVANA 1 (1).jpg'
+=======
+import Silvana from '../public/Silvana Paz.jpeg'
+>>>>>>> 5580855 (Mensaje)
 import JuanPablo from '../public/JUAN PABLO 1 (usar esta) (1).jpg'
 import NicoPacheco from '../public/NICO PACHECO 3 (1).jpg'
 

@@ -33,7 +33,11 @@ const Nav = () => {
   // https://www.linkedin.com/company/64931051/admin/dashboard/     **falta el icono
 
   return (
+<<<<<<< HEAD
     <nav className={`${pathname == '/dashboard' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/user' || pathname == '/mailingSystem' ? 'hidden' : 'flex'} montserrat  flex-col  items-center xl:justify-center gap-y-4  fixed h-max bottom-0 mt-auto xl:right-[2%]  z-50 w-full top-0 xl:w-12 xl:max-w-md xl:h-[60%] xl:bottom-[150px]`}>
+=======
+    <nav className={`${pathname == '/dashboard' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/user' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes'  || pathname == '/mailingSystem' || pathname == '/dashboard/rrhh' ? 'hidden' : 'flex'} montserrat  flex-col  items-center xl:justify-center gap-y-4  fixed h-max bottom-0 mt-auto xl:right-[2%]  z-50 w-full top-0 xl:w-12 xl:max-w-md xl:h-[60%] xl:bottom-[150px]`}>
+>>>>>>> 5580855 (Mensaje)
       <div className={` w-full xl:flex-col items-center justify-between xl:justify-center gap-y-7 px-4 md:px-40 xl:px-0 h-[80px]  text-3xl xl:text-xl xl:rounded-full xl:h-max py-4  opacity-80 bg-blend-multiply hidden sm:flex`}>
 
         <Link target="_blank" href={'https://www.facebook.com/remaxnoasalta'} className="duration-300 transition-all hover:scale-110  focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85]"> <Image src={Facebook} width={10} height={10} alt="" /> </Link>
