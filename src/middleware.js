@@ -46,6 +46,11 @@ export default async function middleware(req, event) {
             token?.role == "user admin")
         ) {
           return true;
+        } else if (
+          req.nextUrl.pathname == "/dashboard/rrhh" &&
+          (token?.role == "admin" || token?.role == "user admin")
+        ) {
+          return true;
         } else return false;
       },
     },
@@ -62,5 +67,6 @@ export const config = {
     "/user",
     "/mailingSystem/agentes",
     "/mailingSystem/rrhh",
+    "/dashboard/rrhh",
   ],
 };

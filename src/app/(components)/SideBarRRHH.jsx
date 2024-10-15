@@ -14,7 +14,7 @@ import { CardCursos } from './CardCursos';
 import { LuDumbbell } from "react-icons/lu";
 import { GiHieroglyphLegs } from "react-icons/gi";
 import { supabaseClient } from '@/supabase/client';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar } from "lucide-react"
 import { FormularioBaja } from './FomularioBaja';
 import { BigCalendar } from './BigCalendar';
@@ -22,6 +22,7 @@ import { UsuariosRRHH } from './UsuariosRRHH';
 import Empleados from './Empleados';
 import Evaluaciones from './Evaluaciones';
 import Reportes from './Reportes';
+import { BiLogOut } from 'react-icons/bi';
 
 
 const SideBarRRHH = () => {
@@ -181,7 +182,23 @@ const SideBarRRHH = () => {
                             </button>)
                         }
                     })}
+
+                    {/* <button type='button'
+                        onClick={async () => {
+                            await signOut({
+                                callbackUrl: "/dashboard",
+                            })
+                        }}
+                        className={`flex   text-lg w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 text-white focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900 mt-[220px] mx-auto ml-8 font-semibold `}>
+                        <div className="grid mr-2 place-items-center ">
+                            <BiLogOut className="w-5 h-5" />
+                            Salir
+                        </div>
+                   
+                    </button> */}
                 </div>
+
+
             </div>
 
             <div className={`relative duration-500 transition-all  md:flex  md:flex-wrap md:gap-x-8 left-[100px]  mb-20 md:left-[300px] -mx-6 mt-[20px]  max-w-[80%] h-full ${open ? '' : 'md:-ml-[120px] md:gap-x-12 '} mt-[50px] `}>
