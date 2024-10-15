@@ -40,8 +40,6 @@ export async function guardarFomulario(datos) {
   return { message: "Success" };
 }
 
-<<<<<<< HEAD
-=======
 export async function guardarFomularioBaja(datos) {
   const cookieStore = cookies();
 
@@ -67,7 +65,6 @@ export async function guardarFomularioBaja(datos) {
   return { message: "Success" };
 }
 
->>>>>>> 5580855 (Mensaje)
 export async function uploadPDF(formData) {
   const cookieStore = cookies();
 

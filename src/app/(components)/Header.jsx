@@ -14,11 +14,8 @@ import Logo from '../public/LOGO REMAX.svg'
 import { useAppContext } from "../(context)/AppWrapper";
 import { motion, useAnimationControls } from 'framer-motion'
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-=======
 // import Logo from '../public/logo_remax noa blanco y color.svg'
 
->>>>>>> 5580855 (Mensaje)
 
 const Header = () => {
 
@@ -42,11 +39,7 @@ const Header = () => {
 
 
     <div  >
-<<<<<<< HEAD
-      <header className={`${pathname == '/user' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/ubicacion' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/user' || pathname == '/eventos' || pathname == '/mailingSystem' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
-=======
       <header className={`${pathname == '/user' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/mailingSystem' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/user' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/eventos' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
->>>>>>> 5580855 (Mensaje)
         <div className="container mx-auto">
           <div className="items-center relative flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-8 py-8">
             <div className="">
@@ -64,8 +57,6 @@ const Header = () => {
                 />
 
 
-<<<<<<< HEAD
-=======
                 {/* <Image
                   src={Logo}
                   width={250}
@@ -78,7 +69,6 @@ const Header = () => {
                 /> */}
 
 
->>>>>>> 5580855 (Mensaje)
               </Link>
             </div>
 
@@ -102,12 +92,8 @@ const Header = () => {
               <motion.div
                 className="relative p-[0.5px] overflow-hidden rounded-full"
                 style={{
-<<<<<<< HEAD
-                  background: 'linear-gradient(90deg, #ff0000, #3333ff, #ffffff)',
-=======
                   // background: 'linear-gradient(90deg, #ff0000, #3333ff, #ffffff)',
                   background: 'linear-gradient(90deg, #ff0000,  #ffffff)',
->>>>>>> 5580855 (Mensaje)
                   backgroundSize: '300% 300%',
                 }}
                 animate={controls}
@@ -126,14 +112,9 @@ const Header = () => {
                   transition={{ duration: 0.3 }}
                 />
                 <Link href="/contactanos">
-<<<<<<< HEAD
-                  <Button
-                    className="relative bg-gradient-to-r from-red-500 to-blue-600 text-white rounded-full px-6 py-3 text-base font-semibold transition-shadow duration-300 hover:shadow-lg"
-=======
                   {/* bg-gradient-to-r from-red-500 to-blue-600 */}
                   <Button
                     className="relative bg-red-600 text-white rounded-full px-6 py-3 text-base font-semibold transition-shadow duration-300 hover:shadow-lg"
->>>>>>> 5580855 (Mensaje)
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >

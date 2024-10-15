@@ -27,11 +27,6 @@ export const FooterSencillo = () => {
                             width={120}
                             height={80}
                             alt=""
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 5580855 (Mensaje)
                         /></Link>
 
                     <nav className="hidden sm:flex space-x-4">

@@ -51,25 +51,11 @@ export const CardCursos = ({ elem, adquirido }) => {
 
             <Image class=" w-full h-full max-h-[200px] min-w-[320px]  object-cover" src={elem.imagen} alt="product image" width={800} height={800} />
 
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 5580855 (Mensaje)
             <div className='flex mt-5 h-[150px] flex-col'><h5 class="text-[15px] montserrat font-semibold md:text-xl  px-5  tracking-tight text-slate-900 text-wrap">{elem.titulo}</h5>
 
                 <p class="text-[15px]  px-5  tracking-tight text-slate-900 text-wrap">{elem.descripcion}</p></div>
 
 
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 5580855 (Mensaje)
             {session?.user?.name == undefined ? <button onClick={async () => {
                 await signIn('google', {
                     callbackUrl: "/cursos"

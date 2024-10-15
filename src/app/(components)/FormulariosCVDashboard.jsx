@@ -5,10 +5,6 @@ import React, { useEffect, useState } from 'react'
 import { DowloadPDF } from './DowloadPDF';
 import { Button } from '@/components/ui/button';
 import { FileDown } from 'lucide-react';
-<<<<<<< HEAD
-import fileDownload from "js-file-download";
-=======
->>>>>>> 5580855 (Mensaje)
 
 export const FormulariosCVDashboard = () => {
     const [ingresos, setIngresos] = useState();
@@ -64,11 +60,7 @@ export const FormulariosCVDashboard = () => {
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex items-center gap-3">
-<<<<<<< HEAD
-                                            <img width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
-=======
                                             <Image width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
->>>>>>> 5580855 (Mensaje)
                                                 alt="John Michael" class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" />
                                             <div class="flex flex-col">
                                                 <p
@@ -90,22 +82,13 @@ export const FormulariosCVDashboard = () => {
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex flex-col">
                                             <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-<<<<<<< HEAD
-
-                                                <Link href={user.cv} target='_blank'>
-=======
                                                 <Link href={user.cv} download='cv.pdf'>
->>>>>>> 5580855 (Mensaje)
                                                     <Button
 
                                                         className="flex items-center space-x-2 bg-primary text-primary-foreground hover:bg-primary/90"
                                                     >
                                                         <FileDown className="w-4 h-4" />
-<<<<<<< HEAD
                                                         Descargar PDF
-=======
-                                                            Descargar PDF
->>>>>>> 5580855 (Mensaje)
                                                     </Button>
                                                 </Link>
                                             </p>

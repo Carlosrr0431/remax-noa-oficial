@@ -63,22 +63,13 @@ const RemaxMailing = () => {
                         </CardDescription> */}
                         </CardHeader>
                         <CardContent>
-<<<<<<< HEAD
-                            <Link href='/dashboard/user'>
-=======
                             <Link href='/mailingSystem/agentes'>
->>>>>>> 5580855 (Mensaje)
                                 <Button
                                     variant="outline"
                                     className="w-full bg-white/60 text-black hover:bg-gray-100"
 
                                 >
-<<<<<<< HEAD
-                                    <FcGoogle className="w-6 h-6 mr-2" />
-                                    <span className="text-blue-700">Iniciar sesión con Google</span>
-=======
                                     <span className="text-blue-700">CONTINUAR</span>
->>>>>>> 5580855 (Mensaje)
                                 </Button>
                             </Link>
                         </CardContent>
@@ -92,22 +83,13 @@ const RemaxMailing = () => {
                         </CardDescription> */}
                         </CardHeader>
                         <CardContent>
-<<<<<<< HEAD
-                            <Link href='/dashboard/user'>
-=======
                             <Link href='/mailingSystem/rrhh'>
->>>>>>> 5580855 (Mensaje)
                                 <Button
                                     variant="outline"
                                     className="w-full bg-white/60 text-black hover:bg-gray-100"
 
                                 >
-<<<<<<< HEAD
-                                    <FcGoogle className="w-6 h-6 mr-2" />
-                                    <span className="text-blue-700">Iniciar sesión con Google</span>
-=======
                                     <span className="text-red-700">CONTINUAR</span>
->>>>>>> 5580855 (Mensaje)
                                 </Button>
                             </Link>
                         </CardContent>
@@ -119,8 +101,4 @@ const RemaxMailing = () => {
     )
 }
 
-<<<<<<< HEAD
 export default RemaxMailing
-=======
-export default RemaxMailing
->>>>>>> 5580855 (Mensaje)

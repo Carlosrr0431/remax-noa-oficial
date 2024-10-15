@@ -27,13 +27,10 @@ export const UsuariosAdm = () => {
             setUsuarios(datos);
         }
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> 5580855 (Mensaje)
         getUsuarios2();
 
 

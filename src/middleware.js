@@ -32,8 +32,6 @@ export default async function middleware(req, event) {
             token?.role == "user admin")
         ) {
           return true;
-<<<<<<< HEAD
-=======
         } else if (
           req.nextUrl.pathname == "/mailingSystem/agentes" &&
           (token?.role == "member" ||
@@ -48,7 +46,6 @@ export default async function middleware(req, event) {
             token?.role == "user admin")
         ) {
           return true;
->>>>>>> 5580855 (Mensaje)
         } else return false;
       },
     },
@@ -59,9 +56,6 @@ export default async function middleware(req, event) {
 }
 
 export const config = {
-<<<<<<< HEAD
-  matcher: ["/dashboard/administrador", "/dashboard/user", "/user"],
-=======
   matcher: [
     "/dashboard/administrador",
     "/dashboard/user",
@@ -69,5 +63,4 @@ export const config = {
     "/mailingSystem/agentes",
     "/mailingSystem/rrhh",
   ],
->>>>>>> 5580855 (Mensaje)
 };
