@@ -103,7 +103,6 @@ export const FormularioBaja = () => {
     const [usuariosFilter, setUsuariosFilter] = useState()
 
     const empleadosFiltrados = empleados.filter(empleado =>
-        empleado.email.toLowerCase().includes(busqueda.toLowerCase()) ||
         empleado.nombre.toLowerCase().includes(busqueda.toLowerCase())
     )
 
