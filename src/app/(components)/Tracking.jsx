@@ -102,6 +102,8 @@ export default function Tracking() {
         }
 
         trackingData.forEach(registro => {
+            console.log("registro: " + registro);
+            
             totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
             totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
             totales.acm += parseInt(registro.acm) || 0
