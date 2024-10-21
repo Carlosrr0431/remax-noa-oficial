@@ -9,26 +9,14 @@ import enUS from 'date-fns/locale/en-US'
 import dayjs from 'dayjs'
 import moment from 'moment'
 import 'moment-timezone'
+
+
 export const BigCalendar = () => {
 
     moment.tz.setDefault('America/Argentina/Salta')
 
     const [CalendarReady, setCalendarReady] = useState(false)
     const localizer = momentLocalizer(moment)
-
-    const locales = {
-        'en-US': enUS,
-    }
-
-
-
-    // const localizer = dateFnsLocalizer({
-    //     format,
-    //     parse,
-    //     startOfWeek,
-    //     getDay,
-    //     locales,
-    // })
 
     useEffect(() => {
         setCalendarReady(true)
@@ -52,7 +40,7 @@ export const BigCalendar = () => {
     }
 
     return (
-        <div style={{ height: '500px' }}>
+        <div style={{ height: '500px' }} className='bg-white'>
             <Calendar
                 localizer={localizer}
                 events={events}

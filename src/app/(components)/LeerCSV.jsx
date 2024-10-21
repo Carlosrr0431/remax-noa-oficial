@@ -11,6 +11,7 @@ import mammoth from 'mammoth';
 import { emailCaptacionHTML } from './emailCaptacionHTML'
 import { toast } from 'sonner';
 import { emailOfrecer } from './emailOfrecer'
+import { emailOfrecerCorrejido } from './emailOfrecerCorrejido'
 
 export const LeerCSV = () => {
 
@@ -42,7 +43,7 @@ export const LeerCSV = () => {
 
             // const result = await sendMail(emailCaptacionHTML())
 
-            const result = await sendMail(emailOfrecer())
+            const result = await sendMail(emailCaptacionHTML())
 
             setValues([])
 
@@ -147,7 +148,7 @@ export const LeerCSV = () => {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                listaEmail: ['carlos.facundo.rr@gmail.com'],
+                listaEmail: ['carlos.facundo.rr@gmail.com', "estudioidonea@gmail.com"],
                 htmlContenido: htmlContent
             })
         })
@@ -205,30 +206,10 @@ export const LeerCSV = () => {
                     onClick={handleEnviar}
                     disabled={(!file || !objetivo || values.length == 0)}
                 >
-                    Enviar Campaña {values && <span className="text-sm ">{values.length} Contactos</span>}
+                    Enviar Campaña {values && <span className="text-sm "> {values.length} Contactos</span>}
                 </Button>
             </CardFooter>
         </Card>
-        // <div>
-        //     <input
-        //         type="file"
-        //         name="file"
-        //         onChange={changeHandler}
-        //         accept=".xls, .csv"
 
-        //     />
-
-
-
-        //     <div>
-        //         {
-        //             [...new Set(values)].map((val, index) => {
-        //                 return <div key={index}>{val}</div>
-        //             })
-
-        //         }
-
-        //     </div>
-        // </div>
     );
 }

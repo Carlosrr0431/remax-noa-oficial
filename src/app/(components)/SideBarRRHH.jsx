@@ -15,7 +15,7 @@ import { LuDumbbell } from "react-icons/lu";
 import { GiHieroglyphLegs } from "react-icons/gi";
 import { supabaseClient } from '@/supabase/client';
 import { signOut, useSession } from 'next-auth/react';
-import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar } from "lucide-react"
+import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar, Receipt, ContactRound } from "lucide-react"
 import { FormularioBaja } from './FomularioBaja';
 import { BigCalendar } from './BigCalendar';
 import { UsuariosRRHH } from './UsuariosRRHH';
@@ -23,6 +23,8 @@ import Empleados from './Empleados';
 import Evaluaciones from './Evaluaciones';
 import Reportes from './Reportes';
 import { BiLogOut } from 'react-icons/bi';
+import Reclutamiento from './Reclutamiento';
+import Tracking from './Tracking';
 
 
 const SideBarRRHH = () => {
@@ -37,9 +39,10 @@ const SideBarRRHH = () => {
         { name: "Empleados", link: "/", icon: UserCircle },
         { name: "Evaluaciones", link: "/", icon: ChartCandlestick },
         { name: "Reportes", link: "/", icon: ChartBar },
+        { name: "Reclutamiento", link: "/", icon: ContactRound },
         { name: "Calendario", link: "/", icon: CalendarClockIcon },
         { name: "Bajas", link: "/", icon: UserMinus },
-
+        { name: "Tracking", link: "/", icon: LayoutDashboard },
 
 
         // { name: "analytics", link: "/", icon: MdOutlineDashboard, margin: true },
@@ -215,6 +218,10 @@ const SideBarRRHH = () => {
                     opcion == "Calendario" && <BigCalendar />
                 }
 
+                {
+                    opcion == "Reclutamiento" && <Reclutamiento />
+                }
+
 
                 {
                     opcion == "Reportes" && <Reportes />
@@ -224,70 +231,9 @@ const SideBarRRHH = () => {
                     opcion == "Evaluaciones" && <Evaluaciones />
                 }
 
-                {/* {
-                    usuario != undefined && opcion == "Todos" ?
-                        (usuarios.map((elem, index) => {
-
-                            if (usuario?.cursos?.includes(elem.id)) {
-                                return <CardCursos adquirido={true} elem={elem} key={index} />
-                            } else
-                                return <CardCursos adquirido={false} elem={elem} key={index} />
-
-
-                        }
-                        )) : usuario != undefined && opcion == "Mis Cursos" ? (usuarios.map((elem, index) => {
-
-                            if (usuario?.cursos?.includes(elem.id)) {
-                                return <CardCursos adquirido={true} elem={elem} key={index} />
-                            } else
-                                return null
-
-
-                        }
-                        )) : opcion == "Piernas" ? (usuarios.map((elem, index) => {
-                            if (usuario != undefined) {
-                                if (usuario?.cursos?.includes(elem.id) && elem.tipo == "Piernas") {
-                                    return <CardCursos adquirido={true} elem={elem} key={index} />
-                                } else if (elem.tipo == "Piernas") {
-                                    return <CardCursos adquirido={false} elem={elem} key={index} />
-                                }
-                            } else if (elem.tipo == "Piernas") {
-                                return <CardCursos adquirido={false} elem={elem} key={index} />
-                            }
-
-
-                        }
-                        )) : opcion == "Brazos" ? (usuarios.map((elem, index) => {
-                            if (usuario != undefined) {
-                                if (usuario?.cursos?.includes(elem.id) && elem.tipo == "Brazos") {
-                                    return <CardCursos adquirido={true} elem={elem} key={index} />
-                                } else if (elem.tipo == "Brazos") {
-                                    return <CardCursos adquirido={false} elem={elem} key={index} />
-                                }
-                            } else if (elem.tipo == "Brazos") {
-                                return <CardCursos adquirido={false} elem={elem} key={index} />
-                            }
-
-                        }
-                        )) : opcion == "Espalda" ? (usuarios.map((elem, index) => {
-                            if (usuario != undefined) {
-                                if (usuario?.cursos?.includes(elem.id) && elem.tipo == "Espalda") {
-                                    return <CardCursos adquirido={true} elem={elem} key={index} />
-                                } else if (elem.tipo == "Espalda") {
-                                    return <CardCursos adquirido={false} elem={elem} key={index} />
-                                }
-                            } else if (elem.tipo == "Espalda") {
-                                return <CardCursos adquirido={false} elem={elem} key={index} />
-                            }
-
-                        }
-                        )) : (usuarios.map((elem, index) => {
-                            return <CardCursos adquirido={false} elem={elem} key={index} />
-
-                        }
-                        ))
-                } */}
-
+                {
+                    opcion == "Tracking" && <Tracking />
+                }
             </div>
         </section>
     );

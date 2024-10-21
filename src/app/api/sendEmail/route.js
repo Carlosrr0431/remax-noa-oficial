@@ -8,10 +8,11 @@ export async function POST(request) {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       host: "smtp.gmail.com",
-      port: 465,
+      port: 587,
+      // port: 25,
       auth: {
-        user: process.env.EMAIL2,
-        pass: process.env.EMAIL_PASS2,
+        user: process.env.EMAIL3,
+        pass: process.env.EMAIL_PASS3,
       },
       logger: true,
       debug: true,

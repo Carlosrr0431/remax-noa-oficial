@@ -16,6 +16,45 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
+export async function enviarMailMasivo(formData1) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  console.log(JSON.parse(formData1.image2.arrayBuffer()));
+
+  // const bytes = await file.arrayBuffer();
+  // const buffer = Buffer.from(bytes);
+
+  // const result = await new Promise((resolve, reject) => {
+  //   cloudinary.uploader
+  //     .upload_stream({}, (err, result) => {
+  //       if (err) reject(err);
+
+  //       resolve(result);
+  //     })
+  //     .end(buffer);
+  // });
+
+  // console.log("Resultado del pdf: " + result.secure_url);
+
+  // const result3 = await supabase.from("formularioCV").insert({
+  //   oficina: oficina,
+  //   email: email,
+  //   cv: result.secure_url,
+  // });
+
+  // console.log(result3);
+
+  return { success: true, message: "File uploaded successfully!" };
+}
+
 export async function guardarFomulario(datos) {
   const cookieStore = cookies();
 

@@ -832,3 +832,5 @@ export const emailCaptacionHTML = () => {
   </body>
 </html>`;
 };
+
+

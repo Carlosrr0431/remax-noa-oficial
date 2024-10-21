@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  .rbc-calendar {
+    @apply font-sans;
+  }
+
+  .rbc-header {
+    @apply bg-primary text-primary-foreground py-2;
+  }
+
+  .rbc-event {
+    @apply bg-secondary text-secondary-foreground;
+  }
+
+  .rbc-today {
+    @apply bg-accent;
+  }
+
+  .rbc-btn-group button {
+    @apply bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors;
+  }
+
   body {
     @apply overflow-hidden leading-relaxed;
   }
@@ -34,13 +54,12 @@
     @apply w-full h-[180px] p-6 capitalize rounded-lg resize-none;
   }
 
-
-  .imagenTestimonios{
+  .imagenTestimonios {
     width: 100px;
     border-radius: 50%;
     aspect-ratio: 1; /* Se ajusta al mismo valor que el width */
     object-fit: cover;
-}
+  }
 
   .bg-fondo {
     background-size: 100% 100%;

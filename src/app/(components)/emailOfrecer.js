@@ -185,11 +185,17 @@ export const emailOfrecer = () => {
       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
         <tbody>
           <tr>
-            <td style="width:550px;">
-              
-      <img alt="Casa Moderna" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1728910681/Imagen1Mailing_y8cwvu.jpg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto">
-    
-            </td>
+                      <td align="center" style="font-size:0px;padding:0px;word-break:break-word;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                          <tbody>
+                            <tr>
+                              <td style="width:550px;">
+                                <img alt="Imagen de la Propiedad" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1728910681/Imagen1Mailing_y8cwvu.jpg" style="border:0;border-radius:10px;display:block;outline:none;text-decoration:none;height:400px;width:100%;font-size:13px;object-fit:cover" width="550" height="400" />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>  
           </tr>
         </tbody>
       </table>
@@ -200,7 +206,7 @@ export const emailOfrecer = () => {
               <tr>
                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                   
-      <div style="font-family:Roboto, Arial, sans-serif;font-size:20px;font-weight:bold;line-height:1;text-align:center;color:#1a1a1a;">Casa Moderna en el Centro</div>
+      <div style="font-family:Roboto, Arial, sans-serif;font-size:20px;font-weight:bold;line-height:1;text-align:center;color:#1a1a1a;">Departamento en Venta - Macrocentro</div>
     
                 </td>
               </tr>
@@ -208,7 +214,7 @@ export const emailOfrecer = () => {
               <tr>
                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                   
-      <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;line-height:1;text-align:center;color:#555555;">3 habitaciones | 2 baños | 150 m²</div>
+      <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;line-height:1;text-align:center;color:#555555;">1 habitación | 1 baño | 51.89 m² total | 51.89 m² cubiertos </div>
     
                 </td>
               </tr>
@@ -267,33 +273,60 @@ export const emailOfrecer = () => {
       <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
         <tbody>
           <tr>
-            <td style="width:550px;">
-              
-      <img alt="Apartamento con Vista al Mar" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto">
-    
-            </td>
+           <td align="center" style="font-size:0px;padding:0px;word-break:break-word;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                          <tbody>
+                            <tr>
+                              <td style="width:550px;">
+                                <img alt="Imagen de la Propiedad" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729082440/propiedad2_evcna8.jpg" style="border:0;border-radius:10px;display:block;outline:none;text-decoration:none;height:400px;width:100%;font-size:13px;object-fit:cover" width="550" height="400" />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>  
           </tr>
         </tbody>
       </table>
     
                 </td>
               </tr>
-            
-              <tr>
+
+               <tr>
                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                   
-      <div style="font-family:Roboto, Arial, sans-serif;font-size:20px;font-weight:bold;line-height:1;text-align:center;color:#1a1a1a;">Apartamento con Vista al Mar</div>
+      <div style="font-family:Roboto, Arial, sans-serif;font-size:20px;font-weight:bold;line-height:1;text-align:center;color:#1a1a1a;">Departamento en Venta - Macrocentro</div>
     
                 </td>
               </tr>
             
-              <tr>
-                <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                  
-      <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;line-height:1;text-align:center;color:#555555;">2 habitaciones | 2 baños | 100 m²</div>
-    
-                </td>
-              </tr>
+           <table
+         cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Poppins, Arial, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;border:none;"
+      >
+
+        
+
+        <tr>
+            <td style="text-align: center; padding-right: 10px;">
+              <img src="https://img.icons8.com/material-outlined/24/000000/bed.png" width="24" height="24" style="display: block; margin: 0 auto 5px;" />
+              <span style="font-size: 14px; color: #555;">1 Dormitorio</span>
+            </td>
+            <td style="text-align: center; padding-right: 10px;">
+              <img src="https://img.icons8.com/metro/26/shower-and-tub.png" width="24" height="24" style="display: block; margin: 0 auto 5px;" />
+              <span style="font-size: 14px; color: #555;">1 Baño</span>
+            </td>
+            <td style="text-align: center;">
+              <img src="https://img.icons8.com/sf-regular/48/surface.png" width="24" height="24" style="display: block; margin: 0 auto 5px;" />
+              <span style="font-size: 14px; color: #555;">51.89 m² Totales</span>
+            </td>
+
+              <td style="text-align: center;">
+              <img src="https://img.icons8.com/sf-regular/48/surface.png" width="24" height="24" style="display: block; margin: 0 auto 5px;" />
+              <span style="font-size: 14px; color: #555;">51.89 m² Cubiertos</span>
+            </td>
+
+      
+          </tr>
+      </table>
             
               <tr>
                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
@@ -362,13 +395,18 @@ export const emailOfrecer = () => {
               <tr>
                 <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                   
-      <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+    <table
+         border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;"
+      >
         <tbody>
           <tr>
-            <td align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#25D366;" valign="middle">
-              <a href="https://wa.me/1234567890" style="display:inline-block;background:#25D366;color:white;font-family:Roboto, Arial, sans-serif;font-size:16px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 20px; vertical-align: middle; margin-right: 10px;">
-          Contactar por WhatsApp
+            <td
+               align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#25D366;" valign="middle"
+            >
+              <a
+                 href="https://wa.me/+5493876852073?text=Quiero mas info..." style="display:inline-block;background:#25D366;color:white;font-family:Roboto, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"
+              >
+                Chatea con nosotros en WhatsApp tenemos más de 300 propiedades para ofrecerte
               </a>
             </td>
           </tr>
@@ -424,14 +462,20 @@ export const emailOfrecer = () => {
               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
                 <tbody>
                   
-      <tr>
-        <td style="padding:4px;vertical-align:middle;">
-          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;border-radius:3px;width:30px;">
+        <tr
+        
+      >
+        <td  style="padding:4px;vertical-align:middle;">
+          <table
+             border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#3b5998;border-radius:3px;width:30px;"
+          >
             <tbody>
               <tr>
-                <td style="font-size:0;height:30px;vertical-align:middle;width:30px;">
-                  <a href="https://www.facebook.com/sharer/sharer.php?u=#" target="_blank">
-                    <img alt height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/facebook.png" style="border-radius:3px;display:block;" width="30">
+                <td  style="font-size:0;height:30px;vertical-align:middle;width:30px;">
+                  <a  href="https://www.facebook.com/remaxnoasalta" target="_blank">
+                    <img
+                       alt="" height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/facebook.png" style="border-radius:3px;display:block;" width="30"
+                    />
                   </a>
                 </td>
               </tr>
@@ -447,14 +491,20 @@ export const emailOfrecer = () => {
               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
                 <tbody>
                   
-      <tr>
-        <td style="padding:4px;vertical-align:middle;">
-          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;border-radius:3px;width:30px;">
+     <tr
+        
+      >
+        <td  style="padding:4px;vertical-align:middle;">
+          <table
+             border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#3f729b;border-radius:3px;width:30px;"
+          >
             <tbody>
               <tr>
-                <td style="font-size:0;height:30px;vertical-align:middle;width:30px;">
-                  <a href="#" target="_blank">
-                    <img alt height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/instagram.png" style="border-radius:3px;display:block;" width="30">
+                <td  style="font-size:0;height:30px;vertical-align:middle;width:30px;">
+                  <a  href="https://www.instagram.com/remaxnoa.arg/" target="_blank">
+                    <img
+                       alt="" height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/instagram.png" style="border-radius:3px;display:block;" width="30"
+                    />
                   </a>
                 </td>
               </tr>
@@ -470,14 +520,20 @@ export const emailOfrecer = () => {
               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
                 <tbody>
                   
-      <tr>
-        <td style="padding:4px;vertical-align:middle;">
-          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;border-radius:3px;width:30px;">
+  <tr
+        
+      >
+        <td  style="padding:4px;vertical-align:middle;">
+          <table
+             border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#0077b5;border-radius:3px;width:30px;"
+          >
             <tbody>
               <tr>
-                <td style="font-size:0;height:30px;vertical-align:middle;width:30px;">
-                  <a href="https://twitter.com/intent/tweet?url=#" target="_blank">
-                    <img alt height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/twitter.png" style="border-radius:3px;display:block;" width="30">
+                <td  style="font-size:0;height:30px;vertical-align:middle;width:30px;">
+                  <a  href="https://www.linkedin.com/company/64931051/admin/dashboard/" target="_blank">
+                    <img
+                       alt="" height="30" src="https://www.mailjet.com/images/theme/v1/icons/ico-social/linkedin.png" style="border-radius:3px;display:block;" width="30"
+                    />
                   </a>
                 </td>
               </tr>
@@ -518,3 +574,6 @@ export const emailOfrecer = () => {
 </html>
   `;
 };
+
+
+
