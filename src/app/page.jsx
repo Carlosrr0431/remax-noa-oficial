@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import TestimonialSlider from "./(components)/TestimonialSlider";
 import Link from "next/link";
-import Video from './public/video 1920x1080_convención 2024.mp4'
+import Video from './public/video 1920x1080_convención 2024 (1).mp4'
 import Video2 from './public/videoPortada2.mp4'
 import { useAppContext } from "./(context)/AppWrapper";
 import { FormularioCaptacion } from "./(components)/FormularioCaptacion";
@@ -65,7 +65,7 @@ const Home = () => {
             autoPlay
             loop
             muted
-            
+            playsInline
             className="absolute inset-0 w-full h-full object-cover brightness-50"
           >
 

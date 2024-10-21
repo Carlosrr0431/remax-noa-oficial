@@ -27,7 +27,6 @@ import { supabaseClient } from '@/supabase/client'
 
 const formSchema = z.object({
     name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
-    email: z.string().email({ message: "Por favor, ingrese un correo electrónico válido" }),
     economicReason: z.string().optional(),
     personalReason: z.string().optional(),
     emotionalReason: z.string().optional(),

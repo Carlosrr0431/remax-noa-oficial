@@ -29,10 +29,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const etapas = [
     "CV Recibido",
-    "Entrevista Inicial",
-    "Entrevista Final",
+    "Primer Entrevista",
+    "Segunda Entrevista",
     "Examen Psicotecnico",
-    "Contratado"
+    "Reclutado"
 ]
 
 const candidatosMock = [

@@ -196,7 +196,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >¿Estás buscando una carrera emocionante y lucrativa en el mundo de los bienes raíces? En RE/MAX NOA <span data-variable="nombre_agencia"></span>, estamos en busca de personas talentosas y motivadas como tú para unirse a nuestro equipo de élite.</div>
+      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en u$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. ¡Únite y descubrí todo lo que puedes lograr!.</div>
     
                 </td>
               </tr>
@@ -832,5 +832,3 @@ export const emailCaptacionHTML = () => {
   </body>
 </html>`;
 };
-
-

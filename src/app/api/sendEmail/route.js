@@ -9,10 +9,10 @@ export async function POST(request) {
       service: "gmail",
       host: "smtp.gmail.com",
       port: 587,
-      // port: 25,
+      secure: true,
       auth: {
-        user: process.env.EMAIL3,
-        pass: process.env.EMAIL_PASS3,
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS,
       },
       logger: true,
       debug: true,
@@ -41,9 +41,9 @@ export async function POST(request) {
     const mailOption = {
       from: {
         name: "RE/MAX NOA RRHH",
-        address: "giu40150135@gmail.com",
+        address: "rrhhremaxnoa@gmail.com",
       },
-      to: listaEmail,
+      to: [...listaEmail],
       // to: email,
       subject: "¡Tu proximo trabajo esta cerca en RE/MAX NOA!",
       html: htmlContenido,

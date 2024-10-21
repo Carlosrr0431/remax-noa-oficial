@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import CalendarioSemanas from "./CalendarioSemanal"
 
 
 const camposTracking = [
@@ -55,7 +56,7 @@ export default function Tracking() {
     const handleInputChange = (campo, valor) => {
 
         console.log("campo: " + campo + "valor: " + valor);
-        
+
         setNuevoRegistro(prev => ({
             ...prev,
             [campo]: valor
@@ -103,7 +104,7 @@ export default function Tracking() {
 
         trackingData.forEach(registro => {
             console.log("registro: " + registro);
-            
+
             totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
             totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
             totales.acm += parseInt(registro.acm) || 0
@@ -148,7 +149,7 @@ export default function Tracking() {
     }
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 max-w-[90%]">
             <h1 className="text-3xl font-bold mb-4">Tracking Semanal</h1>
 
             <Card className="mb-8">
@@ -160,6 +161,7 @@ export default function Tracking() {
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <Label htmlFor="semana">Semana</Label>
+
                                 <Select
                                     value={nuevoRegistro.semana}
                                     onValueChange={(value) => handleInputChange('semana', value)}
@@ -168,7 +170,8 @@ export default function Tracking() {
                                         <SelectValue placeholder="Selecciona una semana" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {getWeekOptions()}
+                                        {/* {getWeekOptions()} */}
+                                        <CalendarioSemanas />
                                     </SelectContent>
                                 </Select>
                             </div>
