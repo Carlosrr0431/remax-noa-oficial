@@ -12,8 +12,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
 import { es } from "date-fns/locale"
 import { supabaseClient } from "@/supabase/client"
-
-
+import moment from "moment-timezone";
 
 const camposTracking = [
     'formularioReferidos',
@@ -160,7 +159,13 @@ export default function Tracking() {
         })
     }
 
-    const calcularTotales = (data) => {
+    const calcularTotales = async (data) => {
+
+
+        let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
+
+        let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
+
         const totales = {
             formularioReferidos: 0,
             formularioPrelisting: 0,
@@ -170,14 +175,43 @@ export default function Tracking() {
             propiedadesActivas: 0
         }
 
-        data.forEach(registro => {
-            totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
-            totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
-            totales.acm += parseInt(registro.acm) || 0
-            totales.seguimientoAcm += parseInt(registro.seguimientoAcm) || 0
-            totales.captaciones += parseInt(registro.captaciones) || 0
-            totales.propiedadesActivas += parseInt(registro.propiedadesActivas) || 0
-        })
+        if (dif != 0) {
+            const agente = await supabaseClient
+                .from("empleados")
+                .select("*")
+                .eq("id", selectedAgent.id)
+
+            if (agente.data[0]?.formularios != null) {
+                agente.data[0]?.formularios.forEach(item => {
+
+                    if (item.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
+                        // console.log(item.fecha.split('-').reverse().join('/'));
+                        // console.log("fecha seleccionada: " + selectedDate.toLocaleDateString());
+                        // console.log("Son iguales");
+
+                        console.log("formulario referido: " + parseInt(item.formularioReferidos));
+
+                        totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
+                        totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
+                        totales.acm += parseInt(item.acm) || 0
+                        totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
+                        totales.captaciones += parseInt(item.captaciones) || 0
+                        totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
+                        return totales
+                    }
+                })
+            }
+
+        }
+
+        // data.forEach(registro => {
+        //     totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
+        //     totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
+        //     totales.acm += parseInt(registro.acm) || 0
+        //     totales.seguimientoAcm += parseInt(registro.seguimientoAcm) || 0
+        //     totales.captaciones += parseInt(registro.captaciones) || 0
+        //     totales.propiedadesActivas += parseInt(registro.propiedadesActivas) || 0
+        // })
 
         return totales
     }

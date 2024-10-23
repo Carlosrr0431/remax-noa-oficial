@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
-  title: "RE/MAX NOA SALTA",
+  title: "RE/MAX NOA SALTA & JUJUY",
   description: "Somos la RED Inmobilaria N°1 del mundo",
   manifest: "/manifest.json",
 
