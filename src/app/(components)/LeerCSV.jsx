@@ -148,7 +148,7 @@ export const LeerCSV = () => {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                listaEmail: ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'rrhhremaxnoa@gmail.com'],
+                listaEmail: ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'rrhhremaxnoa@gmail.com', 'pcastaneda@remax.com.ar'],
                 htmlContenido: htmlContent
             })
         })

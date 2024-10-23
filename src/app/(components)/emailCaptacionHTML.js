@@ -116,7 +116,7 @@ export const emailCaptacionHTML = () => {
             <td  style="width:550px;">
               
       <img
-         alt="Banner de Bienes Raíces" src="https://images.unsplash.com/photo-1526948531399-320e7e40f0ca?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
+         alt="Banner de Bienes Raíces" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729683617/mailing-04_vthqrw.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
       />
     
             </td>
@@ -196,7 +196,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en u$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. ¡Únite y descubrí todo lo que puedes lograr!.</div>
+      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en U$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. ¡Unite y descubrí todo lo que puedes lograr!.</div>
     
                 </td>
               </tr>
@@ -446,7 +446,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#333333;"
-      >Construye una red de contactos valiosa en diversos sectores.</div>
+      >Construí una red de contactos valiosa en diversos sectores.</div>
     
                 </td>
               </tr>

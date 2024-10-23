@@ -28,14 +28,14 @@ const testimonialData = [
         message:
             "Mi experiencia desde el primer momento en RE/MAX NOA fue transformadora. El ambiente de colaboración y apoyo constante me permitió desarrollar mi pasión por el servicio inmobiliario al máximo. ",
     },
-    {
-        image: Matias,
-        name: "MATIAS FRADEJAS",
-        position: "Agente Inmobilario",
-        oficina: "Salta",
-        message:
-            "En RE/MAX NOA encontré un espacio de desafío y crecimiento personal, donde puedo desarrollarme profesionalmente y formar parte de un equipo comprometido con altos valores.",
-    },
+    // {
+    //     image: Matias,
+    //     name: "MATIAS FRADEJAS",
+    //     position: "Agente Inmobilario",
+    //     oficina: "Salta",
+    //     message:
+    //         "En RE/MAX NOA encontré un espacio de desafío y crecimiento personal, donde puedo desarrollarme profesionalmente y formar parte de un equipo comprometido con altos valores.",
+    // },
     {
         image: Alberto,
         name: "ALBERTO NANTERNE",

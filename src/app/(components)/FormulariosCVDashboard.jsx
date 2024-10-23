@@ -5,9 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { DowloadPDF } from './DowloadPDF';
 import { Button } from '@/components/ui/button';
 import { FileDown } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export const FormulariosCVDashboard = () => {
     const [contactos, setContactos] = useState();
+    const pathname = usePathname();
+
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -55,7 +58,12 @@ export const FormulariosCVDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {contactos && contactos.filter((e) => e.oficina == "jujuy").map((user, index) => {
+                        {contactos && contactos.filter((e) => {
+                            if (pathname == '/dashboard/administrador') {
+                                return e.oficina == "salta"
+                            } else if (pathname == '/dashboard/jujuy')
+                                return e.oficina == "jujuy"
+                        }).map((user, index) => {
                             return (
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">
