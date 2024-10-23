@@ -50,7 +50,7 @@ export const DashboardInicio = () => {
                         </CardDescription> */}
                     </CardHeader>
                     <CardContent>
-                        <Link href='/dashboard/user'>
+                        <Link href='/dashboard/jujuy'>
                             <Button
                                 variant="outline"
                                 className="w-full bg-white text-black hover:bg-gray-100"
