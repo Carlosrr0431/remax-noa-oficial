@@ -6,6 +6,8 @@ import { DowloadPDF } from './DowloadPDF';
 import { Button } from '@/components/ui/button';
 import { FileDown } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { FaUserCircle } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 
 export const FormulariosCVDashboard = () => {
     const [contactos, setContactos] = useState();
@@ -68,8 +70,10 @@ export const FormulariosCVDashboard = () => {
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex items-center gap-3">
-                                            <img width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
-                                                alt="John Michael" class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" />
+                                            {/* <img width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
+                                                alt="John Michael" class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" /> */}
+
+                                                <FaUser  class="relative inline-block h-7 w-7 !rounded-full object-cover object-center"/>
                                             <div class="flex flex-col">
                                                 <p
                                                     class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
