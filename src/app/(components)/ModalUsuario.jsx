@@ -11,7 +11,8 @@ export const ModalUsuario = ({ setShowModal, info }) => {
     const [datos, setDatos] = useState({
         name: info.nombre,
         email: info.email,
-        role: info.role
+        role: info.role,
+        oficina: info.oficina
     })
 
 
@@ -56,7 +57,6 @@ export const ModalUsuario = ({ setShowModal, info }) => {
 
                     <div className="flex flex-col mb-4 md:w-1/2">
 
-                        {/* <input value={datos.role} className="border py-2 px-3 text-grey-darkest md:mr-2 focus:outline-none focus:bg-white/90 text-black text-lg focus:text-black rounded-[5px]" placeholder='Role' type="text" name="role" id="role" onChange={handleInputChange} /> */}
 
                         <select onChange={handleInputChange} required id="role" name='role' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>{datos.role || "Elige el role"}  </option>
@@ -65,10 +65,24 @@ export const ModalUsuario = ({ setShowModal, info }) => {
 
                         </select>
                     </div>
-                    <div className="flex flex-col mb-4 md:w-[60%]">
+
+                    <div className="flex w-full mb-4 gap-x-4">
+
+                        <input value={datos.email} required className="border text-lg py-2 px-3 text-grey-darkest md:ml-0  focus:outline-none focus:bg-white/90 w-full text-black focus:text-black rounded-[5px]" placeholder='Email' type="text" name="email" id="email" onChange={handleInputChange} />
+
+                        <select onChange={handleInputChange} required id="oficina" name='oficina' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>{datos.oficina || "Elige la oficina"}  </option>
+                            <option value="Salta" className='font-bold'>Salta</option>
+                            <option value="Jujuy" className='font-bold'>Jujuy</option>
+
+                        </select>
+
+
+                    </div>
+                    {/* <div className="flex flex-col mb-4 md:w-[60%]">
 
                         <input value={datos.email} required className="border text-lg py-2 px-3 text-grey-darkest md:ml-0  focus:outline-none focus:bg-white/90 text-black focus:text-black rounded-[5px]" placeholder='Email' type="text" name="email" id="email" onChange={handleInputChange} />
-                    </div>
+                    </div> */}
 
 
 

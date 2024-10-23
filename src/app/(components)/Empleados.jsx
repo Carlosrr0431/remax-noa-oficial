@@ -1,35 +1,102 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { UserPlus, Pencil, Trash2, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import { supabaseClient } from "@/supabase/client"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-const empleadosMock = [
-    { id: 1, nombre: "Juan Pérez", cargo: "Desarrollador", departamento: "TI" },
-    { id: 2, nombre: "María García", cargo: "Diseñadora", departamento: "Marketing" },
-    { id: 3, nombre: "Carlos López", cargo: "Gerente", departamento: "Ventas" },
-]
+// const empleadosMock = [
+//     { id: 1, nombre: "Juan Pérez", email: "Agente", grupo: "Juniors" },
+//     { id: 2, nombre: "María García", email: "Agente", grupo: "Rookis" },
+//     { id: 3, nombre: "Carlos López", email: "Agente", grupo: "Rookis" },
+// ]
 
 export default function Empleados() {
-    const [empleados, setEmpleados] = useState(empleadosMock)
+    const [empleados, setEmpleados] = useState([])
     const [busqueda, setBusqueda] = useState("")
     const [empleadoEditando, setEmpleadoEditando] = useState(null)
-    const [nuevoEmpleado, setNuevoEmpleado] = useState({ nombre: '', cargo: '', departamento: '' })
+    const [nuevoEmpleado, setNuevoEmpleado] = useState({ nombre: '', email: '' })
+    const [selectedGroup, setSelectedGroup] = useState("")
+    const [open, setOpen] = useState(false)
 
-    const empleadosFiltrados = empleados.filter(empleado =>
+    const empleadosFiltrados = empleados && empleados.filter(empleado =>
         empleado.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-        empleado.cargo.toLowerCase().includes(busqueda.toLowerCase()) ||
-        empleado.departamento.toLowerCase().includes(busqueda.toLowerCase())
+        empleado.email.toLowerCase().includes(busqueda.toLowerCase())
     )
+
+    useEffect(() => {
+        const getSupabaseOficial = async () => {
+            let data = await supabaseClient
+                .from("empleados")
+                .select("*")
+
+            setEmpleados(data.data);
+        }
+
+        getSupabaseOficial()
+
+        const channelUsuarios = supabaseClient
+            .channel('empleados')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'empleados' }, (payload) => {
+
+                if (payload.eventType == "INSERT") {
+
+
+                    return setEmpleados((antContenido) => [payload.new, ...antContenido])
+
+
+                } else if (payload.eventType == 'UPDATE') {
+
+
+                    return setEmpleados((antContenido) => antContenido.map((elem) => {
+                        if (elem.id == payload.new.id) {
+                            elem = payload.new
+                        }
+
+                        return elem;
+                    }))
+
+
+
+                } else if (payload.eventType == 'DELETE') {
+
+                    return setEmpleados(antContenido => antContenido.filter((elem) => elem.id !== payload.old.id))
+
+                }
+            })
+            .subscribe()
+
+
+        return () => {
+
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+        }
+    }, [])
+
 
     const handleNuevoEmpleado = () => {
         const id = empleados.length > 0 ? Math.max(...empleados.map(e => e.id)) + 1 : 1
-        setEmpleados([...empleados, { id, ...nuevoEmpleado }])
-        setNuevoEmpleado({ nombre: '', cargo: '', departamento: '' })
+
+        const getSupabaseOficial = async () => {
+            const result3 = await supabaseClient.from("empleados").insert({
+                nombre: nuevoEmpleado.nombre,
+                email: nuevoEmpleado.email,
+                grupo: selectedGroup
+            });
+
+            console.log(result3);
+
+        }
+
+        getSupabaseOficial()
+
+        setOpen(false)
+        setNuevoEmpleado({ nombre: '', email: '' })
     }
 
     const handleEditarEmpleado = () => {
@@ -53,13 +120,13 @@ export default function Empleados() {
                     onChange={(e) => setBusqueda(e.target.value)}
                     className="max-w-sm"
                 />
-                <Dialog>
+                <Dialog open={open}>
                     <DialogTrigger asChild>
-                        <Button>
+                        <Button onClick={() => setOpen(true)}>
                             <UserPlus className="mr-2 h-4 w-4" /> Agregar Empleado
                         </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent >
                         <DialogHeader>
                             <DialogTitle>Agregar Nuevo Empleado</DialogTitle>
                         </DialogHeader>
@@ -76,26 +143,38 @@ export default function Empleados() {
                                 />
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="cargo" className="text-right">
-                                    Cargo
+                                <Label htmlFor="email" className="text-right">
+                                    Email
                                 </Label>
                                 <Input
-                                    id="cargo"
-                                    value={nuevoEmpleado.cargo}
-                                    onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, cargo: e.target.value })}
+                                    id="email"
+                                    type="email"
+
+                                    value={nuevoEmpleado.email}
+                                    onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, email: e.target.value })}
                                     className="col-span-3"
                                 />
                             </div>
                             <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="departamento" className="text-right">
-                                    Departamento
+                                <Label htmlFor="grupo" className="text-right">
+                                    Grupo
                                 </Label>
-                                <Input
-                                    id="departamento"
-                                    value={nuevoEmpleado.departamento}
-                                    onChange={(e) => setNuevoEmpleado({ ...nuevoEmpleado, departamento: e.target.value })}
-                                    className="col-span-3"
-                                />
+                                <div className="space-y-4">
+                                    <Select onValueChange={setSelectedGroup} value={selectedGroup}>
+                                        <SelectTrigger className="w-[200px]">
+                                            <SelectValue placeholder="Selecciona un grupo" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Grupos</SelectLabel>
+                                                <SelectItem value="Juniors">Juniors</SelectItem>
+                                                <SelectItem value="Rookies">Rookies</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+
+
+                                </div>
                             </div>
                         </div>
                         <Button onClick={handleNuevoEmpleado}>Agregar Empleado</Button>
@@ -106,17 +185,17 @@ export default function Empleados() {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Nombre</TableHead>
-                        <TableHead>Cargo</TableHead>
-                        <TableHead>Departamento</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Grupo</TableHead>
                         <TableHead>Acciones</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {empleadosFiltrados.map((empleado) => (
+                    {empleadosFiltrados && empleadosFiltrados.map((empleado) => (
                         <TableRow key={empleado.id}>
                             <TableCell>{empleado.nombre}</TableCell>
-                            <TableCell>{empleado.cargo}</TableCell>
-                            <TableCell>{empleado.departamento}</TableCell>
+                            <TableCell>{empleado.email}</TableCell>
+                            <TableCell>{empleado.grupo}</TableCell>
                             <TableCell>
                                 <Dialog>
                                     <DialogTrigger asChild>
@@ -141,26 +220,36 @@ export default function Empleados() {
                                                 />
                                             </div>
                                             <div className="grid grid-cols-4 items-center gap-4">
-                                                <Label htmlFor="edit-cargo" className="text-right">
-                                                    Cargo
+                                                <Label htmlFor="edit-email" className="text-right">
+                                                    Email
                                                 </Label>
                                                 <Input
-                                                    id="edit-cargo"
-                                                    value={empleadoEditando?.cargo || ''}
-                                                    onChange={(e) => setEmpleadoEditando(prev => prev ? { ...prev, cargo: e.target.value } : null)}
+                                                    id="edit-email"
+                                                    value={empleadoEditando?.email || ''}
+                                                    onChange={(e) => setEmpleadoEditando(prev => prev ? { ...prev, email: e.target.value } : null)}
                                                     className="col-span-3"
                                                 />
                                             </div>
                                             <div className="grid grid-cols-4 items-center gap-4">
-                                                <Label htmlFor="edit-departamento" className="text-right">
-                                                    Departamento
+                                                <Label htmlFor="edit-grupo" className="text-right">
+                                                    Grupo
                                                 </Label>
-                                                <Input
-                                                    id="edit-departamento"
-                                                    value={empleadoEditando?.departamento || ''}
-                                                    onChange={(e) => setEmpleadoEditando(prev => prev ? { ...prev, departamento: e.target.value } : null)}
-                                                    className="col-span-3"
-                                                />
+                                                <div className="space-y-4">
+                                                    <Select onValueChange={setSelectedGroup} value={selectedGroup}>
+                                                        <SelectTrigger className="w-[200px]">
+                                                            <SelectValue placeholder="Selecciona un grupo" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectGroup>
+                                                                <SelectLabel>Grupos</SelectLabel>
+                                                                <SelectItem value="juniors">Juniors</SelectItem>
+                                                                <SelectItem value="rookies">Rookies</SelectItem>
+                                                            </SelectGroup>
+                                                        </SelectContent>
+                                                    </Select>
+
+
+                                                </div>
                                             </div>
                                         </div>
                                         <Button onClick={handleEditarEmpleado}>Guardar Cambios</Button>

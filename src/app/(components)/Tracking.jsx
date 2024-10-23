@@ -8,16 +8,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import CalendarioSemanas from "./CalendarioSemanal"
+import { Calendar } from "@/components/ui/calendar"
+import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
+import { es } from "date-fns/locale"
+import { supabaseClient } from "@/supabase/client"
+
 
 
 const camposTracking = [
-    'Formulario de Referidos',
-    'Formulario Prelisting',
-    'ACM',
-    'Seguimiento ACM',
-    'Captaciones',
-    'Propiedades Activas'
+    'formularioReferidos',
+    'formularioPrelisting',
+    'acm',
+    'seguimientoAcm',
+    'captaciones',
+    'propiedadesActivas'
 ]
 
 const agentsMock = [
@@ -29,11 +33,13 @@ const agentsMock = [
 
 export default function Tracking() {
     const [trackingData, setTrackingData] = useState([])
-    const [agents] = useState(agentsMock)
+    const [agents, setAgents] = useState([])
     const [selectedGroup, setSelectedGroup] = useState('Juniors')
     const [selectedAgent, setSelectedAgent] = useState(null)
+    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedPeriod, setSelectedPeriod] = useState('weekly')
     const [nuevoRegistro, setNuevoRegistro] = useState({
-        semana: '',
+        semana: format(new Date(), 'yyyy-MM-dd'),
         agentId: 0,
         formularioReferidos: '',
         formularioPrelisting: '',
@@ -43,9 +49,23 @@ export default function Tracking() {
         propiedadesActivas: ''
     })
 
+
+    useEffect(() => {
+        const getSupabaseOficial = async () => {
+            let data = await supabaseClient
+                .from("empleados")
+                .select("*")
+
+            setAgents(data.data);
+        }
+
+        getSupabaseOficial()
+    }, [])
+
+
     useEffect(() => {
         if (agents.length > 0 && selectedGroup) {
-            const firstAgentOfGroup = agents.find(agent => agent.group === selectedGroup)
+            const firstAgentOfGroup = agents.find(agent => agent.grupo === selectedGroup)
             if (firstAgentOfGroup) {
                 setSelectedAgent(firstAgentOfGroup)
                 setNuevoRegistro(prev => ({ ...prev, agentId: firstAgentOfGroup.id }))
@@ -53,10 +73,14 @@ export default function Tracking() {
         }
     }, [selectedGroup, agents])
 
+    useEffect(() => {
+        if (selectedDate) {
+            const formattedDate = format(selectedDate, 'yyyy-MM-dd')
+            setNuevoRegistro(prev => ({ ...prev, semana: formattedDate }))
+        }
+    }, [selectedDate])
+
     const handleInputChange = (campo, valor) => {
-
-        console.log("campo: " + campo + "valor: " + valor);
-
         setNuevoRegistro(prev => ({
             ...prev,
             [campo]: valor
@@ -65,6 +89,7 @@ export default function Tracking() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         if (!selectedAgent) return
 
         const id = trackingData.length > 0 ? Math.max(...trackingData.map(d => d.id)) + 1 : 1
@@ -79,9 +104,52 @@ export default function Tracking() {
             captaciones: nuevoRegistro.captaciones || '0',
             propiedadesActivas: nuevoRegistro.propiedadesActivas || '0',
         }
+
+        const getSupabaseOficial = async () => {
+
+            const agente = await supabaseClient
+                .from("empleados")
+                .select("*")
+                .eq("id", selectedAgent.id)
+
+            if (agente.data[0]?.formularios != null) {
+                const result3 = await supabaseClient.from("empleados").update({
+                    formularios: [...agente.data[0]?.formularios, {
+                        fecha: nuevoRegistro.semana,
+                        formularioReferidos: nuevoRegistro.formularioReferidos,
+                        formularioPrelisting: nuevoRegistro.formularioPrelisting,
+                        acm: nuevoRegistro.acm,
+                        seguimientoAcm: nuevoRegistro.seguimientoAcm,
+                        captaciones: nuevoRegistro.captaciones,
+                        propiedadesActivas: nuevoRegistro.propiedadesActivas
+                    }]
+                }).eq("id", selectedAgent.id);
+
+                console.log(result3);
+            } else {
+                const result3 = await supabaseClient.from("empleados").update({
+                    formularios: [{
+                        fecha: nuevoRegistro.semana,
+                        formularioReferidos: nuevoRegistro.formularioReferidos,
+                        formularioPrelisting: nuevoRegistro.formularioPrelisting,
+                        acm: nuevoRegistro.acm,
+                        seguimientoAcm: nuevoRegistro.seguimientoAcm,
+                        captaciones: nuevoRegistro.captaciones,
+                        propiedadesActivas: nuevoRegistro.propiedadesActivas
+                    }]
+                }).eq("id", selectedAgent.id);
+
+                console.log(result3);
+            }
+
+
+
+        }
+
+        getSupabaseOficial()
         setTrackingData([...trackingData, nuevoRegistroConNumeros])
         setNuevoRegistro({
-            semana: '',
+            semana: format(new Date(), 'yyyy-MM-dd'),
             agentId: selectedAgent.id,
             formularioReferidos: '',
             formularioPrelisting: '',
@@ -92,7 +160,7 @@ export default function Tracking() {
         })
     }
 
-    const calcularTotales = () => {
+    const calcularTotales = (data) => {
         const totales = {
             formularioReferidos: 0,
             formularioPrelisting: 0,
@@ -102,9 +170,7 @@ export default function Tracking() {
             propiedadesActivas: 0
         }
 
-        trackingData.forEach(registro => {
-            console.log("registro: " + registro);
-
+        data.forEach(registro => {
             totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
             totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
             totales.acm += parseInt(registro.acm) || 0
@@ -124,32 +190,33 @@ export default function Tracking() {
         }, {})
     }
 
-    const totales = calcularTotales()
-    const porcentajes = calcularPorcentajes(totales)
+    const filtrarDatosPorPeriodo = (data) => {
+        if (!selectedDate) return data
 
-    const getWeekOptions = () => {
-        const options = []
-        const currentDate = new Date()
-        currentDate.setDate(currentDate.getDate() - (currentDate.getDay() + 6) % 7) // Set to previous Monday
+        const start = selectedPeriod === 'weekly' ? startOfWeek(selectedDate) : startOfMonth(selectedDate)
+        const end = selectedPeriod === 'weekly' ? endOfWeek(selectedDate) : endOfMonth(selectedDate)
 
-        for (let i = 0; i < 52; i++) {
-            const weekStart = new Date(currentDate)
-            weekStart.setDate(weekStart.getDate() + i * 7)
-            const weekEnd = new Date(weekStart)
-            weekEnd.setDate(weekEnd.getDate() + 4) // Friday
-
-            const weekString = `${weekStart.toISOString().slice(0, 10)} al ${weekEnd.toISOString().slice(0, 10)}`
-            options.push(
-                <option key={i} value={weekString}>
-                    {weekString}
-                </option>
-            )
-        }
-        return options
+        return data.filter(registro => {
+            const fecha = new Date(registro.semana)
+            return fecha >= start && fecha <= end
+        })
     }
 
+    const datosFiltrados = filtrarDatosPorPeriodo(trackingData)
+    const datosGrupo = datosFiltrados.filter(registro =>
+        agents.find(agent => agent.id === registro.agentId)?.grupo === selectedGroup
+    )
+    const datosAgente = selectedAgent
+        ? datosFiltrados.filter(registro => registro.agentId === selectedAgent.id)
+        : []
+
+    const totalesGrupo = calcularTotales(datosGrupo)
+    const totalesAgente = calcularTotales(datosAgente)
+    const porcentajesGrupo = calcularPorcentajes(totalesGrupo)
+    const porcentajesAgente = calcularPorcentajes(totalesAgente)
+
     return (
-        <div className="container mx-auto p-4 max-w-[90%]">
+        <div className="container mx-auto p-4 w-[90%]">
             <h1 className="text-3xl font-bold mb-4">Tracking Semanal</h1>
 
             <Card className="mb-8">
@@ -160,20 +227,25 @@ export default function Tracking() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <Label htmlFor="semana">Semana</Label>
-
-                                <Select
-                                    value={nuevoRegistro.semana}
-                                    onValueChange={(value) => handleInputChange('semana', value)}
-                                >
-                                    <SelectTrigger id="semana">
-                                        <SelectValue placeholder="Selecciona una semana" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {/* {getWeekOptions()} */}
-                                        <CalendarioSemanas />
-                                    </SelectContent>
-                                </Select>
+                                <Label htmlFor="fecha">Fecha</Label>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-start text-left font-normal">
+                                            {selectedDate ? format(selectedDate, 'PPP', { locale: es }) : <span>Selecciona una fecha</span>}
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Seleccionar fecha</DialogTitle>
+                                        </DialogHeader>
+                                        <Calendar
+                                            mode="single"
+                                            selected={selectedDate}
+                                            onSelect={setSelectedDate}
+                                            locale={es}
+                                        />
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                             <div>
                                 <Label htmlFor="grupo">Grupo</Label>
@@ -208,10 +280,10 @@ export default function Tracking() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     {agents
-                                        .filter(agent => agent.group === selectedGroup)
+                                        .filter(agent => agent.grupo === selectedGroup)
                                         .map(agent => (
                                             <SelectItem key={agent.id} value={agent.id.toString()}>
-                                                {agent.name}
+                                                {agent.nombre}
                                             </SelectItem>
                                         ))
                                     }
@@ -220,14 +292,16 @@ export default function Tracking() {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {camposTracking.map((campo) => (
+
+                                // formularioReferidos - formularioPrelisting - acm - seguimientoAcm - captaciones - propiedadesActivas
                                 <div key={campo}>
-                                    <Label htmlFor={campo}>{campo}</Label>
+                                    <Label htmlFor={campo}>{campo == 'formularioReferidos' ? 'Formulario de Referidos' : campo == 'formularioPrelisting' ? 'Formulario de Prelisting' : campo == 'acm' ? 'ACM' : campo == 'seguimientoAcm' ? 'Seguimiento ACM' : campo == 'captaciones' ? 'Captaciones' : campo == 'propiedadesActivas' ? 'Propiedades Activas' : ''}</Label>
                                     <Input
                                         id={campo}
                                         type="number"
                                         min="0"
-                                        value={nuevoRegistro[campo.toLowerCase().replace(/ /g, '')]}
-                                        onChange={(e) => handleInputChange(campo.toLowerCase().replace(/ /g, ''), e.target.value)}
+                                        value={nuevoRegistro[campo] || ''}
+                                        onChange={(e) => handleInputChange(campo, e.target.value)}
                                         required
                                     />
                                 </div>
@@ -238,9 +312,25 @@ export default function Tracking() {
                 </CardContent>
             </Card>
 
+            <div className="mb-4">
+                <Label htmlFor="periodo">Período</Label>
+                <Select
+                    value={selectedPeriod}
+                    onValueChange={(value) => setSelectedPeriod(value)}
+                >
+                    <SelectTrigger id="periodo">
+                        <SelectValue placeholder="Selecciona un período" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="weekly">Semanal</SelectItem>
+                        <SelectItem value="monthly">Mensual</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+
             <Card className="mb-8">
                 <CardHeader>
-                    <CardTitle>Resumen</CardTitle>
+                    <CardTitle>Resumen del Grupo: {selectedGroup}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
@@ -252,17 +342,45 @@ export default function Tracking() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {Object.entries(totales).map(([key, value]) => (
+                            {Object.entries(totalesGrupo).map(([key, value]) => (
                                 <TableRow key={key}>
                                     <TableCell>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</TableCell>
                                     <TableCell>{value}</TableCell>
-                                    <TableCell>{porcentajes[key].toFixed(2)}%</TableCell>
+                                    <TableCell>{porcentajesGrupo[key].toFixed(2)}%</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </CardContent>
             </Card>
+
+            {selectedAgent && (
+                <Card className="mb-8">
+                    <CardHeader>
+                        <CardTitle>Resumen Individual: {selectedAgent.nombre}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Campo</TableHead>
+                                    <TableHead>Total</TableHead>
+                                    <TableHead>Porcentaje</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {Object.entries(totalesAgente).map(([key, value]) => (
+                                    <TableRow key={key}>
+                                        <TableCell>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</TableCell>
+                                        <TableCell>{value}</TableCell>
+                                        <TableCell>{porcentajesAgente[key].toFixed(2)}%</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            )}
 
             <Card>
                 <CardHeader>
@@ -280,10 +398,10 @@ export default function Tracking() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {trackingData.map((registro) => (
+                            {datosFiltrados.map((registro) => (
                                 <TableRow key={registro.id}>
                                     <TableCell>{registro.semana}</TableCell>
-                                    <TableCell>{agents.find(a => a.id === registro.agentId)?.name}</TableCell>
+                                    <TableCell>{agents.find(a => a.id === registro.agentId)?.nombre}</TableCell>
                                     <TableCell>{registro.formularioReferidos}</TableCell>
                                     <TableCell>{registro.formularioPrelisting}</TableCell>
                                     <TableCell>{registro.acm}</TableCell>

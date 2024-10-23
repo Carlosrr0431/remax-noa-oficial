@@ -39,7 +39,7 @@ const Header = () => {
 
 
     <div  >
-      <header className={`${pathname == '/user' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/mailingSystem' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/user' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/eventos' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
+      <header className={`${pathname == '/user' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/mailingSystem' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/jujuy' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/eventos' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
         <div className="container mx-auto">
           <div className="items-center relative flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-8 py-8">
             <div className="">
@@ -112,9 +112,9 @@ const Header = () => {
                   transition={{ duration: 0.3 }}
                 />
                 <Link href="/contactanos">
-                  {/* bg-gradient-to-r from-red-500 to-blue-600 */}
+
                   <Button
-                    className="relative bg-red-600 text-white rounded-full px-6 py-3 text-base font-semibold transition-shadow duration-300 hover:shadow-lg"
+                    className="relative       bg-gradient-to-r from-red-500 to-blue-600 text-white rounded-full px-6 py-3 text-base font-semibold transition-shadow duration-300 hover:shadow-lg"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >

@@ -142,7 +142,7 @@ const Home = () => {
       </section>
 
 
-      <section id="testimonios" className="h-[70%] w-[100%] bg-gray-300 space-y-8 mt-[50px] sm:mt-0 sm:space-y-0 ">
+      <section id="testimonios" className="h-[80%] w-[100%] bg-gray-300 space-y-8 mt-[50px] sm:mt-0 sm:space-y-0 ">
         <h1 className='bg-rgb(178, 190, 181) text-center flex justify-center text-[40px]  bottom-[130px] sm:bottom-[80px] mx-auto relative text-black'>Nuestros Testimonios</h1>
         <TestimonialSlider />
       </section>

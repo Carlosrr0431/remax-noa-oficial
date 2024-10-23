@@ -7,8 +7,8 @@ import Alberto from '../public/ALBERTO (1).jpg'
 import Silvana from '../public/Silvana Paz.jpeg'
 import JuanPablo from '../public/JUAN PABLO 1 (usar esta) (1).jpg'
 import NicoPacheco from '../public/NICO PACHECO 3 (1).jpg'
-
-
+import FatimaCamusso from '../public/Fatima Camusso.jpg'
+import TomasMallagray from '../public/Tomas Mallagray.jpg'
 
 const testimonialData = [
 
@@ -16,6 +16,7 @@ const testimonialData = [
         image: Jimena,
         name: "JIMENA CORNEJO LLORCA",
         position: "Corredora Inmobilaria",
+        oficina: "Salta",
         message:
             "Trabajar en RE/MAX NOA es pasión, simplemente pasión. Amo mi trabajo y eso me lleva a dar lo mejor de mí. Estoy constantemente acompañada por todo un equipo de agentes, staff y brokers. ",
     },
@@ -23,6 +24,7 @@ const testimonialData = [
         image: Alejandro,
         name: "ALEJANDRO RODRIGUEZ",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "Mi experiencia desde el primer momento en RE/MAX NOA fue transformadora. El ambiente de colaboración y apoyo constante me permitió desarrollar mi pasión por el servicio inmobiliario al máximo. ",
     },
@@ -30,6 +32,7 @@ const testimonialData = [
         image: Matias,
         name: "MATIAS FRADEJAS",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "En RE/MAX NOA encontré un espacio de desafío y crecimiento personal, donde puedo desarrollarme profesionalmente y formar parte de un equipo comprometido con altos valores.",
     },
@@ -37,6 +40,7 @@ const testimonialData = [
         image: Alberto,
         name: "ALBERTO NANTERNE",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "Es un trabajo individual en equipo, donde cada uno hace lo que mejor sabe hacer y se complementa con los demás para sinergizar relaciones de confianza y concretar sueños.",
     },
@@ -45,6 +49,7 @@ const testimonialData = [
         image: Silvana,
         name: "AGUSTINA ORTIZ",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "En RE/MAX NOA, tengo la oportunidad de gestionar mis horarios y disfrutar de la independencia financiera, sabiendo que siempre cuento con un equipo de trabajo dispuesto a apoyarme.",
     },
@@ -53,6 +58,7 @@ const testimonialData = [
         image: JuanPablo,
         name: "JUAN PABLO",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "Mi experiencia en RE/MAX NOA ha sido muy positiva, con un crecimiento exponencial tanto en mi negocio como en lo personal. Lo que más me gusta de trabajar aquí es la flexibilidad.",
     },
@@ -61,8 +67,27 @@ const testimonialData = [
         image: NicoPacheco,
         name: "NICOLAS PACHECO",
         position: "Agente Inmobilario",
+        oficina: "Salta",
         message:
             "Ser parte del equipo RE/MAX NOA ha transformado mi vida personal y profesional. Desde el primer día, me sentí bienvenido en un ambiente laboral muy positivo. "
+    },
+
+    {
+        image: FatimaCamusso,
+        name: "FATIMA CAMUSSO",
+        position: "Agente Inmobilario",
+        oficina: "Jujuy",
+        message:
+            "REMAX me permitió ser independiente junto a una marca sólida y una red enorme. Puedo equilibrar mi vida personal y profesional, generando muy buenos ingresos."
+    },
+
+    {
+        image: TomasMallagray,
+        name: "TOMAS MALLAGRAY",
+        position: "Agente Inmobilario",
+        oficina: "Jujuy",
+        message:
+            "REMAX es gran parte de mi vida. Tuve la oportunidad de crecer en lo personal y en lo profesional. Fue una de las cosas más importantes y positivas que me pasaron."
     },
 ];
 
@@ -127,6 +152,7 @@ const TestimonialSlider = () => {
 
 
                                 <div className="text-[12px] w-[400px]  mb-[20px] text-black uppercase font-normal tracking-widest flex justify-center text-center">{person.position}</div>
+                                <div className="text-[12px] w-[400px]  bottom-[20px] relative text-black uppercase font-normal tracking-widest flex justify-center text-center">{person.oficina}</div>
 
                                 <div className="flex-1 flex flex-col justify-center before:w-[1px] xl:before:bg-white/20 xl:before:absolute xl:before:left-0 xl:before:h-[200px] relative xl:pl-20">
                                     <div className="mb-2 right-[100px] relative sm:right-0 sm:mb-4">

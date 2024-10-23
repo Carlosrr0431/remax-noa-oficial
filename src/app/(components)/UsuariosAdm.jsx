@@ -135,6 +135,12 @@ export const UsuariosAdm = () => {
 
                             <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                                 <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                    Oficina
+                                </p>
+                            </th>
+
+                            <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+                                <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                                     Ingreso
                                 </p>
                             </th>
@@ -177,6 +183,15 @@ export const UsuariosAdm = () => {
                                     </td>
 
                                     <td class="p-4 border-b border-blue-gray-50">
+                                        <div class="flex flex-col">
+                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                {user.oficina}
+                                            </p>
+
+                                        </div>
+                                    </td>
+
+                                    <td class="p-4 border-b border-blue-gray-50">
                                         <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                                             23/04/18
                                         </p>
@@ -191,6 +206,7 @@ export const UsuariosAdm = () => {
                                                         nombre: String(user.nombre),
                                                         email: String(user.email),
                                                         role: String(user.role),
+                                                        oficina: String(user.oficina),
                                                         id: user.id
                                                     })
                                             }}

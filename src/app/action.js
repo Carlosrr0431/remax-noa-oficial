@@ -464,6 +464,7 @@ export async function userAdmin(datos, tipo, id) {
   const nombre = datos?.name;
   const email = datos?.email;
   const role = datos?.role;
+  const oficina = datos?.oficina;
 
   if (tipo == "Agregar") {
     const result = await supabase
@@ -480,6 +481,7 @@ export async function userAdmin(datos, tipo, id) {
         email: email,
         imagenUrl: "",
         role: role,
+        oficina: oficina,
       });
 
       console.log(result2);
@@ -490,6 +492,7 @@ export async function userAdmin(datos, tipo, id) {
           nombre: nombre,
           email: email,
           role: role,
+          oficina: oficina,
         })
         .eq("email", email);
     }
@@ -500,6 +503,7 @@ export async function userAdmin(datos, tipo, id) {
         nombre: nombre,
         email: email,
         role: role,
+        oficina: oficina,
       })
       .eq("id", id);
   } else if (tipo == "Eliminar") {

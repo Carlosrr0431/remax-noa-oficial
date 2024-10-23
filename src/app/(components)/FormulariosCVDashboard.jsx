@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { FileDown } from 'lucide-react';
 
 export const FormulariosCVDashboard = () => {
-    const [ingresos, setIngresos] = useState();
+    const [contactos, setContactos] = useState();
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -15,7 +15,7 @@ export const FormulariosCVDashboard = () => {
                 .from("formularioCV")
                 .select("*").order('id', { ascending: true })
 
-            setIngresos(data.data)
+            setContactos(data.data)
         }
 
 
@@ -55,7 +55,7 @@ export const FormulariosCVDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {ingresos && ingresos.map((user, index) => {
+                        {contactos && contactos.filter((e) => e.oficina == "jujuy").map((user, index) => {
                             return (
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">

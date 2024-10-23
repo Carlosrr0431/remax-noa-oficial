@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import WhatsApp from "./(components)/WhatsApp";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: "RE/MAX NOA SALTA",
@@ -60,6 +61,7 @@ export default function RootLayout({ children }) {
               </main>
 
               <Analytics />
+              <SpeedInsights />
             </AppWrapper>
           </Suspense>
         </Providers>
