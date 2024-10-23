@@ -14,6 +14,8 @@ import { FaBalanceScale } from "react-icons/fa";
 import { BiLogOut, BiMoneyWithdraw } from "react-icons/bi";
 import { HiCog } from 'react-icons/hi2';
 import { signOut, useSession } from 'next-auth/react';
+import { FaWpforms } from "react-icons/fa";
+import { TbFileCv } from "react-icons/tb";
 
 const DashBoard = () => {
 
@@ -77,7 +79,7 @@ const DashBoard = () => {
                     <div className="grid mr-6 place-items-center">
                       {/* <Image src={Ofrenda} alt="" width={0} height={0} className="w-6 h-6 mr-2  fill-black" /> */}
 
-                      <BiMoneyWithdraw className="w-6 h-6 -mr-4" />
+                      <FaWpforms className="w-6 h-6 -mr-4" />
                     </div>
                     Formularios Web
                   </div>
@@ -88,7 +90,7 @@ const DashBoard = () => {
                     <div className="grid mr-6 place-items-center">
                       {/* <Image src={Ofrenda} alt="" width={0} height={0} className="w-6 h-6 mr-2  fill-black" /> */}
 
-                      <BiMoneyWithdraw className="w-6 h-6 -mr-4" />
+                      <TbFileCv className="w-6 h-6 -mr-4" />
                     </div>
                     Formularios CV
                   </div>
