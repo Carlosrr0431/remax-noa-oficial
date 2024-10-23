@@ -30,7 +30,7 @@ const DashBoardInfo = ({ tipo }) => {
 
 
             {
-                tipo == "Ingresos" && (
+                tipo == "Formularios Web" && (
                     <Ingresos />
                 )
 

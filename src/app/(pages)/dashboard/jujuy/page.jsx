@@ -72,7 +72,7 @@ const DashBoard = () => {
               panel == 'Datos' ? (
                 <>
                   <div role="button"
-                    onClick={() => handleClick("Ingresos")}
+                    onClick={() => handleClick("Formularios Web")}
                     className={`flex text-white items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900  gap-x-4 ${tipo == 'Ingresos' ? 'font-bold' : ''}`}>
                     <div className="grid mr-6 place-items-center">
                       {/* <Image src={Ofrenda} alt="" width={0} height={0} className="w-6 h-6 mr-2  fill-black" /> */}
@@ -126,7 +126,7 @@ const DashBoard = () => {
                   callbackUrl: "/dashboard",
                 })
               }}
-              className={`flex  text-lg w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 text-white focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900 mt-[220px] mx-auto ml-8 font-semibold ${panel == 'Datos' ? 'mt-[300px]' : ''}`}>
+              className={`flex  text-lg w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 text-white focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900 mt-[220px] mx-auto ml-8 font-semibold ${panel == 'Datos' ? 'mt-[400px]' : 'mt-[400px]'}`}>
               <div className="grid mr-2 place-items-center ">
 
                 <BiLogOut className="w-5 h-5" />
@@ -140,7 +140,7 @@ const DashBoard = () => {
 
         <div className='w-full h-full  overflow-y-auto overflow-x-hidden'>
           {
-            panel == 'Datos' ? (<DashBoardInfo tipo={tipo} />) : panel == 'Contenido' ? ((<DashBoardInfoContenido tipo={tipo} />)) : null
+            panel == 'Datos' ? (<DashBoardInfo tipo={tipo} />) : null
           }
 
 

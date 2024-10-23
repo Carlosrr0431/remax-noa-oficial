@@ -1,9 +1,11 @@
 import { supabaseClient } from '@/supabase/client';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 export const Ingresos = () => {
     const [ingresos, setIngresos] = useState();
+    const pathname = usePathname();
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -51,7 +53,12 @@ export const Ingresos = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {ingresos && ingresos.map((user, index) => {
+                        {ingresos && ingresos.filter((e) => {
+                            if (pathname == '/dashboard/administrador') {
+                                return e.oficina == "salta"
+                            } else if (pathname == '/dashboard/jujuy')
+                                return e.oficina == "jujuy"
+                        }).map((user, index) => {
                             return (
                                 <tr key={index}>
                                     <td class="p-4 border-b border-blue-gray-50">
