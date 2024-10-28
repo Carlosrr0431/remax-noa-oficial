@@ -36,6 +36,9 @@ export default function Tracking() {
     const [selectedGroup, setSelectedGroup] = useState('Juniors')
     const [selectedAgent, setSelectedAgent] = useState(null)
     const [selectedDate, setSelectedDate] = useState(new Date())
+    const [totalAgente, setTotalAgente] = useState({})
+    const [totalGrupo, setTotalGrupo] = useState({})
+
     const [selectedPeriod, setSelectedPeriod] = useState('weekly')
     const [nuevoRegistro, setNuevoRegistro] = useState({
         semana: format(new Date(), 'yyyy-MM-dd'),
@@ -80,6 +83,7 @@ export default function Tracking() {
     }, [selectedDate])
 
     const handleInputChange = (campo, valor) => {
+
         setNuevoRegistro(prev => ({
             ...prev,
             [campo]: valor
@@ -159,12 +163,14 @@ export default function Tracking() {
         })
     }
 
-    const calcularTotales = async (data) => {
+
+    const calcularTotalSinPromise = (agente) => {
 
 
         let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
 
         let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
+
 
         const totales = {
             formularioReferidos: 0,
@@ -175,21 +181,17 @@ export default function Tracking() {
             propiedadesActivas: 0
         }
 
-        if (dif != 0) {
-            const agente = await supabaseClient
-                .from("empleados")
-                .select("*")
-                .eq("id", selectedAgent.id)
 
-            if (agente.data[0]?.formularios != null) {
-                agente.data[0]?.formularios.forEach(item => {
+        if (dif != 0) {
+
+            if (agente.formularios != null && agente.formularios?.length != 0) {
+
+
+                agente.formularios.forEach(item => {
 
                     if (item.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
-                        // console.log(item.fecha.split('-').reverse().join('/'));
-                        // console.log("fecha seleccionada: " + selectedDate.toLocaleDateString());
-                        // console.log("Son iguales");
 
-                        console.log("formulario referido: " + parseInt(item.formularioReferidos));
+
 
                         totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
                         totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
@@ -197,24 +199,136 @@ export default function Tracking() {
                         totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
                         totales.captaciones += parseInt(item.captaciones) || 0
                         totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
+
+                        setTotalAgente(totales)
+
+                        console.log("total agente: " + totalAgente);
+
+
                         return totales
                     }
                 })
             }
 
+
+
         }
 
-        // data.forEach(registro => {
-        //     totales.formularioReferidos += parseInt(registro.formularioReferidos) || 0
-        //     totales.formularioPrelisting += parseInt(registro.formularioPrelisting) || 0
-        //     totales.acm += parseInt(registro.acm) || 0
-        //     totales.seguimientoAcm += parseInt(registro.seguimientoAcm) || 0
-        //     totales.captaciones += parseInt(registro.captaciones) || 0
-        //     totales.propiedadesActivas += parseInt(registro.propiedadesActivas) || 0
-        // })
-
+        setTotalAgente(totales)
         return totales
     }
+
+
+
+
+
+    const calcularTotalGrupo = () => {
+
+        let agentes = agents.filter(agent => agent.grupo === selectedGroup)
+
+        // console.log(agentes.map(e => console.log(e.grupo)))
+
+
+
+        let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
+
+        let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
+
+
+        const totales = {
+            formularioReferidos: 0,
+            formularioPrelisting: 0,
+            acm: 0,
+            seguimientoAcm: 0,
+            captaciones: 0,
+            propiedadesActivas: 0
+        }
+
+
+        if (dif != 0) {
+
+            agentes.forEach(registro => {
+
+                console.log("formulario: " + JSON.stringify(JSON.stringify(registro.formulario)));
+
+                if (registro.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
+                    if (registro.formularios != null) {
+                        totales.formularioReferidos += parseInt(registro.formularios.formularioReferidos) || 0
+                        totales.formularioPrelisting += parseInt(registro.formularios.formularioPrelisting) || 0
+                        totales.acm += parseInt(registro.formularios.acm) || 0
+                        totales.seguimientoAcm += parseInt(registro.formularios.seguimientoAcm) || 0
+                        totales.captaciones += parseInt(registro.formularios.captaciones) || 0
+                        totales.propiedadesActivas += parseInt(registro.formularios.propiedadesActivas) || 0
+                    }
+                }
+            })
+
+
+
+            setTotalGrupo(totales)
+
+            return totales;
+
+
+
+
+        }
+
+        setTotalGrupo(totales)
+        return totales
+    }
+
+    // const calcularTotales = async (data) => {
+
+
+    //     let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
+
+    //     let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
+
+    //     const totales = {
+    //         formularioReferidos: 0,
+    //         formularioPrelisting: 0,
+    //         acm: 0,
+    //         seguimientoAcm: 0,
+    //         captaciones: 0,
+    //         propiedadesActivas: 0
+    //     }
+
+    // if (dif != 0) {
+    //     const agente = await supabaseClient
+    //         .from("empleados")
+    //         .select("*")
+    //         .eq("id", selectedAgent.id)
+
+    //     if (agente.data[0]?.formularios != null) {
+    //         agente.data[0]?.formularios.forEach(item => {
+
+    //             if (item.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
+
+
+    //                 totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
+    //                 totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
+    //                 totales.acm += parseInt(item.acm) || 0
+    //                 totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
+    //                 totales.captaciones += parseInt(item.captaciones) || 0
+    //                 totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
+
+    //                 console.log("totales: " + JSON.stringify(totales));
+
+    //                 setTotalAgente(totales)
+
+
+    //                 console.log("total agente: " + totalAgente);
+
+
+    //                 return totales
+    //             }
+    //         })
+    //     }
+
+    //     }
+    //     return totales
+    // }
 
     const calcularPorcentajes = (totales) => {
         const total = Object.values(totales).reduce((sum, value) => sum + value, 0)
@@ -237,17 +351,19 @@ export default function Tracking() {
     }
 
     const datosFiltrados = filtrarDatosPorPeriodo(trackingData)
+
     const datosGrupo = datosFiltrados.filter(registro =>
         agents.find(agent => agent.id === registro.agentId)?.grupo === selectedGroup
     )
+
     const datosAgente = selectedAgent
         ? datosFiltrados.filter(registro => registro.agentId === selectedAgent.id)
         : []
 
-    const totalesGrupo = calcularTotales(datosGrupo)
-    const totalesAgente = calcularTotales(datosAgente)
-    const porcentajesGrupo = calcularPorcentajes(totalesGrupo)
-    const porcentajesAgente = calcularPorcentajes(totalesAgente)
+    // const totalesGrupo = calcularTotales(datosGrupo)
+    // const totalesAgente = calcularTotales(datosAgente)
+    // const porcentajesGrupo = calcularPorcentajes(totalesGrupo)
+    // const porcentajesAgente = calcularPorcentajes(totalesAgente)
 
     return (
         <div className="container mx-auto p-4 w-[90%]">
@@ -285,7 +401,12 @@ export default function Tracking() {
                                 <Label htmlFor="grupo">Grupo</Label>
                                 <Select
                                     value={selectedGroup}
-                                    onValueChange={(value) => setSelectedGroup(value)}
+                                    onValueChange={(value) => {
+                                        setSelectedGroup(value)
+
+                                        console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo()))
+                                    }
+                                    }
                                 >
                                     <SelectTrigger id="grupo">
                                         <SelectValue placeholder="Selecciona un grupo" />
@@ -302,9 +423,16 @@ export default function Tracking() {
                             <Select
                                 value={selectedAgent?.id.toString() || ''}
                                 onValueChange={(value) => {
+
+
+
                                     const agent = agents.find(a => a.id === parseInt(value))
+
+
                                     if (agent) {
                                         setSelectedAgent(agent)
+                                        console.log(calcularTotalSinPromise(agent));
+
                                         setNuevoRegistro(prev => ({ ...prev, agentId: agent.id }))
                                     }
                                 }}
@@ -327,7 +455,7 @@ export default function Tracking() {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {camposTracking.map((campo) => (
 
-                                // formularioReferidos - formularioPrelisting - acm - seguimientoAcm - captaciones - propiedadesActivas
+
                                 <div key={campo}>
                                     <Label htmlFor={campo}>{campo == 'formularioReferidos' ? 'Formulario de Referidos' : campo == 'formularioPrelisting' ? 'Formulario de Prelisting' : campo == 'acm' ? 'ACM' : campo == 'seguimientoAcm' ? 'Seguimiento ACM' : campo == 'captaciones' ? 'Captaciones' : campo == 'propiedadesActivas' ? 'Propiedades Activas' : ''}</Label>
                                     <Input
@@ -376,11 +504,11 @@ export default function Tracking() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {Object.entries(totalesGrupo).map(([key, value]) => (
+                            {Object.entries(totalGrupo).map(([key, value]) => (
                                 <TableRow key={key}>
                                     <TableCell>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</TableCell>
                                     <TableCell>{value}</TableCell>
-                                    <TableCell>{porcentajesGrupo[key].toFixed(2)}%</TableCell>
+                                    {/* <TableCell>{porcentajesGrupo[key].toFixed(2)}%</TableCell> */}
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -403,11 +531,11 @@ export default function Tracking() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {Object.entries(totalesAgente).map(([key, value]) => (
+                                {Object.entries(totalAgente).map(([key, value]) => (
                                     <TableRow key={key}>
                                         <TableCell>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</TableCell>
                                         <TableCell>{value}</TableCell>
-                                        <TableCell>{porcentajesAgente[key].toFixed(2)}%</TableCell>
+                                        {/* <TableCell>{porcentajesAgente[key].toFixed(2)}%</TableCell> */}
                                     </TableRow>
                                 ))}
                             </TableBody>

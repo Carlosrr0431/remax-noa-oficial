@@ -18,6 +18,18 @@ export async function POST(request) {
       debug: true,
     });
 
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp-relay.brevo.com",
+    //   port: 587,
+    //   secure: true,
+    //   auth: {
+    //     user: "carlos.facundo.rr@gmail.com",
+    //     pass: "xsmtpsib-76a2128cb4710a046853d4c02660283be4362b15d2995eb3cf33a7feff5a8e53-DsqfnKj6S9h1VtPB",
+    //   },
+    //   logger: true,
+    //   debug: true,
+    // });
+
     // imagen banner: https://images.unsplash.com/photo-1526948531399-320e7e40f0ca?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
     // url: https://www.remaxnoa.com.ar/contactanos
     // Linkedin: https://www.linkedin.com/company/64931051/admin/dashboard/

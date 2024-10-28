@@ -73,7 +73,7 @@ export const FormulariosCVDashboard = () => {
                                             {/* <img width={0} height={0} src="https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg"
                                                 alt="John Michael" class="relative inline-block h-9 w-9 !rounded-full object-cover object-center" /> */}
 
-                                                <FaUser  class="relative inline-block h-7 w-7 !rounded-full object-cover object-center"/>
+                                            <FaUser class="relative inline-block h-7 w-7 !rounded-full object-cover object-center" />
                                             <div class="flex flex-col">
                                                 <p
                                                     class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900 opacity-70">
@@ -94,7 +94,7 @@ export const FormulariosCVDashboard = () => {
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex flex-col">
                                             <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                <Link href={user.cv} download='cv.pdf'>
+                                                <Link href={user.cv} download='cv.pdf' target='_blank'>
                                                     <Button
 
                                                         className="flex items-center space-x-2 bg-primary text-primary-foreground hover:bg-primary/90"

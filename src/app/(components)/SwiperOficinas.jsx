@@ -51,7 +51,7 @@ export const SwiperOficina = () => {
                 }}
                 scrollbar={{ draggable: true }}
                 modules={[Navigation, Pagination, Autoplay, Scrollbar]}
-                className="h-[80%] w-[100%] sm:rounded-b-[150px] rounded-b-[100px] relative"
+                className="h-[90%] w-[100%] sm:rounded-b-[150px] rounded-b-[100px] relative"
             >
 
                 <SwiperSlide>

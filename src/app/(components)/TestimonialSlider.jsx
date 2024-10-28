@@ -2,13 +2,15 @@
 
 import Jimena from '../public/JIMENA CORNEJO (1).jpg'
 import Alejandro from '../public/ALEJANDRO 2 (1).jpg'
-import Matias from '../public/MATIAS FRADEJAS (1).jpg'
 import Alberto from '../public/ALBERTO (1).jpg'
 import Silvana from '../public/Silvana Paz.jpeg'
 import JuanPablo from '../public/JUAN PABLO 1 (usar esta) (1).jpg'
 import NicoPacheco from '../public/NICO PACHECO 3 (1).jpg'
 import FatimaCamusso from '../public/Fatima Camusso.jpg'
 import TomasMallagray from '../public/Tomas Mallagray.jpg'
+import MatiasMiño from '../public/Matias Miño.jpeg'
+import DaianaGarcia from '../public/Daiana Garcia.jpg'
+// Desde que conocí REMAX sentí que era la oportunidad de realizar mis sueños. Me dedico a ayudar a otros y generó ingresos por eso, mientras puedo pasar más tiempo con mis hijos gracias a la flexibilidad del modelo
 
 const testimonialData = [
 
@@ -27,6 +29,14 @@ const testimonialData = [
         oficina: "Salta",
         message:
             "Mi experiencia desde el primer momento en RE/MAX NOA fue transformadora. El ambiente de colaboración y apoyo constante me permitió desarrollar mi pasión por el servicio inmobiliario al máximo. ",
+    },
+    {
+        image: MatiasMiño,
+        name: "MATIAS MIÑO",
+        position: "Agente Inmobilario",
+        oficina: "Jujuy",
+        message:
+            "Desde que conocí REMAX sentí que era la oportunidad de realizar mis sueños. Me dedico a ayudar a otros y generó ingresos por eso, mientras puedo pasar más tiempo con mis hijos gracias a la flexibilidad del modelo. ",
     },
     // {
     //     image: Matias,
@@ -61,6 +71,15 @@ const testimonialData = [
         oficina: "Salta",
         message:
             "Mi experiencia en RE/MAX NOA ha sido muy positiva, con un crecimiento exponencial tanto en mi negocio como en lo personal. Lo que más me gusta de trabajar aquí es la flexibilidad.",
+    },
+
+    {
+        image: DaianaGarcia,
+        name: "DAIANA GARCIA",
+        position: "Agente Inmobilario",
+        oficina: "Jujuy",
+        message:
+            "REMAX implicó un cambio 100% en mi, logrando confianza y disciplina. Aprendí a conocerme a mi misma para poder conocer a otros. Eso es REMAX en mi vida: una red mundial que ayuda a la gente a cumplir sus sueños.",
     },
 
     {

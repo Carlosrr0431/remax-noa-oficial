@@ -19,7 +19,7 @@ export const LeerCSV = () => {
     const listaCaptacion = new Array()
     const [tableRows, setTableRows] = useState([]);
     const expt = new RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}')
-
+    const arrayEmail = ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com']
     const [values, setValues] = useState([]);
     const [tableData, setTableData] = useState()
     const [content, setContent] = useState([]);
@@ -41,9 +41,12 @@ export const LeerCSV = () => {
 
             setFile(null)
 
-            // const result = await sendMail(emailCaptacionHTML())
-
             const result = await sendMail(emailCaptacionHTML())
+
+            for (let i = 0; i <= values.length; i++) {
+                console.log(values[i]);
+
+            }
 
             setValues([])
 
@@ -52,8 +55,6 @@ export const LeerCSV = () => {
             }
 
         }
-
-
 
     }
 
@@ -148,7 +149,9 @@ export const LeerCSV = () => {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                listaEmail: ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'rrhhremaxnoa@gmail.com', 'pcastaneda@remax.com.ar'],
+                // listaEmail: ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'rrhhremaxnoa@gmail.com', 'pcastaneda@remax.com.ar'],
+                // listaEmail: arrayEmail,
+                listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
                 htmlContenido: htmlContent
             })
         })

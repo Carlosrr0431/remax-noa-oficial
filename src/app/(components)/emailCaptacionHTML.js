@@ -1,5 +1,7 @@
 export const emailCaptacionHTML = () => {
-  return `<!doctype html>
+  return ` 
+  
+  <!doctype html>
 <html lang="und" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
   <head>
     <title>Únete a Nuestra Exitosa Agencia Inmobiliaria</title>
@@ -116,7 +118,7 @@ export const emailCaptacionHTML = () => {
             <td  style="width:550px;">
               
       <img
-         alt="Banner de Bienes Raíces" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729683617/mailing-04_vthqrw.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
+         alt="Banner de Bienes Raíces" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729769892/banner_003_hquawq.jpg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
       />
     
             </td>
@@ -172,7 +174,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:30px;line-height:1;text-align:center;color:#1a1a1a;"
-      >¡Conviértete en un Agente Inmobiliario Exitoso!</div>
+      >¡Conviértete en un Agente Inmobiliario <span style="font-weight: 900;">Exitoso</span>!</div>
     
                 </td>
               </tr>
@@ -196,7 +198,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en U$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. ¡Unite y descubrí todo lo que puedes lograr!.</div>
+      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en U$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. Desde hace 12 años, somos la oficina líder en Salta y Jujuy, destacándonos por contar con los agentes inmobiliarios de mayor rendimiento.¡Unite y descubrí todo lo que puedes lograr!. </div>
     
                 </td>
               </tr>
@@ -245,7 +247,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:24px;font-weight:bold;line-height:1;text-align:center;color:#1a1a1a;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:24px;font-weight:bold;line-height:1;text-align:center;color:#3498db;"
       >Beneficios de Ser un Agente Inmobiliario</div>
     
                 </td>
@@ -296,7 +298,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><span class="benefit-icon">💼</span></div>
+      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729873077/0108-_F6_0171_B_smyd2b.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
     
                 </td>
               </tr>
@@ -307,7 +309,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:left;color:#1a1a1a;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:center;color:#3498db;"
       >Flexibilidad Laboral</div>
     
                 </td>
@@ -319,8 +321,8 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#333333;"
-      >Sé tu propio jefe y organiza tu horario según tus necesidades.</div>
+         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#333333;"
+      >Sé tu propio jefe y organizá tu horario según tus necesidades.</div>
     
                 </td>
               </tr>
@@ -348,7 +350,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><span class="benefit-icon">💰</span></div>
+      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796536/0145_-_7H1A0377_B_1_1_y7tg8f.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
     
                 </td>
               </tr>
@@ -359,7 +361,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:left;color:#1a1a1a;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:center;color:#3498db;"
       >Potencial de Altos Ingresos</div>
     
                 </td>
@@ -371,7 +373,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#333333;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#333333;"
       >Tus ganancias están directamente relacionadas con tu esfuerzo y dedicación.</div>
     
                 </td>
@@ -422,7 +424,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><span class="benefit-icon">🤝</span></div>
+      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796605/0158_-_DSC07730_B_1_1_awbqbc.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
     
                 </td>
               </tr>
@@ -433,7 +435,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:left;color:#1a1a1a;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:center;color:#3498db;"
       >Networking</div>
     
                 </td>
@@ -445,7 +447,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#333333;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#333333;"
       >Construí una red de contactos valiosa en diversos sectores.</div>
     
                 </td>
@@ -474,7 +476,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><span class="benefit-icon">📈</span></div>
+      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796162/0039_-_DSC07189_B_1_1_nikkbf.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
     
                 </td>
               </tr>
@@ -485,7 +487,7 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:left;color:#1a1a1a;"
+         style="font-family:Roboto, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:1;text-align:center;color:#3498db;"
       >Crecimiento Personal</div>
     
                 </td>
@@ -497,8 +499,8 @@ export const emailCaptacionHTML = () => {
                 >
                   
       <div
-         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:left;color:#333333;"
-      >Desarrolla habilidades en ventas, negociación y gestión empresarial.</div>
+         style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#333333;"
+      >Desarrollá habilidades en ventas, negociación y gestión empresarial.</div>
     
                 </td>
               </tr>
@@ -548,7 +550,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >En RE/MAX NOA <span data-variable="nombre_agencia"></span>, te ofrecemos el apoyo y las herramientas necesarias para que alcances tu máximo potencial como agente inmobiliario. No se requiere experiencia previa. Si tienes pasión, determinación y ganas de triunfar en el sector inmobiliario, queremos conocerte.</div>
+      >En RE/MAX NOA <span data-variable="nombre_agencia"></span>, te ofrecemos el apoyo y las herramientas necesarias para que alcances tu máximo potencial como agente inmobiliario. No se requiere experiencia previa. Si tenés pasión, determinación y ganas de triunfar en el sector inmobiliario, queremos conocerte.</div>
     
                 </td>
               </tr>
@@ -564,10 +566,10 @@ export const emailCaptacionHTML = () => {
         <tbody>
           <tr>
             <td
-               align="center" bgcolor="#4CAF50" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#4CAF50;" valign="middle"
+               align="center" bgcolor="#004EE0" role="presentation" style="border:none;border-radius:25px;cursor:auto;mso-padding-alt:10px 25px;background:#004EE0;" valign="middle"
             >
               <a
-                 href="https://www.remaxnoa.com.ar/contactanos" style="display:inline-block;background:#4CAF50;color:white;font-family:Roboto, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"
+                 href="https://www.remaxnoa.com.ar/contactanos" style="display:inline-block;background:#004EE0;color:white;font-family:Roboto, Arial, sans-serif;font-size:17px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:25px;" target="_blank"
               >
                 ¡Postúlate Ahora!
               </a>
@@ -638,17 +640,14 @@ export const emailCaptacionHTML = () => {
          border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;"
       >
         <tbody>
-          <tr>
-            <td
-               align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:10px 25px;background:#25D366;" valign="middle"
-            >
-              <a
-                 href="https://wa.me/+5493876852073?text=Quiero mas info..." style="display:inline-block;background:#25D366;color:white;font-family:Roboto, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:10px 25px;mso-padding-alt:0px;border-radius:3px;" target="_blank"
-              >
-                Chatea con nosotros en WhatsApp
-              </a>
-            </td>
-          </tr>
+            <tr>
+              <td align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:25px;cursor:auto;padding:0;background:#25D366;">
+                <a href="https://wa.me/+5493876852073?text=Quiero mas info..." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
+                  <img src="https://img.icons8.com/color/48/000000/whatsapp.png" style="width:24px;height:24px;margin-right:8px;vertical-align:middle;" />
+                  <span style="vertical-align:middle;">Contactanos por WhatsApp</span>
+                </a>
+              </td>
+            </tr>
         </tbody>
       </table>
     
@@ -830,5 +829,7 @@ export const emailCaptacionHTML = () => {
       </div>
     
   </body>
-</html>`;
+</html> 
+
+`;
 };
