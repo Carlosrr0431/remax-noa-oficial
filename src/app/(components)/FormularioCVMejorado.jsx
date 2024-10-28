@@ -150,12 +150,15 @@ export default function FormularioCVMejorado() {
                         } else if (pathname == '/dashboard/jujuy')
                             return e
                     }).map((usuario, index) => {
+
+
                         return (
                             <TableRow key={usuario.id}>
                                 <TableCell>{usuario.email}</TableCell>
 
                                 <TableCell>
                                     <div className="flex space-x-4 gap-x-4">
+
 
                                         {usuario.fuente == "Landing Page" ? (
 
