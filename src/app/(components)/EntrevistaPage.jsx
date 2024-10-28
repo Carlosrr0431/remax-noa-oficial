@@ -212,8 +212,8 @@ export const EntrevistaPage = () => {
                                                             </FormControl>
                                                             <SelectContent>
 
-                                                                <SelectItem value="salta">Oficinas Salta</SelectItem>
-                                                                <SelectItem value="jujuy">Oficinas Jujuy</SelectItem>
+                                                                <SelectItem value="Salta">Oficinas Salta</SelectItem>
+                                                                <SelectItem value="Jujuy">Oficinas Jujuy</SelectItem>
                                                             </SelectContent>
                                                         </Select>
 

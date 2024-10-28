@@ -6,6 +6,7 @@ import { PreciosPlanes } from './PreciosPlanes'
 import { Ingresos } from './Ingresos'
 import { ControlIngresos } from './ControlIngresos'
 import { FormulariosCVDashboard } from './FormulariosCVDashboard'
+import FormularioCVMejorado from './FormularioCVMejorado'
 
 
 const DashBoardInfo = ({ tipo }) => {
@@ -39,7 +40,8 @@ const DashBoardInfo = ({ tipo }) => {
 
             {
                 tipo == "Cv" && (
-                    <FormulariosCVDashboard />
+                    // <FormulariosCVDashboard />
+                    <FormularioCVMejorado />
                 )
 
             }

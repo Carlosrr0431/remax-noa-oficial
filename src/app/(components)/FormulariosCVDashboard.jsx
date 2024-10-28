@@ -41,13 +41,6 @@ export const FormulariosCVDashboard = () => {
                                     Datos del usuario
                                 </p>
                             </th>
-                            <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
-                                <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                                    Oficina
-                                </p>
-                            </th>
-
-
 
                             <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                                 <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
@@ -71,9 +64,9 @@ export const FormulariosCVDashboard = () => {
                     <tbody>
                         {contactos && contactos.filter((e) => {
                             if (pathname == '/dashboard/administrador') {
-                                return e.oficina == "salta"
+                                return e
                             } else if (pathname == '/dashboard/jujuy')
-                                return e.oficina == "jujuy"
+                                return e
                         }).map((user, index) => {
                             return (
                                 <tr key={index}>
@@ -91,24 +84,17 @@ export const FormulariosCVDashboard = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="p-4 border-b border-blue-gray-50">
-                                        <div class="flex flex-col">
-                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                {user.oficina}
-                                            </p>
 
-                                        </div>
-                                    </td>
 
                                     <td class="p-4 border-b border-blue-gray-50">
                                         <div class="flex flex-col">
                                             <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                                <Link href={user.cv} download='cv.pdf' target='_blank'>
+                                                <Link href={user.cv} download='cv.pdf' target='_blank' className="">
                                                     <Button
 
                                                         className="flex items-center space-x-2 bg-primary text-primary-foreground hover:bg-primary/90"
                                                     >
-                                                        <FileDown className="w-4 h-4" />
+                                                        <FileDown className="w-4 h-4 mr-2" />
                                                         Descargar PDF
                                                     </Button>
                                                 </Link>
