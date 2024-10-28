@@ -128,7 +128,13 @@ export default function FormularioCVMejorado() {
                     </Select>
 
                     <Badge variant="secondary" className="text-sm py-1 px-2">
-                        {usuariosFiltrados.length}
+                        {usuariosFiltrados && usuariosFiltrados.filter((e) => {
+
+                            if (pathname == '/dashboard/administrador') {
+                                return e.oficina == "salta"
+                            } else if (pathname == '/dashboard/jujuy')
+                                return e.oficina == "jujuy"
+                        }).length}
                     </Badge>
                 </div>
             </div>
@@ -146,9 +152,9 @@ export default function FormularioCVMejorado() {
                     {usuariosFiltrados && usuariosFiltrados.filter((e) => {
 
                         if (pathname == '/dashboard/administrador') {
-                            return e
+                            return e.oficina == "salta"
                         } else if (pathname == '/dashboard/jujuy')
-                            return e
+                            return e.oficina == "jujuy"
                     }).map((usuario, index) => {
 
 
