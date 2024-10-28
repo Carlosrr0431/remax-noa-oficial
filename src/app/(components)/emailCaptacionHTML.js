@@ -642,7 +642,7 @@ export const emailCaptacionHTML = () => {
         <tbody>
             <tr>
               <td align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:25px;cursor:auto;padding:0;background:#25D366;">
-                <a href="https://wa.me/+5493876852073?text=Quiero mas info..." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
+                <a href="https://wa.me/+5493876852073?text=Hola!!! Te escribo desde el Mailing, y quiero saber más información sobre trabajar en RE/MAX NOA." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
                   <img src="https://img.icons8.com/color/48/000000/whatsapp.png" style="width:24px;height:24px;margin-right:8px;vertical-align:middle;" />
                   <span style="vertical-align:middle;">Contactanos por WhatsApp</span>
                 </a>

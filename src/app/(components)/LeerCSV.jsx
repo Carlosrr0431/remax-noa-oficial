@@ -12,6 +12,7 @@ import { emailCaptacionHTML } from './emailCaptacionHTML'
 import { toast } from 'sonner';
 import { emailOfrecer } from './emailOfrecer'
 import { emailOfrecerCorrejido } from './emailOfrecerCorrejido'
+import { supabaseClient } from '@/supabase/client'
 
 export const LeerCSV = () => {
 
@@ -41,12 +42,18 @@ export const LeerCSV = () => {
 
             setFile(null)
 
+
+            // const getSupabaseOficial = async () => {
+            //     const result3 = await supabaseClient.from("correosEnviados").insert({
+            //         correos: values
+            //     });
+
+            //     console.log(result3);
+
+            // }
+
+            // getSupabaseOficial()
             const result = await sendMail(emailCaptacionHTML())
-
-            for (let i = 0; i <= values.length; i++) {
-                console.log(values[i]);
-
-            }
 
             setValues([])
 
@@ -149,9 +156,8 @@ export const LeerCSV = () => {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                // listaEmail: ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'rrhhremaxnoa@gmail.com', 'pcastaneda@remax.com.ar'],
-                // listaEmail: arrayEmail,
-                listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
+                // listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
+                listaEmail: arrayEmail,
                 htmlContenido: htmlContent
             })
         })

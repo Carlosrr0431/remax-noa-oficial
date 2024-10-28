@@ -12,7 +12,7 @@ import { FaUser } from "react-icons/fa6";
 export const FormulariosCVDashboard = () => {
     const [contactos, setContactos] = useState();
     const pathname = usePathname();
-
+    const [correosMasivos, setCorreosMasivos] = useState();
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -25,6 +25,7 @@ export const FormulariosCVDashboard = () => {
 
 
         getSupabaseOficial()
+
     }, [])
 
 
@@ -46,9 +47,17 @@ export const FormulariosCVDashboard = () => {
                                 </p>
                             </th>
 
+
+
                             <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                                 <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                                     CV
+                                </p>
+                            </th>
+
+                            <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+                                <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                    Fuente
                                 </p>
                             </th>
                             <th class="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
@@ -103,6 +112,15 @@ export const FormulariosCVDashboard = () => {
                                                         Descargar PDF
                                                     </Button>
                                                 </Link>
+                                            </p>
+
+                                        </div>
+                                    </td>
+
+                                    <td class="p-4 border-b border-blue-gray-50">
+                                        <div class="flex flex-col">
+                                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                                                {user.fuente}
                                             </p>
 
                                         </div>

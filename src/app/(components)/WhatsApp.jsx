@@ -18,7 +18,7 @@ const WhatsApp = () => {
 
                 rel="noopener noreferrer"
                 target="_blank"
-                href="https://wa.me/+5493876852073?text=Quiero mas info..."
+                href="https://wa.me/+5493876852073?text=Hola!!! Te escribo desde la Landing Page, y quiero saber más información sobre trabajar en RE/MAX NOA."
                 className=""
             >
                 <Image

@@ -115,9 +115,20 @@ export async function uploadPDF(formData) {
     }
   );
 
+  let data = await supabase
+    .from("correosEnviados")
+    .select("*")
+    .order("id", { ascending: true });
+
+  let correosMasivos = await data.data[0].correos;
+
   const file = formData.get("file");
   const email = formData.get("email");
   const oficina = formData.get("oficina");
+  let fuente = "";
+  if (correosMasivos.includes(email)) {
+    fuente = "Mailing Masivo";
+  } else fuente = "Landing Page";
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -138,6 +149,7 @@ export async function uploadPDF(formData) {
     oficina: oficina,
     email: email,
     cv: result.secure_url,
+    fuente: fuente,
   });
 
   console.log(result3);
