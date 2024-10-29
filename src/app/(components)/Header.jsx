@@ -39,7 +39,7 @@ const Header = () => {
 
 
     <div  >
-      <header className={`${pathname == '/user' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/mailingSystem' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/jujuy' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/eventos' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
+      <header className={`${pathname == '/user' || pathname == '/ranking' || pathname == '/cursos' || pathname == '/contactanos' || pathname == '/mailingSystem' || pathname == '/dashboard/administrador' || pathname == '/dashboard' || pathname == '/dashboard/jujuy' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/eventos' || pathname == '/login' ? 'hidden' : ''} absolute  z-50  w-full flex items-center   xl:h-[100px]`}>
         <div className="container mx-auto">
           <div className="items-center relative flex flex-col sm:flex-row sm:justify-between sm:items-center gap-y-8 py-8">
             <div className="">
