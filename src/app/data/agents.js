@@ -1,11 +1,14 @@
 import { getAchievements } from "@/utils/achievements";
+import Alejandro from "../public/ALEJANDRO 2 (1).jpg";
+import Alberto from "../public/ALBERTO (1).jpg";
+import Silvana from "../public/Silvana Paz.jpeg";
+import Jimena from '../public/JIMENA CORNEJO (1).jpg'
 
 export const agents = [
   {
     id: 1,
     name: "Sarah Mitchell",
-    avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+    avatar: Jimena,
     sales: 42,
     revenue: 2450000,
     properties: 15,
@@ -24,8 +27,7 @@ export const agents = [
   {
     id: 2,
     name: "Michael Chen",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+    avatar: Alejandro,
     sales: 38,
     revenue: 2180000,
     properties: 12,
@@ -44,8 +46,7 @@ export const agents = [
   {
     id: 3,
     name: "Emma Rodriguez",
-    avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+    avatar: Alejandro,
     sales: 35,
     revenue: 1950000,
     properties: 11,
@@ -64,8 +65,7 @@ export const agents = [
   {
     id: 4,
     name: "James Wilson",
-    avatar:
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
+    avatar: Alberto,
     sales: 31,
     revenue: 1780000,
     properties: 9,
@@ -80,8 +80,7 @@ export const agents = [
   {
     id: 5,
     name: "Sofia Patel",
-    avatar:
-      "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=400&fit=crop",
+    avatar: Silvana,
     sales: 28,
     revenue: 1620000,
     properties: 8,

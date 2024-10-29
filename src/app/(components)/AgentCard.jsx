@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Minus, Award, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 
 export const AgentCard = ({ agent, index, onClick }) => {
@@ -18,10 +19,12 @@ export const AgentCard = ({ agent, index, onClick }) => {
         >
             <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
-                    <img
+                    <Image
                         src={agent.avatar}
                         alt={agent.name}
                         className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover"
+                        height={0}
+                        width={0}
                     />
                     {agent.rank <= 3 && (
                         <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-yellow-400 rounded-full p-1">

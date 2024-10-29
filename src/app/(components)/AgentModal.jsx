@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { X, Target, Trophy, Briefcase } from 'lucide-react';
+import Image from 'next/image';
 
 export const AgentModal = ({ agent, isOpen, onClose }) => {
     if (!agent) return null;
@@ -30,10 +30,12 @@ export const AgentModal = ({ agent, isOpen, onClose }) => {
                         </button>
 
                         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
-                            <img
+                            <Image
                                 src={agent.avatar}
                                 alt={agent.name}
-                                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover"
+                                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover"
+                                height={0}
+                                width={0}
                             />
                             <div className="text-center sm:text-left">
                                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{agent.name}</h2>
