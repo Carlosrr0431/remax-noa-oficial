@@ -3,16 +3,32 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Calendar } from "@/components/ui/calendar"
-import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
+import { addDays, format, startOfWeek, endOfWeek, isWeekend, eachDayOfInterval, isSameMonth, isToday, isSameDay } from "date-fns"
 import { es } from "date-fns/locale"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { DateRange } from "react-day-picker"
 import { supabaseClient } from "@/supabase/client"
 import moment from "moment-timezone";
+import { cn } from "@/lib/utils"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 
 const camposTracking = [
     'formularioReferidos',
@@ -33,15 +49,20 @@ const agentsMock = [
 export default function Tracking() {
     const [trackingData, setTrackingData] = useState([])
     const [agents, setAgents] = useState([])
-    const [selectedGroup, setSelectedGroup] = useState('Juniors')
+    const [selectedGroup, setSelectedGroup] = useState('')
     const [selectedAgent, setSelectedAgent] = useState(null)
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [totalAgente, setTotalAgente] = useState({})
     const [totalGrupo, setTotalGrupo] = useState({})
+    const [date, setDate] = useState({
+        to: "",
+        from: ""
+    })
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
     const [selectedPeriod, setSelectedPeriod] = useState('weekly')
     const [nuevoRegistro, setNuevoRegistro] = useState({
-        semana: format(new Date(), 'yyyy-MM-dd'),
+
         agentId: 0,
         formularioReferidos: '',
         formularioPrelisting: '',
@@ -65,22 +86,23 @@ export default function Tracking() {
     }, [])
 
 
-    useEffect(() => {
-        if (agents.length > 0 && selectedGroup) {
-            const firstAgentOfGroup = agents.find(agent => agent.grupo === selectedGroup)
-            if (firstAgentOfGroup) {
-                setSelectedAgent(firstAgentOfGroup)
-                setNuevoRegistro(prev => ({ ...prev, agentId: firstAgentOfGroup.id }))
-            }
-        }
-    }, [selectedGroup, agents])
+    // useEffect(() => {
+    //     if (agents.length > 0 && selectedGroup) {
+    //         const firstAgentOfGroup = agents.find(agent => agent.grupo === selectedGroup)
+    //         if (firstAgentOfGroup) {
+    //             setSelectedAgent(firstAgentOfGroup)
+    //             setNuevoRegistro(prev => ({ ...prev, agentId: firstAgentOfGroup.id }))
 
-    useEffect(() => {
-        if (selectedDate) {
-            const formattedDate = format(selectedDate, 'yyyy-MM-dd')
-            setNuevoRegistro(prev => ({ ...prev, semana: formattedDate }))
-        }
-    }, [selectedDate])
+    //         }
+    //     }
+    // }, [selectedGroup, agents])
+
+    // useEffect(() => {
+    //     if (selectedDate) {
+    //         const formattedDate = format(selectedDate, 'yyyy-MM-dd')
+    //         setNuevoRegistro(prev => ({ ...prev, semana: formattedDate }))
+    //     }
+    // }, [selectedDate])
 
     const handleInputChange = (campo, valor) => {
 
@@ -118,7 +140,8 @@ export default function Tracking() {
             if (agente.data[0]?.formularios != null) {
                 const result3 = await supabaseClient.from("empleados").update({
                     formularios: [...agente.data[0]?.formularios, {
-                        fecha: nuevoRegistro.semana,
+                        fechaInicio: date.from.toLocaleDateString(),
+                        fechaFin: date.to.toLocaleDateString(),
                         formularioReferidos: nuevoRegistro.formularioReferidos,
                         formularioPrelisting: nuevoRegistro.formularioPrelisting,
                         acm: nuevoRegistro.acm,
@@ -132,7 +155,8 @@ export default function Tracking() {
             } else {
                 const result3 = await supabaseClient.from("empleados").update({
                     formularios: [{
-                        fecha: nuevoRegistro.semana,
+                        fechaInicio: date.from.toLocaleDateString(),
+                        fechaFin: date.to.toLocaleDateString(),
                         formularioReferidos: nuevoRegistro.formularioReferidos,
                         formularioPrelisting: nuevoRegistro.formularioPrelisting,
                         acm: nuevoRegistro.acm,
@@ -152,7 +176,7 @@ export default function Tracking() {
         getSupabaseOficial()
         setTrackingData([...trackingData, nuevoRegistroConNumeros])
         setNuevoRegistro({
-            semana: format(new Date(), 'yyyy-MM-dd'),
+
             agentId: selectedAgent.id,
             formularioReferidos: '',
             formularioPrelisting: '',
@@ -167,10 +191,6 @@ export default function Tracking() {
     const calcularTotalSinPromise = (agente) => {
 
 
-        let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
-
-        let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
-
 
         const totales = {
             formularioReferidos: 0,
@@ -182,60 +202,41 @@ export default function Tracking() {
         }
 
 
-        if (dif != 0) {
 
-            if (agente.formularios != null && agente.formularios?.length != 0) {
+        if (date.from != '' && date.to != '' && agente.formularios != null && agente.formularios?.length != 0) {
 
+            agente.formularios.forEach(item => {
 
-                agente.formularios.forEach(item => {
+                if (item.fechaInicio == date.from.toLocaleDateString() && item.fechaFin == date.to.toLocaleDateString()) {
+                    totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
+                    totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
+                    totales.acm += parseInt(item.acm) || 0
+                    totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
+                    totales.captaciones += parseInt(item.captaciones) || 0
+                    totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
 
-                    if (item.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
+                    setTotalAgente(totales)
 
-
-
-                        totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
-                        totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
-                        totales.acm += parseInt(item.acm) || 0
-                        totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
-                        totales.captaciones += parseInt(item.captaciones) || 0
-                        totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
-
-                        setTotalAgente(totales)
-
-                        console.log("total agente: " + totalAgente);
+                    console.log("total agente: " + totalAgente);
 
 
-                        return totales
-                    }
-                })
-            }
-
-
-
+                    return totales
+                }
+            })
         }
+
 
         setTotalAgente(totales)
         return totales
     }
 
 
+    const calcularTotalGrupo = (grupoSeleccionado) => {
+
+        let agentes = agents.filter(agent => agent.grupo === grupoSeleccionado)
 
 
-
-    const calcularTotalGrupo = () => {
-
-        let agentes = agents.filter(agent => agent.grupo === selectedGroup)
-
-        // console.log(agentes.map(e => console.log(e.grupo)))
-
-
-
-        let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
-
-        let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
-
-
-        const totales = {
+        let totales = {
             formularioReferidos: 0,
             formularioPrelisting: 0,
             acm: 0,
@@ -245,90 +246,45 @@ export default function Tracking() {
         }
 
 
-        if (dif != 0) {
 
-            agentes.forEach(registro => {
+        {
+            agentes.map(registro => {
 
-                console.log("formulario: " + JSON.stringify(JSON.stringify(registro.formulario)));
+                {
 
-                if (registro.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
-                    if (registro.formularios != null) {
-                        totales.formularioReferidos += parseInt(registro.formularios.formularioReferidos) || 0
-                        totales.formularioPrelisting += parseInt(registro.formularios.formularioPrelisting) || 0
-                        totales.acm += parseInt(registro.formularios.acm) || 0
-                        totales.seguimientoAcm += parseInt(registro.formularios.seguimientoAcm) || 0
-                        totales.captaciones += parseInt(registro.formularios.captaciones) || 0
-                        totales.propiedadesActivas += parseInt(registro.formularios.propiedadesActivas) || 0
-                    }
+                    registro.formularios != null && registro.formularios.forEach(item => {
+
+                        if (item.fechaInicio == date.from.toLocaleDateString() && item.fechaFin == date.to.toLocaleDateString()) {
+
+
+
+                            totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
+                            totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
+                            totales.acm += parseInt(item.acm) || 0
+                            totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
+                            totales.captaciones += parseInt(item.captaciones) || 0
+                            totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
+
+                            setTotalGrupo(totales)
+
+                            console.log("total agente: " + totalAgente);
+
+
+                            return totales
+                        }
+                    })
                 }
-            })
+            }
 
-
-
-            setTotalGrupo(totales)
-
-            return totales;
-
-
-
-
+            )
         }
 
+
+
         setTotalGrupo(totales)
-        return totales
+
+        return totales;
     }
-
-    // const calcularTotales = async (data) => {
-
-
-    //     let fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
-
-    //     let dif = Math.abs(fecha2.diff(selectedDate, 'days'))
-
-    //     const totales = {
-    //         formularioReferidos: 0,
-    //         formularioPrelisting: 0,
-    //         acm: 0,
-    //         seguimientoAcm: 0,
-    //         captaciones: 0,
-    //         propiedadesActivas: 0
-    //     }
-
-    // if (dif != 0) {
-    //     const agente = await supabaseClient
-    //         .from("empleados")
-    //         .select("*")
-    //         .eq("id", selectedAgent.id)
-
-    //     if (agente.data[0]?.formularios != null) {
-    //         agente.data[0]?.formularios.forEach(item => {
-
-    //             if (item.fecha.split('-').reverse().join('/') == selectedDate.toLocaleDateString()) {
-
-
-    //                 totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
-    //                 totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
-    //                 totales.acm += parseInt(item.acm) || 0
-    //                 totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
-    //                 totales.captaciones += parseInt(item.captaciones) || 0
-    //                 totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
-
-    //                 console.log("totales: " + JSON.stringify(totales));
-
-    //                 setTotalAgente(totales)
-
-
-    //                 console.log("total agente: " + totalAgente);
-
-
-    //                 return totales
-    //             }
-    //         })
-    //     }
-
-    //     }
-    //     return totales
-    // }
 
     const calcularPorcentajes = (totales) => {
         const total = Object.values(totales).reduce((sum, value) => sum + value, 0)
@@ -360,10 +316,31 @@ export default function Tracking() {
         ? datosFiltrados.filter(registro => registro.agentId === selectedAgent.id)
         : []
 
-    // const totalesGrupo = calcularTotales(datosGrupo)
-    // const totalesAgente = calcularTotales(datosAgente)
-    // const porcentajesGrupo = calcularPorcentajes(totalesGrupo)
-    // const porcentajesAgente = calcularPorcentajes(totalesAgente)
+    const handleRangeSelect = (range) => {
+        if (range?.from) {
+            const start = startOfWeek(range.from, { weekStartsOn: 1 })
+            const end = range.to ? endOfWeek(range.to, { weekStartsOn: 1 }) : addDays(start, 4)
+
+            const workDays = eachDayOfInterval({ start, end }).filter(day => !isWeekend(day))
+
+            setDate({
+                from: workDays[0],
+                to: workDays[workDays.length - 1]
+            })
+
+
+        } else {
+            setDate(undefined)
+        }
+        setIsCalendarOpen(false)
+    }
+
+    const isDateInRange = (day) => {
+        if (date?.from && date?.to) {
+            return day >= date.from && day <= date.to && !isWeekend(day)
+        }
+        return false
+    }
 
     return (
         <div className="container mx-auto p-4 w-[90%]">
@@ -376,82 +353,150 @@ export default function Tracking() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <Label htmlFor="fecha">Fecha</Label>
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-left font-normal">
-                                            {selectedDate ? format(selectedDate, 'PPP', { locale: es }) : <span>Selecciona una fecha</span>}
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Seleccionar fecha</DialogTitle>
-                                        </DialogHeader>
-                                        <Calendar
-                                            mode="single"
-                                            selected={selectedDate}
-                                            onSelect={setSelectedDate}
-                                            locale={es}
-                                        />
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
-                            <div>
-                                <Label htmlFor="grupo">Grupo</Label>
-                                <Select
-                                    value={selectedGroup}
-                                    onValueChange={(value) => {
-                                        setSelectedGroup(value)
 
-                                        console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo()))
-                                    }
-                                    }
-                                >
-                                    <SelectTrigger id="grupo">
-                                        <SelectValue placeholder="Selecciona un grupo" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Juniors">Juniors</SelectItem>
-                                        <SelectItem value="Rookies">Rookies</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                            <Card className="w-full max-w-md mx-auto bg-gradient-to-br from-gray-100 to-gray-200 text-white shadow-xl">
+
+                                <CardContent>
+                                    <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                className={cn(
+                                                    "w-full justify-start text-left font-normal mt-[20px] text-black",
+                                                    !date && "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {date?.from ? (
+                                                    date.to ? (
+                                                        <>
+                                                            {format(date.from, "P", { locale: es })} -{" "}
+                                                            {format(date.to, "P", { locale: es })}
+                                                        </>
+                                                    ) : (
+                                                        format(date.from, "P", { locale: es })
+                                                    )
+                                                ) : (
+                                                    <span>Selecciona un rango de fechas</span>
+                                                )}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0 bg-gray-800" align="start">
+                                            <Calendar
+                                                initialFocus
+                                                mode="range"
+                                                defaultMonth={date?.from}
+                                                selected={date}
+                                                onSelect={handleRangeSelect}
+                                                numberOfMonths={1}
+                                                locale={es}
+                                                weekStartsOn={1}
+                                                disabled={(date) => isWeekend(date)}
+                                                className="rounded-md border-0"
+                                                classNames={{
+                                                    day_today: "bg-gray-700 text-black font-bold",
+                                                    day_selected: "bg-gray-700 text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                                                    day_outside: "text-gray-500 opacity-50",
+                                                }}
+                                                components={{
+                                                    DayContent: ({ date: dayDate, ...props }) => (
+                                                        <div
+                                                            {...props}
+                                                            className={cn(
+                                                                props.className,
+                                                                "relative flex h-8 w-8 items-center justify-center p-0 font-normal aria-selected:opacity-100",
+                                                                isToday(dayDate) && "text-black font-bold",
+                                                                !isSameMonth(dayDate, props.displayMonth) && "text-gray-500 opacity-50",
+                                                                isDateInRange(dayDate) && "bg-primary text-primary-foreground"
+                                                            )}
+                                                        >
+                                                            <time dateTime={format(dayDate, "yyyy-MM-dd")}>
+                                                                {format(dayDate, "d")}
+                                                            </time>
+                                                            {isToday(dayDate) && (
+                                                                <div className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
+                                                            )}
+                                                        </div>
+                                                    ),
+                                                }}
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </CardContent>
+                                <CardFooter className="flex flex-col items-start space-y-2">
+
+                                    <Button
+                                        variant="outline"
+                                        className="w-full mt-2 bg-gray-700 text-white hover:bg-gray-600 transition-colors duration-200"
+                                        onClick={() => {
+                                            setDate(undefined)
+                                            setIsCalendarOpen(false)
+                                        }}
+                                    >
+                                        Limpiar selección
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+
+                            <div >
+                                <div>
+                                    <Label htmlFor="grupo">Grupo</Label>
+                                    <Select
+                                        value={selectedGroup}
+                                        onValueChange={(value) => {
+                                            setSelectedGroup(value)
+
+                                            console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo(value)))
+                                        }
+                                        }
+                                    >
+                                        <SelectTrigger id="grupo">
+                                            <SelectValue placeholder="Selecciona un grupo" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Juniors">Juniors</SelectItem>
+                                            <SelectItem value="Rookies">Rookies</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div>
+                                    <Label htmlFor="agente">Agente</Label>
+                                    <Select
+                                        value={selectedAgent?.id.toString() || ''}
+                                        onValueChange={(value) => {
+
+
+
+                                            const agent = agents.find(a => a.id === parseInt(value))
+
+
+                                            if (agent) {
+                                                setSelectedAgent(agent)
+                                                console.log(calcularTotalSinPromise(agent));
+
+                                                setNuevoRegistro(prev => ({ ...prev, agentId: agent.id }))
+                                            }
+                                        }}
+                                    >
+                                        <SelectTrigger id="agente">
+                                            <SelectValue placeholder="Selecciona un agente" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {agents
+                                                .filter(agent => agent.grupo === selectedGroup)
+                                                .map(agent => (
+                                                    <SelectItem key={agent.id} value={agent.id.toString()}>
+                                                        {agent.nombre}
+                                                    </SelectItem>
+                                                ))
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <Label htmlFor="agente">Agente</Label>
-                            <Select
-                                value={selectedAgent?.id.toString() || ''}
-                                onValueChange={(value) => {
 
-
-
-                                    const agent = agents.find(a => a.id === parseInt(value))
-
-
-                                    if (agent) {
-                                        setSelectedAgent(agent)
-                                        console.log(calcularTotalSinPromise(agent));
-
-                                        setNuevoRegistro(prev => ({ ...prev, agentId: agent.id }))
-                                    }
-                                }}
-                            >
-                                <SelectTrigger id="agente">
-                                    <SelectValue placeholder="Selecciona un agente" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {agents
-                                        .filter(agent => agent.grupo === selectedGroup)
-                                        .map(agent => (
-                                            <SelectItem key={agent.id} value={agent.id.toString()}>
-                                                {agent.nombre}
-                                            </SelectItem>
-                                        ))
-                                    }
-                                </SelectContent>
-                            </Select>
-                        </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {camposTracking.map((campo) => (
 

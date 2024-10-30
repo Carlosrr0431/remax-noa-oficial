@@ -10,29 +10,23 @@ import { usePathname } from 'next/navigation'
 import { supabaseClient } from '@/supabase/client'
 import { Badge } from '@/components/ui/badge'
 
-// Datos de ejemplo
-const usuariosIniciales = [
-    { id: 1, nombre: "Juan Pérez", cv: "juan_cv.pdf", fuente: "Landing Page", fechaIngreso: "2023-10-15", descargado: false },
-    { id: 2, nombre: "María García", cv: "maria_cv.doc", fuente: "Mailing Masivo", fechaIngreso: "2023-10-16", descargado: false },
-    { id: 3, nombre: "Carlos Rodríguez", cv: "carlos_cv.pdf", fuente: "Landing Page", fechaIngreso: "2023-10-17", descargado: true },
-    { id: 4, nombre: "Ana Martínez", cv: "ana_cv.pdf", fuente: "Mailing Masivo", fechaIngreso: "2023-10-18", descargado: false },
+const estados = [
+    { value: "pendiente", label: "Pendiente" },
+    { value: "paso", label: "Pasó" },
+    { value: "no_paso", label: "No pasó" },
 ]
 
 export default function FormularioCVMejorado() {
     const [usuarios, setUsuarios] = useState([])
     const [filtroFuente, setFiltroFuente] = useState("Todos")
     const [contactos, setContactos] = useState();
+    const [id, setId] = useState();
     const [usuariosFiltrados, setUsuariosFiltrados] = useState([])
     const pathname = usePathname();
-
-    // const usuariosFiltrados = filtroFuente
-    //     ? usuarios.filter(usuario => usuario.fuente === filtroFuente || filtroFuente == "Todos")
-    //     : usuarios
+    const [selectedState, setSelectedState] = useState("")
 
     const marcarComoDescargado = async (id) => {
-        // setUsuarios(usuarios.map(usuario =>
-        //     usuario.id === id ? { ...usuario, descargado: true } : usuario
-        // ))
+
 
         const result2 = await supabaseClient
             .from("formularioCV")
@@ -145,7 +139,9 @@ export default function FormularioCVMejorado() {
 
                         <TableHead>Fuente</TableHead>
                         <TableHead>Fecha de Ingreso</TableHead>
+                        <TableHead>CV Recibido</TableHead>
                         <TableHead>CV</TableHead>
+
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -182,6 +178,41 @@ export default function FormularioCVMejorado() {
 
                                 </TableCell>
                                 <TableCell>{usuario.created_at.substr(0, 10).split('-').reverse().join('/')}</TableCell>
+
+                                <TableCell>
+                                    <Select value={usuario.cvRecibido != null ? usuario.cvRecibido : ''} onValueChange={async (value) => {
+
+
+                                        const result2 = await supabaseClient
+                                            .from("formularioCV")
+                                            .update({
+                                                cvRecibido: value
+                                            })
+                                            .eq("id", usuario.id);
+
+                                        console.log("resultado cvRecibido: " + result2);
+
+
+                                    }} >
+                                        <SelectTrigger className="w-[200px] border-white">
+                                            <SelectValue placeholder="Seleccionar Estado" />
+
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {estados.map((estado) => {
+
+                                                return (
+                                                    <SelectItem key={estado.value} value={estado.value}>
+                                                        {estado.label}
+                                                    </SelectItem>
+                                                )
+
+                                            }
+
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                </TableCell>
                                 <TableCell>
                                     <Link href={usuario.cv} download='cv.pdf' target='_blank' className="">
                                         <Button
@@ -209,6 +240,8 @@ export default function FormularioCVMejorado() {
                                         </Button>
                                     </Link>
                                 </TableCell>
+
+
                             </TableRow>
                         )
 
