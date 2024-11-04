@@ -104,6 +104,99 @@ export async function guardarFomularioBaja(datos) {
   return { message: "Success" };
 }
 
+export async function actualizarEstado(id, nuevoEstado) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  console.log("id" + id);
+
+  const resultado = await supabase
+    .from("formularioCV")
+    .update({
+      estado: nuevoEstado,
+    })
+    .eq("id", id)
+    .single();
+
+  console.log("Resulado cambio de estado: " + resultado);
+
+  return {
+    message: "Success",
+  };
+}
+
+export async function actualizarTracking(date, nuevoRegistro, id) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const agente = await supabase.from("empleados").select("*").eq("id", id);
+  let resultado = null;
+
+  console.log("Agente: " + agente.data[0].nombre);
+
+  if (agente.data[0]?.formularios != null) {
+    resultado = await supabase
+      .from("empleados")
+      .update({
+        formularios: [
+          ...agente.data[0]?.formularios,
+          {
+            fechaInicio: date.from.toLocaleDateString(),
+            fechaFin: date.to.toLocaleDateString(),
+            formularioReferidos: nuevoRegistro.formularioReferidos,
+            formularioPrelisting: nuevoRegistro.formularioPrelisting,
+            acm: nuevoRegistro.acm,
+            seguimientoAcm: nuevoRegistro.seguimientoAcm,
+            captaciones: nuevoRegistro.captaciones,
+            propiedadesActivas: nuevoRegistro.propiedadesActivas,
+          },
+        ],
+      })
+      .eq("id", id)
+      .single();
+  } else {
+    resultado = await supabase
+      .from("empleados")
+      .update({
+        formularios: [
+          {
+            fechaInicio: date.from.toLocaleDateString(),
+            fechaFin: date.to.toLocaleDateString(),
+            formularioReferidos: nuevoRegistro.formularioReferidos,
+            formularioPrelisting: nuevoRegistro.formularioPrelisting,
+            acm: nuevoRegistro.acm,
+            seguimientoAcm: nuevoRegistro.seguimientoAcm,
+            captaciones: nuevoRegistro.captaciones,
+            propiedadesActivas: nuevoRegistro.propiedadesActivas,
+          },
+        ],
+      })
+      .eq("id", id)
+      .single();
+  }
+
+  const agente2 = await supabase.from("empleados").select("*");
+
+  return {
+    message: "Success",
+    agentes: agente2.data,
+  };
+}
+
 export async function uploadPDF(formData) {
   const cookieStore = cookies();
 

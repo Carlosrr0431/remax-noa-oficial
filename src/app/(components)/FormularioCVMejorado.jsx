@@ -183,14 +183,31 @@ export default function FormularioCVMejorado() {
                                     <Select value={usuario.cvRecibido != null ? usuario.cvRecibido : ''} onValueChange={async (value) => {
 
 
-                                        const result2 = await supabaseClient
-                                            .from("formularioCV")
-                                            .update({
-                                                cvRecibido: value
-                                            })
-                                            .eq("id", usuario.id);
+                                        if (value == "paso") {
 
-                                        console.log("resultado cvRecibido: " + result2);
+                                            const result2 = await supabaseClient
+                                                .from("formularioCV")
+                                                .update({
+                                                    cvRecibido: value,
+                                                    estado: "Primer Entrevista"
+                                                })
+                                                .eq("id", usuario.id);
+                                            console.log("resultado cvRecibido: " + result2);
+                                        } else {
+
+                                            const result2 = await supabaseClient
+                                                .from("formularioCV")
+                                                .update({
+                                                    cvRecibido: value,
+                                                    estado: "CV Recibido"
+
+                                                })
+                                                .eq("id", usuario.id);
+                                            console.log("resultado cvRecibido: " + result2);
+                                        }
+
+
+
 
 
                                     }} >

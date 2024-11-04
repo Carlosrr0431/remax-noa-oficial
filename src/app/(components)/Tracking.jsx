@@ -28,6 +28,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { data } from "autoprefixer"
+import { actualizarTracking } from "../action"
 
 
 const camposTracking = [
@@ -55,8 +57,8 @@ export default function Tracking() {
     const [totalAgente, setTotalAgente] = useState({})
     const [totalGrupo, setTotalGrupo] = useState({})
     const [date, setDate] = useState({
-        to: "",
-        from: ""
+        from: '',
+        to: ''
     })
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
@@ -72,7 +74,6 @@ export default function Tracking() {
         propiedadesActivas: ''
     })
 
-
     useEffect(() => {
         const getSupabaseOficial = async () => {
             let data = await supabaseClient
@@ -83,26 +84,54 @@ export default function Tracking() {
         }
 
         getSupabaseOficial()
+
+
+
+
+        const channelUsuarios = supabaseClient
+            .channel('empleados')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'empleados' }, (payload) => {
+
+                if (payload.eventType == "INSERT") {
+
+
+                    return setAgents((antContenido) => [payload.new, ...antContenido])
+
+
+                } else if (payload.eventType == 'UPDATE') {
+
+                    // console.log("agente modificado: " + JSON.stringify(payload.new));
+
+                    // setSelectedAgent(payload.new)
+                    // console.log("tabla: " + payload.table);
+                    // console.log("fecha: " + date.to + date.from);
+
+                    // return calcularTotalSinPromise(payload.new)
+
+                    return setAgents((antContenido) => antContenido.map((elem) => {
+                        if (elem.id == payload.new.id) {
+                            elem = payload.new
+                        }
+
+                        return elem;
+                    }))
+
+
+                } else if (payload.eventType == 'DELETE') {
+
+                    return setAgents(antContenido => antContenido.filter((elem) => elem.id !== payload.old.id))
+
+                }
+            })
+            .subscribe()
+
+
+        return () => {
+
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+        }
     }, [])
 
-
-    // useEffect(() => {
-    //     if (agents.length > 0 && selectedGroup) {
-    //         const firstAgentOfGroup = agents.find(agent => agent.grupo === selectedGroup)
-    //         if (firstAgentOfGroup) {
-    //             setSelectedAgent(firstAgentOfGroup)
-    //             setNuevoRegistro(prev => ({ ...prev, agentId: firstAgentOfGroup.id }))
-
-    //         }
-    //     }
-    // }, [selectedGroup, agents])
-
-    // useEffect(() => {
-    //     if (selectedDate) {
-    //         const formattedDate = format(selectedDate, 'yyyy-MM-dd')
-    //         setNuevoRegistro(prev => ({ ...prev, semana: formattedDate }))
-    //     }
-    // }, [selectedDate])
 
     const handleInputChange = (campo, valor) => {
 
@@ -112,7 +141,7 @@ export default function Tracking() {
         }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         if (!selectedAgent) return
@@ -132,48 +161,29 @@ export default function Tracking() {
 
         const getSupabaseOficial = async () => {
 
-            const agente = await supabaseClient
-                .from("empleados")
-                .select("*")
-                .eq("id", selectedAgent.id)
+            const tracking = await actualizarTracking(date, nuevoRegistro, selectedAgent.id)
 
-            if (agente.data[0]?.formularios != null) {
-                const result3 = await supabaseClient.from("empleados").update({
-                    formularios: [...agente.data[0]?.formularios, {
-                        fechaInicio: date.from.toLocaleDateString(),
-                        fechaFin: date.to.toLocaleDateString(),
-                        formularioReferidos: nuevoRegistro.formularioReferidos,
-                        formularioPrelisting: nuevoRegistro.formularioPrelisting,
-                        acm: nuevoRegistro.acm,
-                        seguimientoAcm: nuevoRegistro.seguimientoAcm,
-                        captaciones: nuevoRegistro.captaciones,
-                        propiedadesActivas: nuevoRegistro.propiedadesActivas
-                    }]
-                }).eq("id", selectedAgent.id);
+            // console.log("tracking resultado: " + tracking.agentes[0].nombre);
 
-                console.log(result3);
-            } else {
-                const result3 = await supabaseClient.from("empleados").update({
-                    formularios: [{
-                        fechaInicio: date.from.toLocaleDateString(),
-                        fechaFin: date.to.toLocaleDateString(),
-                        formularioReferidos: nuevoRegistro.formularioReferidos,
-                        formularioPrelisting: nuevoRegistro.formularioPrelisting,
-                        acm: nuevoRegistro.acm,
-                        seguimientoAcm: nuevoRegistro.seguimientoAcm,
-                        captaciones: nuevoRegistro.captaciones,
-                        propiedadesActivas: nuevoRegistro.propiedadesActivas
-                    }]
-                }).eq("id", selectedAgent.id);
+            setAgents(tracking.agentes)
 
-                console.log(result3);
-            }
+            const agente4 = agents.filter((elem) => elem.nombre == "ejemplo3")
+            console.log("AGENTE NOMBRE: " + JSON.stringify(agente4[0].formularios))
 
 
+            const agente = await supabaseClient.from("empleados").select("*").eq("id", selectedAgent.id);
 
+            calcularTotalSinPromise(agente?.data[0])
+            calcularTotalGrupo(selectedGroup, tracking.agentes)
+
+            return tracking
         }
 
-        getSupabaseOficial()
+        const track = await getSupabaseOficial()
+
+
+
+
         setTrackingData([...trackingData, nuevoRegistroConNumeros])
         setNuevoRegistro({
 
@@ -203,24 +213,20 @@ export default function Tracking() {
 
 
 
-        if (date.from != '' && date.to != '' && agente.formularios != null && agente.formularios?.length != 0) {
+
+
+        if (date != null && date.from != '' && date.to != '' && agente.formularios != null && agente.formularios?.length != 0) {
 
             agente.formularios.forEach(item => {
 
                 if (item.fechaInicio == date.from.toLocaleDateString() && item.fechaFin == date.to.toLocaleDateString()) {
+
                     totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
                     totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
                     totales.acm += parseInt(item.acm) || 0
                     totales.seguimientoAcm += parseInt(item.seguimientoAcm) || 0
                     totales.captaciones += parseInt(item.captaciones) || 0
                     totales.propiedadesActivas += parseInt(item.propiedadesActivas) || 0
-
-                    setTotalAgente(totales)
-
-                    console.log("total agente: " + totalAgente);
-
-
-                    return totales
                 }
             })
         }
@@ -231,10 +237,12 @@ export default function Tracking() {
     }
 
 
-    const calcularTotalGrupo = (grupoSeleccionado) => {
+    const calcularTotalGrupo = (grupoSeleccionado, agentesCalcular, fechaComienzo, fechaFinal) => {
 
-        let agentes = agents.filter(agent => agent.grupo === grupoSeleccionado)
 
+        console.log("ENTRO CALCULAR TOTAL GRUPO" + grupoSeleccionado + "fecha: " + fechaComienzo + fechaFinal);
+
+        let agentes = agentesCalcular.filter(agent => agent.grupo === grupoSeleccionado)
 
         let totales = {
             formularioReferidos: 0,
@@ -246,7 +254,6 @@ export default function Tracking() {
         }
 
 
-
         {
             agentes.map(registro => {
 
@@ -254,9 +261,7 @@ export default function Tracking() {
 
                     registro.formularios != null && registro.formularios.forEach(item => {
 
-                        if (item.fechaInicio == date.from.toLocaleDateString() && item.fechaFin == date.to.toLocaleDateString()) {
-
-
+                        if (item.fechaInicio == date?.from?.toLocaleDateString() && item.fechaFin == date?.to?.toLocaleDateString()) {
 
                             totales.formularioReferidos += parseInt(item.formularioReferidos) || 0
                             totales.formularioPrelisting += parseInt(item.formularioPrelisting) || 0
@@ -267,9 +272,6 @@ export default function Tracking() {
 
                             setTotalGrupo(totales)
 
-                            console.log("total agente: " + totalAgente);
-
-
                             return totales
                         }
                     })
@@ -278,7 +280,6 @@ export default function Tracking() {
 
             )
         }
-
 
 
         setTotalGrupo(totales)
@@ -328,11 +329,20 @@ export default function Tracking() {
                 to: workDays[workDays.length - 1]
             })
 
+            console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo(selectedGroup, agents, workDays[0], workDays[workDays.length - 1])))
+
+
+            if (selectedAgent != null) {
+                calcularTotalSinPromise(selectedAgent)
+            }
+
 
         } else {
             setDate(undefined)
         }
         setIsCalendarOpen(false)
+
+
     }
 
     const isDateInRange = (day) => {
@@ -406,7 +416,7 @@ export default function Tracking() {
                                                                 props.className,
                                                                 "relative flex h-8 w-8 items-center justify-center p-0 font-normal aria-selected:opacity-100",
                                                                 isToday(dayDate) && "text-black font-bold",
-                                                                !isSameMonth(dayDate, props.displayMonth) && "text-gray-500 opacity-50",
+                                                                !isSameMonth(dayDate, props.displaymonth) && "text-gray-500 opacity-50",
                                                                 isDateInRange(dayDate) && "bg-primary text-primary-foreground"
                                                             )}
                                                         >
@@ -431,6 +441,16 @@ export default function Tracking() {
                                         onClick={() => {
                                             setDate(undefined)
                                             setIsCalendarOpen(false)
+                                            setSelectedGroup("")
+                                            setSelectedAgent(null)
+                                            setTotalGrupo({
+                                                formularioReferidos: 0,
+                                                formularioPrelisting: 0,
+                                                acm: 0,
+                                                seguimientoAcm: 0,
+                                                captaciones: 0,
+                                                propiedadesActivas: 0
+                                            })
                                         }}
                                     >
                                         Limpiar selección
@@ -446,7 +466,7 @@ export default function Tracking() {
                                         onValueChange={(value) => {
                                             setSelectedGroup(value)
 
-                                            console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo(value)))
+                                            console.log("total por grupo: " + JSON.stringify(calcularTotalGrupo(value, agents, date.to, date.from)))
                                         }
                                         }
                                     >

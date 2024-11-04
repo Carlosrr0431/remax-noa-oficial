@@ -57,7 +57,7 @@ export async function POST(request) {
       },
       to: [...listaEmail],
       // to: email,
-      subject: "¡Tu proximo trabajo esta cerca en RE/MAX NOA!",
+      subject: "¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!",
       html: htmlContenido,
     };
 

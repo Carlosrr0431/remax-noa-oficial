@@ -1,239 +1,203 @@
-"use client"
+import React, { useState } from 'react';
+import { Search, UserPlus } from 'lucide-react';
+import { Embudo } from './Embudo';
+import { AgregarCandidato } from './AgregarCandidato';
+import { useAutoScroll } from '../hooks/useAutoScroll';
+import { useEffect } from 'react';
+import { supabaseClient } from '@/supabase/client';
+import { actualizarEstado } from '../action';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { UserPlus, MoveRight, Filter } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { DndContext, DragOverlay, useSensors, useSensor, PointerSensor } from "@dnd-kit/core"
-import { Droppable } from "./Droppable"
-import { Draggable } from "./Draggable"
-import { Progress } from "@/components/ui/progress"
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-
-const etapas = [
+// Initial demo data
+const initialCandidates = [
+    {
+        id: '1',
+        name: 'Ana García',
+        email: 'ana.garcia@email.com',
+        phone: '+34 123 456 789',
+        position: 'Frontend Developer',
+        stage: 'CV Recibido',
+        createdAt: new Date().toISOString(),
+    },
+    {
+        id: '2',
+        name: 'Carlos Rodríguez',
+        email: 'carlos.rodriguez@email.com',
+        phone: '+34 987 654 321',
+        position: 'UX Designer',
+        stage: 'Primer Entrevista',
+        createdAt: new Date().toISOString(),
+    },
+];
+const STAGES = [
     "CV Recibido",
     "Primer Entrevista",
     "Segunda Entrevista",
     "Examen Psicotecnico",
     "Reclutado"
-]
+];
 
-const candidatosMock = [
-    { id: 1, nombre: "Ana Martínez", puesto: "Agente", estado: "Entrevista Inicial" },
-    { id: 2, nombre: "Luis Rodríguez", puesto: "Agente", estado: "CV Recibido" },
-    { id: 3, nombre: "Elena Sánchez", puesto: "Agente", estado: "Oferta Enviada" },
-    { id: 4, nombre: "Carlos Gómez", puesto: "Agente", estado: "Prueba Técnica" },
-    { id: 5, nombre: "Laura Fernández", puesto: "Agente", estado: "Entrevista Final" },
-]
+function App() {
+    const [candidates, setCandidates] = useState();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedStage, setSelectedStage] = useState('all');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const scrollContainerRef = useAutoScroll({ speed: 200, threshold: 400 });
 
-export default function Reclutamiento() {
-    const [candidatos, setCandidatos] = useState(candidatosMock)
-    const [busqueda, setBusqueda] = useState("")
-    const [filtroEtapa, setFiltroEtapa] = useState(null)
-    const [activeDragId, setActiveDragId] = useState(null)
-    const [modalOpen, setModalOpen] = useState(false)
-    const [nuevoCandidato, setNuevoCandidato] = useState({
-        nombre: "",
-        puesto: "",
-        estado: "CV Recibido"
-    })
+    const filteredCandidates = candidates?.filter(candidate => {
+        const matchesSearch =
+            candidate.puesto.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            candidate.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesStage = selectedStage === 'all' || candidate.estado === selectedStage;
+        return matchesSearch && matchesStage;
+    });
 
-    const sensors = useSensors(useSensor(PointerSensor))
+    const handleDragStart = (e, candidateId) => {
+        e.dataTransfer.setData('candidateId', candidateId);
+    };
 
-    const candidatosFiltrados = candidatos.filter(candidato =>
-        (candidato.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-            candidato.puesto.toLowerCase().includes(busqueda.toLowerCase())) &&
-        (filtroEtapa ? candidato.estado === filtroEtapa : true)
-    )
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
 
-    const moverCandidato = (candidatoId, nuevaEtapa) => {
-        setCandidatos(candidatos.map(c =>
-            c.id === candidatoId ? { ...c, estado: nuevaEtapa } : c
-        ))
-    }
+    const handleDrop = async (e, newStage) => {
+        e.preventDefault();
+        const candidateId = e.dataTransfer.getData('candidateId');
 
-    const handleDragStart = (event) => {
-        setActiveDragId(event.active.id)
-    }
+        console.log("CandidatID: " + candidateId + "Nuevo Estado: " + newStage);
 
-    const handleDragEnd = (event) => {
-        const { active, over } = event
-        if (over && active.id !== over.id) {
-            const candidatoId = parseInt(active.id)
-            const nuevaEtapa = over.id
-            moverCandidato(candidatoId, nuevaEtapa)
+        setCandidates(prev => prev.map(candidate =>
+            candidate.id === candidateId
+                ? { ...candidate, stage: newStage }
+                : candidate
+        ));
+        const candidato = candidates.find((elem) => elem.id == candidateId)
+
+        await actualizarEstado(candidato.id, newStage)
+    };
+
+    const handleAddCandidate = (newCandidate) => {
+        const candidate = {
+            ...newCandidate,
+            id: Math.random().toString(36).substr(2, 9),
+            createdAt: new Date().toISOString(),
+        };
+        setCandidates(prev => [...prev, candidate]);
+    };
+
+    useEffect(() => {
+        const getSupabaseOficial = async () => {
+            let data = await supabaseClient
+                .from("formularioCV")
+                .select("*").order('id', { ascending: true })
+
+            setCandidates(data.data)
         }
-        setActiveDragId(null)
-    }
 
-    const calcularProgreso = (estado) => {
-        const index = etapas.indexOf(estado)
-        return ((index + 1) / etapas.length) * 100
-    }
+        getSupabaseOficial()
 
-    const handleAgregarCandidato = () => {
-        const nuevoId = Math.max(...candidatos.map(c => c.id)) + 1
-        setCandidatos([...candidatos, { id: nuevoId, ...nuevoCandidato }])
-        setNuevoCandidato({ nombre: "", puesto: "", estado: "CV Recibido" })
-        setModalOpen(false)
-    }
+        const channelUsuarios = supabaseClient
+            .channel('formularioCV')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'formularioCV' }, (payload) => {
+
+                if (payload.eventType == "INSERT") {
+
+
+                    return (setCandidates((antContenido) => [payload.new, ...antContenido]))
+
+
+                } else if (payload.eventType == 'UPDATE') {
+
+
+                    return (setCandidates((antContenido) => antContenido.map((elem) => {
+                        if (elem.id == payload.new.id) {
+                            elem = payload.new
+                        }
+
+                        return elem;
+                    })))
+
+
+
+                } else if (payload.eventType == 'DELETE') {
+
+                    return (setCandidates(antContenido => antContenido.filter((elem) => elem.id !== payload.old.id)))
+
+                }
+            })
+            .subscribe()
+
+
+        return () => {
+
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+        }
+
+
+    }, [])
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-4">Pipeline de Reclutamiento</h1>
-            <div className="flex justify-between mb-4">
-                <div className="flex gap-2">
-                    <Input
-                        placeholder="Buscar candidatos..."
-                        value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                        className="w-64"
-                    />
-                    <DropdownMenu >
-                        <DropdownMenuTrigger asChild className="bg-black/20">
-                            <Button variant="outline">
-                                <Filter className="mr-2 h-4 w-4" />
-                                {filtroEtapa || "Todas las etapas"}
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent >
-                            <DropdownMenuItem onClick={() => setFiltroEtapa(null)}>
-                                Todas las etapas
-                            </DropdownMenuItem>
-                            {etapas.map((etapa) => (
-                                <DropdownMenuItem key={etapa} onClick={() => setFiltroEtapa(etapa)}>
-                                    {etapa}
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-                <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-                    <DialogTrigger asChild>
-                        <Button>
-                            <UserPlus className="mr-2 h-4 w-4" /> Agregar Candidato
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>Agregar Nuevo Candidato</DialogTitle>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="nombre" className="text-right">
-                                    Nombre
-                                </Label>
-                                <Input
-                                    id="nombre"
-                                    value={nuevoCandidato.nombre}
-                                    onChange={(e) => setNuevoCandidato({ ...nuevoCandidato, nombre: e.target.value })}
-                                    className="col-span-3"
+        <div className="min-h-screen bg-gray-100 w-full min-w-[1500px] -ml-14 relative">
+            <div className=" p-6">
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors absolute left-[58%]"
+                >
+                    <UserPlus size={20} />
+                    <span>Nuevo Candidato</span>
+                </button>
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-6">Pipeline de Reclutamiento</h1>
+
+                    <div className="flex flex-wrap gap-4 items-center justify-between">
+                        <div className="flex gap-4 flex-1">
+                            <div className="relative flex-1 max-w-md">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={20} />
+                                <input
+                                    type="text"
+                                    placeholder="Buscar candidatos..."
+                                    className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="puesto" className="text-right">
-                                    Puesto
-                                </Label>
-                                <Input
-                                    id="puesto"
-                                    value={nuevoCandidato.puesto}
-                                    onChange={(e) => setNuevoCandidato({ ...nuevoCandidato, puesto: e.target.value })}
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="estado" className="text-right">
-                                    Estado
-                                </Label>
-                                <Select
-                                    value={nuevoCandidato.estado}
-                                    onValueChange={(value) => setNuevoCandidato({ ...nuevoCandidato, estado: value })}
-                                >
-                                    <SelectTrigger className="col-span-3">
-                                        <SelectValue placeholder="Selecciona un estado" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {etapas.map((etapa) => (
-                                            <SelectItem key={etapa} value={etapa}>
-                                                {etapa}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
+
+                            <select
+                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+                                value={selectedStage}
+                                onChange={(e) => setSelectedStage(e.target.value)}
+                            >
+                                <option value="all">Todas las etapas</option>
+                                {STAGES.map(stage => (
+                                    <option key={stage} value={stage}>{stage}</option>
+                                ))}
+                            </select>
                         </div>
-                        <Button onClick={handleAgregarCandidato}>Agregar Candidato</Button>
-                    </DialogContent>
-                </Dialog>
-            </div>
-            <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-                    {etapas.map((etapa) => (
-                        <Droppable key={etapa} id={etapa}>
-                            <Card className="col-span-1 bg-white/80 ">
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium">{etapa}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-2">
-                                    {candidatosFiltrados
-                                        .filter(candidato => candidato.estado === etapa)
-                                        .map(candidato => (
-                                            <Draggable key={candidato.id} id={candidato.id.toString()}>
-                                                <Card className="p-2 shadow-sm hover:shadow-md transition-shadow duration-200 bg-black/50">
-                                                    <p className="font-semibold text-sm">{candidato.nombre}</p>
-                                                    <p className="text-xs ">{candidato.puesto}</p>
-                                                    <div className="mt-2">
-                                                        <Progress value={calcularProgreso(candidato.estado)} className="h-1" />
-                                                        <div className="flex justify-between items-center mt-1">
-                                                            <span className="text-xs font-medium">
-                                                                {Math.round(calcularProgreso(candidato.estado))}%
-                                                            </span>
-                                                            {etapas.indexOf(etapa) < etapas.length - 1 && (
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="h-6 w-6"
-                                                                    onClick={() => moverCandidato(candidato.id, etapas[etapas.indexOf(etapa) + 1])}
-                                                                >
-                                                                    <MoveRight className="h-3 w-3" />
-                                                                </Button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </Card>
-                                            </Draggable>
-                                        ))}
-                                </CardContent>
-                            </Card>
-                        </Droppable>
+
+
+                    </div>
+                </div>
+
+                <div className="flex gap-6 pb-6  overflow-x-scroll px-4" ref={scrollContainerRef} style={{ WebkitOverflowScrolling: 'touch' }}>
+                    {STAGES.map(stage => (
+                        <Embudo
+                            key={stage}
+                            stage={stage}
+                            candidates={filteredCandidates?.filter(c => c.estado === stage)}
+                            onDragStart={handleDragStart}
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}
+                        />
                     ))}
                 </div>
-                {/* <DragOverlay>
-                    {activeDragId ? (
-                        <Card className="p-2 w-[200px] bg-black/90">
-                            <p className="font-semibold text-sm">{candidatos.find(c => c.id.toString() === activeDragId)?.nombre}</p>
-                            <p className="text-xs text-muted-foreground">{candidatos.find(c => c.id.toString() === activeDragId)?.puesto}</p>
-                        </Card>
-                    ) : null}
-                </DragOverlay> */}
-            </DndContext>
+            </div>
+
+            <AgregarCandidato
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAdd={handleAddCandidate}
+            />
         </div>
-    )
+    );
 }
+
+export default App;

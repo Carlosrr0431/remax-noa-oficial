@@ -116,11 +116,11 @@ export const emailCaptacionHTML = () => {
         <tbody>
           <tr>
             <td  style="width:550px;">
-              
+                 <a  href="https://www.remaxnoa.com.ar/contactanos" target="_blank">
       <img
-         alt="Banner de Bienes Raíces" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729769892/banner_003_hquawq.jpg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
+         alt="Banner de Bienes Raíces" src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729770592/banner_002_fgjbho.jpg" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="550" height="auto"
       />
-    
+              </a>
             </td>
           </tr>
         </tbody>
@@ -198,7 +198,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >¿Te gustaría formar parte de un equipo donde podes gestionar tus tiempos y generar ganancias por comisiones en U$S? En RE/MAX NOA, estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. Desde hace 12 años, somos la oficina líder en Salta y Jujuy, destacándonos por contar con los agentes inmobiliarios de mayor rendimiento.¡Unite y descubrí todo lo que puedes lograr!. </div>
+      >En RE/MAX NOA, desde hace 12 años, somos la oficina líder en <span style="font-weight: 900;">Salta</span> y <span style="font-weight: 900;">Jujuy</span>, destacándonos por contar con los agentes inmobiliarios de mayor rendimiento. Estamos en busqueda de personas motivadas para formar parte de nuestra comunidad. ¡Unite y descubrí todo lo que puedes lograr!. </div>
     
                 </td>
               </tr>
@@ -298,7 +298,12 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729873077/0108-_F6_0171_B_smyd2b.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
+      >
+             <a  href="https://www.remaxnoa.com.ar/contactanos" target="_blank">
+      <img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729873077/0108-_F6_0171_B_smyd2b.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;">
+      </a>
+      
+      </div>
     
                 </td>
               </tr>
@@ -350,7 +355,13 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796536/0145_-_7H1A0377_B_1_1_y7tg8f.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
+      >
+
+             <a  href="https://www.remaxnoa.com.ar/contactanos" target="_blank">
+      <img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796536/0145_-_7H1A0377_B_1_1_y7tg8f.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;">
+      </a>
+      
+      </div>
     
                 </td>
               </tr>
@@ -374,7 +385,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:1;text-align:center;color:#333333;"
-      >Tus ganancias están directamente relacionadas con tu esfuerzo y dedicación.</div>
+      >¡Todos los años entregamos premios monetarios a nuestros mejores agentes!.</div>
     
                 </td>
               </tr>
@@ -424,7 +435,13 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796605/0158_-_DSC07730_B_1_1_awbqbc.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
+      >
+      
+             <a  href="https://www.remaxnoa.com.ar/contactanos" target="_blank">
+      <img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796605/0158_-_DSC07730_B_1_1_awbqbc.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;">
+      </a>
+      
+      </div>
     
                 </td>
               </tr>
@@ -476,7 +493,13 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;"
-      ><img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796162/0039_-_DSC07189_B_1_1_nikkbf.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;"></div>
+      >
+      
+             <a  href="https://www.remaxnoa.com.ar/contactanos" target="_blank">
+      <img src="https://res.cloudinary.com/dlxwkq6bm/image/upload/v1729796162/0039_-_DSC07189_B_1_1_nikkbf.jpg" alt="Flexibilidad Laboral" style="width: 100%; height: auto; border-radius: 10px;">
+      </a>
+      
+      </div>
     
                 </td>
               </tr>
@@ -550,7 +573,7 @@ export const emailCaptacionHTML = () => {
                   
       <div
          style="font-family:Roboto, Arial, sans-serif;font-size:16px;line-height:24px;text-align:left;color:#333333;"
-      >En RE/MAX NOA <span data-variable="nombre_agencia"></span>, te ofrecemos el apoyo y las herramientas necesarias para que alcances tu máximo potencial como agente inmobiliario. No se requiere experiencia previa. Si tenés pasión, determinación y ganas de triunfar en el sector inmobiliario, queremos conocerte.</div>
+      >Te ofrecemos el apoyo y las herramientas necesarias para que alcances tu máximo potencial como agente inmobiliario. No se requiere experiencia previa. Si tenés pasión, determinación y ganas de triunfar en el sector inmobiliario, queremos conocerte.</div>
     
                 </td>
               </tr>
