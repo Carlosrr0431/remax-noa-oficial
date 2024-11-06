@@ -19,8 +19,8 @@ export const InventoryDashboard = () => {
         <div className="container mx-auto px-4 py-8 overflow-y-scroll w-full h-full">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Control de Inventario RE/MAX NOA</h1>
-                    <p className="text-gray-600">Sistema de gestión y proyección de inventario</p>
+                    <h1 className="text-3xl font-bold text-gray-900">Control de Gastos e Inventario RE/MAX NOA</h1>
+                    <p className="text-gray-600">Sistema de gestión y proyección de gastos e inventario</p>
                 </div>
                 <Settings2 className="h-6 w-6 text-gray-500 hover:text-gray-700 cursor-pointer" />
             </div>

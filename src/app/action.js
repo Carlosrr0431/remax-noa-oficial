@@ -16,7 +16,7 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
-export async function guardarItem(datos) {
+export async function guardarItem(datos, select) {
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -29,7 +29,7 @@ export async function guardarItem(datos) {
 
   const result3 = await supabase.from("item").insert({
     unidadMedida: datos.unidadMedida,
-    tipo: datos.tipo,
+    tipo: select,
     sector: datos.sector,
     proveedor: datos.proveedor,
     precioUnitario: datos.precioUnitario,
@@ -825,6 +825,26 @@ export async function adminUser(datos, tipo, id, precio) {
   // return { message, error };
 
   return { message: "Mensaje enviado correctamente" };
+}
+
+export async function eliminarItem(id) {
+  console.log("Ingreso a registrar!!");
+
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const result2 = await supabase.from("item").delete().eq("id", id);
+
+  console.log(result2);
+
+  return { message: "Success" };
 }
 
 export async function registrarIngreso(dias, id) {

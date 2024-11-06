@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -45,40 +44,41 @@ const sectoresEmpresa = [
 
 
 
-const formSchema = z.object({
-    nombre: z.string().min(2, {
-        message: "El nombre debe tener al menos 2 caracteres.",
-    }),
-    tipo: z.enum(["producto", "servicio"], {
-        required_error: "Debes seleccionar un tipo.",
-    }),
-    cantidad: z.coerce.number().min(0, {
-        message: "La cantidad no puede ser negativa.",
-    }),
-    precioUnitario: z.coerce.number().min(0, {
-        message: "El precio no puede ser negativo.",
-    }),
-    sector: z.enum(["baño", "buffet", "imprenta"], {
-        required_error: "Debes seleccionar un tipo.",
-    }),
-    caja: z.enum(["caja1", "caja2", "caja3", "caja4"], {
-        required_error: "Debes seleccionar un tipo.",
-    }),
-    proveedor: z.string().min(2, {
-        message: "El proveedor debe tener al menos 2 caracteres.",
-    }),
-    unidadMedida: z.enum(["pack", "unidad"], {
-        required_error: "Debes seleccionar un tipo.",
-    }),
-    descripcion: z.string().max(500, {
-        message: "La descripción no puede exceder los 500 caracteres.",
-    }),
-    fechaVencimiento: z.string().optional(),
-})
+// const formSchema = z.object({
+//     nombre: z.string().min(2, {
+//         message: "El nombre debe tener al menos 2 caracteres.",
+//     }),
+//     tipo: z.enum(["producto", "servicio y impuestos", "sueldos"], {
+//         required_error: "Debes seleccionar un tipo.",
+//     }),
+//     cantidad: z.coerce.number().min(0, {
+//         message: "La cantidad no puede ser negativa.",
+//     }),
+//     precioUnitario: z.coerce.number().min(0, {
+//         message: "El precio no puede ser negativo.",
+//     }),
+//     sector: z.enum(["baño", "buffet", "imprenta"], {
+//         required_error: "Debes seleccionar un tipo.",
+//     }),
+//     caja: z.enum(["caja1", "caja2", "caja3", "caja4"], {
+//         required_error: "Debes seleccionar un tipo.",
+//     }),
+//     proveedor: z.string().min(2, {
+//         message: "El proveedor debe tener al menos 2 caracteres.",
+//     }),
+//     unidadMedida: z.enum(["pack", "unidad"], {
+//         required_error: "Debes seleccionar un tipo.",
+//     }),
+//     descripcion: z.string().max(500, {
+//         message: "La descripción no puede exceder los 500 caracteres.",
+//     }),
+//     fechaVencimiento: z.string().optional(),
+// })
 
 export default function InventarioForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [nombreItem, setNombreItem] = useState("")
+    const [tipoSelect, setTipoSelect] = useState("producto")
     const [itemsExistentes, setItemsExistentes] = useState([
         { value: "laptop", label: "Laptop" },
         { value: "monitor", label: "Monitor" },
@@ -94,30 +94,25 @@ export default function InventarioForm() {
 
     ])
     const form = useForm({
-        resolver: zodResolver(formSchema),
         defaultValues: {
             nombre: "",
-            tipo: "producto",
-            cantidad: 0,
-            precioUnitario: 0,
+            tipo: "",
+            cantidad: undefined,
+            precioUnitario: undefined,
             sector: "",
             proveedor: "",
             unidadMedida: "",
             descripcion: "",
             fechaVencimiento: "",
-            caja: "caja1"
+            caja: "1"
         },
     })
 
     async function onSubmit(values) {
-        console.log("ENTRO");
-
         setIsLoading(true)
-        // Aquí normalmente enviarías los datos a tu API
 
-        guardarItem(values)
+        await guardarItem(values, tipoSelect)
 
-        console.log(values)
         setIsLoading(false)
 
         form.reset()
@@ -139,6 +134,12 @@ export default function InventarioForm() {
             setProveedoresExistentes(prevItems => [...prevItems, newItem])
             form.setValue('nombre', newItemName)
         }
+    }
+
+    const handleStringToInt = (value) => {
+        console.log(value);
+
+        setTipoSelect((value))
     }
 
     return (
@@ -176,7 +177,8 @@ export default function InventarioForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Tipo</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select onSelect={(value) => console.log(value)
+                                        } onValueChange={handleStringToInt} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Seleccione el tipo" />
@@ -184,7 +186,8 @@ export default function InventarioForm() {
                                             </FormControl>
                                             <SelectContent>
                                                 <SelectItem value="producto">Producto</SelectItem>
-                                                <SelectItem value="servicio">Servicio</SelectItem>
+                                                <SelectItem value="servicio y impuestos">Servicio</SelectItem>
+                                                <SelectItem value="sueldos">Sueldos</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -194,7 +197,7 @@ export default function InventarioForm() {
                         </div>
 
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className={`grid grid-cols-2 gap-4 ${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
 
                             <FormField
                                 control={form.control}
@@ -259,10 +262,10 @@ export default function InventarioForm() {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value="caja1">Caja 1</SelectItem>
-                                                <SelectItem value="caja2">Caja 2</SelectItem>
-                                                <SelectItem value="caja3">Caja 3</SelectItem>
-                                                <SelectItem value="caja4">Caja 4</SelectItem>
+                                                <SelectItem value="1">Caja 1</SelectItem>
+                                                <SelectItem value="2">Caja 2</SelectItem>
+                                                <SelectItem value="3">Caja 3</SelectItem>
+                                                <SelectItem value="4">Caja 4</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -270,7 +273,9 @@ export default function InventarioForm() {
                                 )}
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+
+
+                        <div className={`grid grid-cols-2 gap-4 ${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
 
                             <FormField
                                 control={form.control}
@@ -313,23 +318,10 @@ export default function InventarioForm() {
                                 )}
                             />
                         </div>
-                        <FormField
-                            control={form.control}
-                            name="descripcion"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Descripción</FormLabel>
-                                    <FormControl>
-                                        <Textarea placeholder="Describa el producto" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Máximo 500 caracteres.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <div className="grid grid-cols-2 gap-4">
+
+
+                        <div className={`grid grid-cols-2 gap-4 
+                        ${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
 
                             <FormField
                                 control={form.control}

@@ -5,6 +5,7 @@ const ReMailing = () => {
 
     const [correos, setCorreos] = useState()
     const [formularioCV, setFormulariosCV] = useState()
+    const [values, setValues] = useState([]);
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -35,51 +36,48 @@ const ReMailing = () => {
             if (correos != undefined && formularioCV != undefined) {
                 console.log((correos[0].correos.length));
 
-                const nuevoArray = [...correos[0].correos, ...formularioCV]
+                const nuevoArray = [...correos[0].correos]
 
-                console.log(formularioCV.map((elem) => console.log(elem.email)
-                ))
+                formularioCV.map((elem) => {
+                    nuevoArray.push(elem.mail)
+                })
 
 
                 const sinDuplicados = [...new Set(nuevoArray)];
 
+                formularioCV.forEach((item) => {
+                    for (let index in sinDuplicados) {
 
-                // console.log("sin duplicados: " + sinDuplicados.length);
+                        if (sinDuplicados[index] == item.email) {
+                            sinDuplicados.splice(index, 1);
+                        }
+                    }
+                });
 
-                // if (correos[0].correos.find(elem => elem.email == 'andreeavega95@hotmail.com')) {
-                //     console.log("Entro1");
-
-                // }
-
-                // if (sinDuplicados.find(elem => elem.email == 'andreeavega95@hotmail.com')) {
-                //     console.log("Entro2");
-
-                // }
-
-                // console.log("arreglo sin duplicados: " + sinDuplicados);
-
-
+                setValues(sinDuplicados)
             }
-
-
-
-
-            // if (formularioCV != undefined && correos != undefined) {
-            //     const nuevoArray = correos.map((elem) => {
-            //         if (formularioCV.includes(elem)) {
-            //             console.log("Entro");
-
-            //         }
-            //     })
-
-            //     console.log(JSON.stringify(nuevoArray.length));
-            // }
 
         }
         getMailSinCaptar()
 
     }, [correos, formularioCV])
 
+    const sendMail = async (htmlContent) => {
+
+
+        const response = await fetch('/api/sendEmail', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
+                // listaEmail: arrayEmail,
+                htmlContenido: htmlContent
+            })
+        })
+        return await response.json()
+    }
 
     return (
         <div>

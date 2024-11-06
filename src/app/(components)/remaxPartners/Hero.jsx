@@ -10,14 +10,13 @@ export default function Hero() {
                 <div className="relative z-10 lg:grid lg:grid-cols-12 lg:gap-8 items-center">
                     <div className="lg:col-span-6 xl:col-span-5">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                            <span className=" mb-2 block bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">Únete a la comunidad de</span>
+                            <span className=" mb-2 block bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">Aportá Contactos </span>
                             <span className="block bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                                referidores inmobiliarios
+                                Y Ganá Premios
                             </span>
                         </h1>
                         <p className="mt-6 text-lg md:text-xl text-gray-600 leading-relaxed">
-                            Forma parte de la red más grande de referidores inmobiliarios. Gana puntos,
-                            obtén reconocimiento y accede a premios exclusivos por tus referencias exitosas.
+                            Formá parte de la comunidad de RE/MAX NOA Partners aportando contactos de compradores o vendedores de inmuebles, y gana increibles premios.
                         </p>
                         <div className="mt-8 flex flex-col sm:flex-row gap-4">
                             <a

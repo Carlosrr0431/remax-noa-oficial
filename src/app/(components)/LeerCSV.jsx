@@ -42,28 +42,29 @@ export const LeerCSV = () => {
 
             setFile(null)
 
-            const correosMasivos = await supabaseClient
-                .from("correosEnviados")
-                .select("*")
-                .eq("id", 1)
+            // const correosMasivos = await supabaseClient
+            //     .from("correosEnviados")
+            //     .select("*")
+            //     .eq("id", 1)
 
-            const result3 = await supabaseClient.from("correosEnviados").update({
-                correos: [...correosMasivos.data[0]?.correos, ...values]
-            }).eq("id", 1);
+            // const result3 = await supabaseClient.from("correosEnviados").update({
+            //     correos: [...correosMasivos.data[0]?.correos, ...values]
+            // }).eq("id", 1);
 
-            // const result4 = await supabaseClient.from("correosEnviados").insert({
-            //     correos: values
-            // })
+            const result4 = await supabaseClient.from("correosEnviados").insert({
+                correos: values,
+                remailing: true
+            })
 
-            // console.log(result3);
+            console.log(result4);
 
-            // const result = await sendMail(emailCaptacionHTML())
+            const result = await sendMail(emailCaptacionHTML())
 
             setValues([])
 
-            // if (result.message == "Email Masivo enviado exitosamente!") {
-            //     toast.success(result.message)
-            // }
+            if (result.message == "Email Masivo enviado exitosamente!") {
+                toast.success(result.message)
+            }
 
         }
 
