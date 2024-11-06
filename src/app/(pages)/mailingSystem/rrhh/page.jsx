@@ -5,9 +5,10 @@ import { ModalUser } from '@/app/(components)/ModalUser'
 import { signOut } from 'next-auth/react'
 import React, { useState } from 'react'
 import { BiLogOut } from 'react-icons/bi'
-import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar, Receipt, ContactRound } from "lucide-react"
+import { Bell, Search, Menu, X, LayoutDashboard, Users, MailIcon, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar, Receipt, ContactRound } from "lucide-react"
 import { HiMenuAlt3 } from 'react-icons/hi'
 import MailRRHH from '@/app/(components)/MailRRHH'
+import ReMailing from '@/app/(components)/mailing/ReMailing'
 
 const menus = [
     // { name: "Empleados", link: "/", icon: UserCircle },
@@ -17,7 +18,7 @@ const menus = [
     // { name: "Calendario", link: "/", icon: CalendarClockIcon },
     { name: "Mailing/Ofrecer", link: "/", icon: LayoutDashboard },
     { name: "Mailing/RRHH", link: "/", icon: Users },
-
+    { name: "Remailing", link: "/", icon: MailIcon },
 
 ];
 
@@ -147,9 +148,9 @@ const RRHHMail = () => {
                     {
                         opcion == "Mailing/RRHH" && <MailRRHH />
                     }
-                    {/* {
-                        opcion == "Empleados" && <Empleados />
-                    } */}
+                    {
+                        opcion == "Remailing" && <ReMailing />
+                    }
 
 
 

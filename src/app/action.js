@@ -16,6 +16,35 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
+export async function guardarItem(datos) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const result3 = await supabase.from("item").insert({
+    unidadMedida: datos.unidadMedida,
+    tipo: datos.tipo,
+    sector: datos.sector,
+    proveedor: datos.proveedor,
+    precioUnitario: datos.precioUnitario,
+    nombre: datos.nombre,
+    fechaVencimiento: datos.fechaVencimiento,
+    descripcion: datos.descripcion,
+    cantidad: datos.cantidad,
+    caja: datos.caja,
+  });
+
+  console.log(result3);
+
+  return { message: "Success" };
+}
+
 export async function enviarMailMasivo(formData1) {
   const cookieStore = cookies();
 
