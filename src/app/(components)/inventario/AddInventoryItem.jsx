@@ -26,7 +26,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { ComboBox } from './combobox'
+import { ComboBox } from './Combobox'
 import { guardarItem } from '@/app/action'
 
 

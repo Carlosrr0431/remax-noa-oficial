@@ -8,10 +8,6 @@ import AddInventoryItem from './AddInventoryItem';
 import ProjectionChart from './ProjectionChart';
 import InventoryStats from './InventoryStats';
 
-// import AddInventoryItem from './inventory/AddInventoryItem';
-// import ProjectionChart from './inventory/ProjectionChart';
-// import InventoryStats from './inventory/InventoryStats';
-
 export const InventoryDashboard = () => {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 

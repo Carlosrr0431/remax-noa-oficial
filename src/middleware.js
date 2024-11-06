@@ -50,6 +50,12 @@ export default async function middleware(req, event) {
           (token?.role == "admin salta" || token?.role == "user admin")
         ) {
           return true;
+        } else if (
+          (req.nextUrl.pathname == "/inventarioRemax" &&
+            token?.role == "user admin") ||
+          token?.role == "admin"
+        ) {
+          return true;
         } else return false;
       },
     },
