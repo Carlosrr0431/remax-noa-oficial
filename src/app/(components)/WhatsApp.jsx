@@ -13,7 +13,7 @@ const WhatsApp = () => {
 
     return (
         // fixed right-0 bottom-0 z-50 mb-8 mr-8
-        <div className={`${pathname == '/dashboard' || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/login' || pathname == '/mailingSystem' || pathname == '/mailingSystem/rrhh' || pathname == '/ranking' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/agentes' ? 'hidden' : 'block'} `}>
+        <div className={`${pathname == '/dashboard' || pathname == '/comunidadRemax/dashboard/profile'  || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/login' || pathname == '/mailingSystem' || pathname == '/mailingSystem/rrhh' || pathname == '/comunidadRemax/dashboard' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' || pathname == '/mailingSystem/agentes' ? 'hidden' : 'block'} `}>
             <Link
 
                 rel="noopener noreferrer"
