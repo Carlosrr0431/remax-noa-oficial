@@ -33,8 +33,8 @@ const Nav = () => {
   // https://www.linkedin.com/company/64931051/admin/dashboard/     **falta el icono
 
   return (
-    <nav className={`${pathname == '/dashboard' || pathname == '/ranking' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/mailingSystem' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' ? 'hidden' : 'flex'} montserrat  flex-col  items - center xl: justify - center gap - y - 4  fixed h - max bottom - 0 mt - auto xl: right - [2 %]  z - 50 w - full top - 0 xl: w - 12 xl: max - w - md xl: h - [60 %] xl: bottom - [150px]`}>
-      <div className={` w - full xl: flex - col items - center justify - between xl: justify - center gap - y - 7 px - 4 md: px - 40 xl: px - 0 h - [80px]  text - 3xl xl: text - xl xl: rounded - full xl: h - max py - 4  opacity - 80 bg - blend - multiply hidden sm: flex`}>
+    <nav className={`${pathname == '/dashboard' || pathname == '/ranking' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/mailingSystem' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' ? 'hidden' : 'flex'} montserrat  flex-col  items-center xl:justify-center gap-y-4  fixed h-max bottom-0 mt-auto xl:right-[2%]  z-50 w-full top-0 xl:w-12 xl:max-w-md xl:h-[60%] xl:bottom-[150px]`}>
+      <div className={` w-full xl:flex-col items-center justify-between xl:justify-center gap-y-7 px-4 md:px-40 xl:  h-[80px]  text-3xl xl:text-xl xl:rounded-full xl:h-max py-4  opacity-80 bg-blend-multiply hidden sm:flex`}>
 
         <Link target="_blank" href={'https://www.facebook.com/remaxnoasalta'} className="duration-300 transition-all hover:scale-110  focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85]"> <Image src={Facebook} width={10} height={10} alt="" /> </Link>
 
@@ -51,7 +51,7 @@ const Nav = () => {
           return (
             <Link
               className={`${link.path === pathname && "text-accent"
-                } relative items - center flex group hover: text - accent transition - all duration - 300`}
+                } relative items-center flex group hover:text-accent transition-all duration-300`}
               key={index}
               href={link.path}
             >
@@ -66,8 +66,8 @@ const Nav = () => {
                 </div>
               </div>
 
-              <div className={`flex  flex - col justify - center items - center gap - y - 1  ${link.name == 'Eventos' || link.name == 'Ubicacion' ? 'mt-[2px]' : 'mt-[5px]'} `} >
-                <Image src={link.icon} width={0} height={0} alt="" className={`${link.name == 'Mi Semilla' ? 'xl:mb-0' : 'xl:mb-2'} max - w - [25px]  max - h - [25px] transition - all hover: scale - 110  focus: opacity - [0.85] focus: shadow - none  active: opacity - [0.85] ${link.name == 'Eventos' || link.name == 'Ubicacion' ? 'max-w-[22px] max-h-[22px]  ' : ''} `} />
+              <div className={`flex  flex-col justify-center items-center gap-y-1  ${link.name == 'Eventos' || link.name == 'Ubicacion' ? 'mt-[2px]' : 'mt-[5px]'} `} >
+                <Image src={link.icon} width={0} height={0} alt="" className={`${link.name == 'Mi Semilla' ? 'xl:mb-0' : 'xl:mb-2'} max-w-[25px]  max-h-[25px] transition-all hover:scale-110  focus:opacity-[0.85] focus: shadow-none  active:opacity-[0.85] ${link.name == 'Eventos' || link.name == 'Ubicacion' ? 'max-w-[22px] max-h-[22px]' : ''} `} />
                 <p className="text-[11px] text-center  font-bold xl:hidden block">{link.name}</p>
               </div>
 

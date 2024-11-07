@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -27,6 +27,7 @@ import {
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { ComboBox } from './Combobox'
 import { guardarItem } from '@/app/action'
+import { supabaseClient } from '@/supabase/client'
 
 
 const sectoresEmpresa = [
@@ -75,18 +76,14 @@ const sectoresEmpresa = [
 //     fechaVencimiento: z.string().optional(),
 // })
 
+
+
 export default function InventarioForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [nombreItem, setNombreItem] = useState("")
     const [tipoSelect, setTipoSelect] = useState("producto")
     const [itemsExistentes, setItemsExistentes] = useState([
-        { value: "laptop", label: "Laptop" },
-        { value: "monitor", label: "Monitor" },
-        { value: "teclado", label: "Teclado" },
-        { value: "mouse", label: "Mouse" },
-        { value: "impresora", label: "Impresora" },
-        { value: "escritorio", label: "Escritorio" },
-        { value: "silla", label: "Silla de oficina" },
+
     ])
 
     const [proveedoresExistentes, setProveedoresExistentes] = useState([
@@ -97,8 +94,8 @@ export default function InventarioForm() {
         defaultValues: {
             nombre: "",
             tipo: "",
-            cantidad: undefined,
-            precioUnitario: undefined,
+            cantidad: 0,
+            precioUnitario: 0,
             sector: "",
             proveedor: "",
             unidadMedida: "",
@@ -107,6 +104,32 @@ export default function InventarioForm() {
             caja: "1"
         },
     })
+
+
+    useEffect(() => {
+        const getSupabaseOficial = async () => {
+            let data = await supabaseClient
+                .from("item")
+                .select("*")
+
+
+            const searchArray = []
+
+            data.data.map((elem) => {
+                searchArray.push({
+                    value: elem.nombre.toLowerCase(),
+                    label: elem.nombre
+                })
+            }
+            )
+
+            setItemsExistentes(searchArray)
+
+        }
+
+        getSupabaseOficial()
+    }, [])
+
 
     async function onSubmit(values) {
         setIsLoading(true)
@@ -118,6 +141,8 @@ export default function InventarioForm() {
         form.reset()
         setNombreItem("")
     }
+
+
 
 
     const handleCreateNewItem = (newItemName) => {

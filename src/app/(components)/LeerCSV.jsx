@@ -20,7 +20,7 @@ export const LeerCSV = () => {
     const listaCaptacion = new Array()
     const [tableRows, setTableRows] = useState([]);
     const expt = new RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}')
-    const arrayEmail = ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com']
+    const arrayEmail = ['CARLOS.FACUNDO.RR@GMAIL.COM', 'giu40150135@gmail.com']
     const [values, setValues] = useState([]);
     const [tableData, setTableData] = useState()
     const [content, setContent] = useState([]);
@@ -42,18 +42,17 @@ export const LeerCSV = () => {
 
             setFile(null)
 
-            // const correosMasivos = await supabaseClient
-            //     .from("correosEnviados")
-            //     .select("*")
-            //     .eq("id", 1)
+            const correosMasivos = await supabaseClient
+                .from("correosEnviados")
+                .select("*")
+                .eq("id", 1)
 
-            // const result3 = await supabaseClient.from("correosEnviados").update({
-            //     correos: [...correosMasivos.data[0]?.correos, ...values]
-            // }).eq("id", 1);
+            const result3 = await supabaseClient.from("correosEnviados").update({
+                correos: [...correosMasivos.data[0]?.correos, ...values]
+            }).eq("id", 1);
 
             const result4 = await supabaseClient.from("correosEnviados").insert({
-                correos: values,
-                remailing: true
+                correos: values
             })
 
             console.log(result4);
