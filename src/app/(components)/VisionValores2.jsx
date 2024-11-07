@@ -16,7 +16,7 @@ const features = [
     },
     {
         icon: Zap,
-        title: "Valores", description: "Confianza, enfoque, generosidad, compromiso, pasión.",
+        title: "Valores", description: "Confianza, enfoque, generosidad, compromiso y pasión.",
         gradient: "from-yellow-400 to-orange-500"
     },
     {

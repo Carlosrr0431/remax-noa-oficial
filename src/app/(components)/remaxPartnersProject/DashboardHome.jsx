@@ -1,6 +1,25 @@
+"use client"
+
 import React from 'react';
-import { Trophy, TrendingUp, Users, Bell, Gift, Crown, Star, Award, Newspaper } from 'lucide-react';
+import { Trophy, TrendingUp, Users, Bell, Gift, Crown, Star, Award, Newspaper, ChevronDown, Plus, Send } from 'lucide-react';
 import Blog from './Blog';
+import { Button } from "@/components/ui/button"
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import NotificationsComponent from './NotificationsComponent';
+import ChatComponent from './chatComponent';
+
 
 export const DashboardHome = () => {
 
@@ -33,57 +52,80 @@ export const DashboardHome = () => {
         },
     ];
 
-    const notifications = [
-        {
-            id: 1,
-            title: 'Nuevo referido registrado',
-            message: 'Tu referido Juan Pérez ha sido registrado exitosamente.',
-            time: '2 horas',
-        },
-        {
-            id: 2,
-            title: 'Puntos acreditados',
-            message: 'Has recibido 100 puntos por tu último referido exitoso.',
-            time: '5 horas',
-        },
-    ];
-
     return (
         <div className="space-y-8">
             {/* Welcome Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
-                <h1 className="text-3xl font-bold mb-2">¡Bienvenido, Carlos RR!</h1>
-                <p className="text-blue-100">Continúa refiriendo y gana increíbles premios.</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
-                        <div className="flex items-center">
-                            <Trophy className="h-8 w-8 text-yellow-300" />
-                            <div className="ml-4">
-                                <p className="text-sm text-blue-100">Puntos Totales</p>
-                                <p className="text-2xl font-bold">1,250</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
-                        <div className="flex items-center">
-                            <Users className="h-8 w-8 text-blue-300" />
-                            <div className="ml-4">
-                                <p className="text-sm text-blue-100">Referidos Activos</p>
-                                <p className="text-2xl font-bold">25</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6">
-                        <div className="flex items-center">
-                            <Crown className="h-8 w-8 text-yellow-400" />
-                            <div className="ml-4">
-                                <p className="text-sm text-blue-100">Nivel Actual</p>
-                                <p className="text-2xl font-bold">Platino</p>
-                            </div>
-                        </div>
+            <div className="w-full max-w-full mx-auto p-4">
+                <div className="w-full min-w-full mx-auto p-4">
+                    <div className="rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white p-4 sm:p-6">
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="referral-dashboard">
+                                <AccordionTrigger className="hover:no-underline">
+                                    <div className="flex flex-col items-start text-left w-full">
+                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full mb-4">
+                                            <div className="mb-4 sm:mb-0 w-[70%]">
+                                                <h2 className="text-2xl sm:text-3xl font-bold">¡Bienvenido, Carlos RR!</h2>
+                                                <p className="text-sm sm:text-base text-blue-100 mt-2">
+                                                    Continúa refiriendo y gana increíbles premios. Invita a tus amigos y familiares, para sumar mayores puntos.
+                                                </p>
+                                            </div>
+                                            <Button
+                                                variant="secondary"
+                                                size="sm"
+                                                className="w-full sm:w-auto mt-2 sm:mt-0"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    // Add your logic for adding a new referral here
+                                                    console.log("Agregar nuevo referido");
+                                                }}
+                                            >
+                                                <Plus className="mr-2 h-4 w-4" />
+                                                Agregar Nuevo Referido
+                                            </Button>
+                                        </div>
+                                        <div className="text-sm text-blue-200 flex items-center">
+                                            <span className="mr-2">Ver detalles</span>
+                                            <ChevronDown className="h-4 w-4" />
+                                        </div>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="pt-4 space-y-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 flex items-center gap-3">
+                                                <Trophy className="h-8 w-8 text-yellow-300 flex-shrink-0" />
+                                                <div>
+                                                    <div className="text-sm text-blue-100">Puntos Totales</div>
+                                                    <div className="text-xl sm:text-2xl font-bold">1,250</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 flex items-center gap-3">
+                                                <Users className="h-8 w-8 text-blue-100 flex-shrink-0" />
+                                                <div>
+                                                    <div className="text-sm text-blue-100">Referidos Activos</div>
+                                                    <div className="text-xl sm:text-2xl font-bold">25</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 flex items-center gap-3">
+                                                <Crown className="h-8 w-8 text-yellow-300 flex-shrink-0" />
+                                                <div>
+                                                    <div className="text-sm text-blue-100">Nivel Actual</div>
+                                                    <div className="text-xl sm:text-2xl font-bold">Platino</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
                     </div>
                 </div>
             </div>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Rankings Section */}
@@ -170,7 +212,19 @@ export const DashboardHome = () => {
             </div>
 
             {/* Notifications */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <Card className="w-full max-w-6xl mx-auto bg-transparent shadow-none border-none">
+                <CardContent className="p-6  ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6  bg-none">
+                        <div className="w-full">
+                            <NotificationsComponent />
+                        </div>
+                        <div className="w-full">
+                            <ChatComponent />
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+            {/* <div className="bg-white rounded-2xl shadow-sm p-6">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold text-gray-900">Notificaciones Recientes</h2>
                     <Bell className="h-5 w-5 text-blue-600" />
@@ -189,7 +243,7 @@ export const DashboardHome = () => {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div> */}
 
             {/* Blog Section */}
             <div className="bg-white rounded-2xl shadow-sm p-6">
