@@ -37,12 +37,7 @@ export const ComboBox = ({ options, value, onChange, onCreateNew }) => {
         setIsOpen(false)
     }
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && inputValue && !filteredOptions.length) {
-            onCreateNew(inputValue)
-            setIsOpen(false)
-        }
-    }
+
 
     const handleBlur = () => {
         // Delay closing to allow for option selection
@@ -56,7 +51,6 @@ export const ComboBox = ({ options, value, onChange, onCreateNew }) => {
                 type="text"
                 value={inputValue}
                 onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
                 onFocus={() => setIsOpen(true)}
                 onBlur={handleBlur}
                 placeholder="Buscar o agregar item..."

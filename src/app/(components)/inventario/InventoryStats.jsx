@@ -25,9 +25,16 @@ export default function InventoryStats({ refreshTrigger }) {
 
             const items = data.data
 
+
+
             const calculatedStats = items != null && items.reduce((acc, item) => {
+
+                const value = (item.precioUnitario).replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
+
+
+
                 acc.totalItems += 1;
-                acc.totalValue += item.cantidad * item.precioUnitario;
+                acc.totalValue += item.cantidad * value;
 
                 // if (item.quantity <= item.minStock) {
                 //     acc.lowStock += 1;
@@ -43,6 +50,7 @@ export default function InventoryStats({ refreshTrigger }) {
                 reorderNeeded: 0,
             });
 
+            
             setStats(calculatedStats);
 
         }
@@ -52,6 +60,15 @@ export default function InventoryStats({ refreshTrigger }) {
 
 
     }, [refreshTrigger]);
+
+    function currencyFormatter(value) {
+        const formatter = new Intl.NumberFormat('es-AR', {
+            style: 'currency',
+            minimumFractionDigits: 0,
+            currency: 'ARS'
+        })
+        return formatter.format(Number(value))
+    }
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -75,7 +92,7 @@ export default function InventoryStats({ refreshTrigger }) {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">
-                        ${stats.totalValue.toFixed(2)}
+                        {currencyFormatter(stats.totalValue)}
                     </div>
                     <p className="text-xs text-muted-foreground">
                         Valor del inventario

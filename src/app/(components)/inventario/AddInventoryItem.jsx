@@ -44,40 +44,6 @@ const sectoresEmpresa = [
 ]
 
 
-
-// const formSchema = z.object({
-//     nombre: z.string().min(2, {
-//         message: "El nombre debe tener al menos 2 caracteres.",
-//     }),
-//     tipo: z.enum(["producto", "servicio y impuestos", "sueldos"], {
-//         required_error: "Debes seleccionar un tipo.",
-//     }),
-//     cantidad: z.coerce.number().min(0, {
-//         message: "La cantidad no puede ser negativa.",
-//     }),
-//     precioUnitario: z.coerce.number().min(0, {
-//         message: "El precio no puede ser negativo.",
-//     }),
-//     sector: z.enum(["baño", "buffet", "imprenta"], {
-//         required_error: "Debes seleccionar un tipo.",
-//     }),
-//     caja: z.enum(["caja1", "caja2", "caja3", "caja4"], {
-//         required_error: "Debes seleccionar un tipo.",
-//     }),
-//     proveedor: z.string().min(2, {
-//         message: "El proveedor debe tener al menos 2 caracteres.",
-//     }),
-//     unidadMedida: z.enum(["pack", "unidad"], {
-//         required_error: "Debes seleccionar un tipo.",
-//     }),
-//     descripcion: z.string().max(500, {
-//         message: "La descripción no puede exceder los 500 caracteres.",
-//     }),
-//     fechaVencimiento: z.string().optional(),
-// })
-
-
-
 export default function InventarioForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [nombreItem, setNombreItem] = useState("")
@@ -85,6 +51,8 @@ export default function InventarioForm() {
     const [itemsExistentes, setItemsExistentes] = useState([
 
     ])
+
+    const [monto, setMonto] = useState("")
 
     const [proveedoresExistentes, setProveedoresExistentes] = useState([
         { value: "pagofacil", label: "PagoFacil" },
@@ -94,8 +62,7 @@ export default function InventarioForm() {
         defaultValues: {
             nombre: "",
             tipo: "",
-            cantidad: 0,
-            precioUnitario: 0,
+            cantidad: "",
             sector: "",
             proveedor: "",
             unidadMedida: "",
@@ -134,7 +101,7 @@ export default function InventarioForm() {
     async function onSubmit(values) {
         setIsLoading(true)
 
-        await guardarItem(values, tipoSelect)
+        await guardarItem(values, tipoSelect, monto)
 
         setIsLoading(false)
 
@@ -145,27 +112,46 @@ export default function InventarioForm() {
 
 
 
-    const handleCreateNewItem = (newItemName) => {
-        if (!itemsExistentes.some(item => item.value.toLowerCase() === newItemName.toLowerCase())) {
-            const newItem = { value: newItemName.toLowerCase(), label: newItemName }
-            setItemsExistentes(prevItems => [...prevItems, newItem])
-            form.setValue('nombre', newItemName)
-        }
-    }
+    // const handleCreateNewItem = (newItemName) => {
+    //     if (!itemsExistentes.some(item => item.value.toLowerCase() === newItemName.toLowerCase())) {
+    //         const newItem = { value: newItemName.toLowerCase(), label: newItemName }
+    //         setItemsExistentes(prevItems => [...prevItems, newItem])
+    //     }
+    // }
 
-    const handleCreateNewProveedor = (newItemName) => {
-        if (!itemsExistentes.some(item => item.value.toLowerCase() === newItemName.toLowerCase())) {
-            const newItem = { value: newItemName.toLowerCase(), label: newItemName }
-            setProveedoresExistentes(prevItems => [...prevItems, newItem])
-            form.setValue('nombre', newItemName)
-        }
-    }
+    // const handleCreateNewProveedor = (newItemName) => {
+    //     if (!itemsExistentes.some(item => item.value.toLowerCase() === newItemName.toLowerCase())) {
+    //         const newItem = { value: newItemName.toLowerCase(), label: newItemName }
+    //         setProveedoresExistentes(prevItems => [...prevItems, newItem])
+    //         form.setValue('nombre', newItemName)
+    //     }
+    // }
 
     const handleStringToInt = (value) => {
         console.log(value);
 
         setTipoSelect((value))
     }
+
+
+    const handleMonto = (e) => {
+
+        const value = (e.target.value).replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
+
+        const valor = currencyFormatter(value)
+
+        setMonto(valor)
+    }
+
+    function currencyFormatter(value) {
+        const formatter = new Intl.NumberFormat('es-AR', {
+            style: 'currency',
+            minimumFractionDigits: 0,
+            currency: 'ARS'
+        })
+        return formatter.format(Number(value))
+    }
+
 
     return (
         <Card className="w-full max-w-2xl mx-auto">
@@ -188,7 +174,7 @@ export default function InventarioForm() {
                                                 options={itemsExistentes}
                                                 value={field.value}
                                                 onChange={field.onChange}
-                                                onCreateNew={handleCreateNewItem}
+                                            // onCreateNew={handleCreateNewItem}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -231,7 +217,7 @@ export default function InventarioForm() {
                                     <FormItem>
                                         <FormLabel>Cantidad</FormLabel>
                                         <FormControl>
-                                            <Input type="number" {...field} onChange={(e) => field.onChange(e.target.value)} />
+                                            <Input type="text" {...field} onChange={(e) => field.onChange(e.target.value)} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -266,9 +252,9 @@ export default function InventarioForm() {
                                 name="precioUnitario"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Precio Unitario</FormLabel>
+                                        <FormLabel>Monto</FormLabel>
                                         <FormControl>
-                                            <Input type="number" step="0.01" {...field} onChange={(e) => field.onChange(e.target.value)} />
+                                            <Input type="text" placeholder="$" onChange={handleMonto} value={monto} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -335,7 +321,7 @@ export default function InventarioForm() {
                                                 options={proveedoresExistentes}
                                                 value={field.value}
                                                 onChange={field.onChange}
-                                                onCreateNew={handleCreateNewProveedor}
+                                            // onCreateNew={handleCreateNewProveedor}
                                             />
                                         </FormControl>
                                         <FormMessage />

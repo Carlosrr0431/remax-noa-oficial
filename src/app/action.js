@@ -16,7 +16,7 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
-export async function guardarItem(datos, select) {
+export async function guardarItem(datos, select, monto) {
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -36,7 +36,7 @@ export async function guardarItem(datos, select) {
     tipo: select,
     sector: datos.sector,
     proveedor: datos.proveedor,
-    precioUnitario: datos.precioUnitario,
+    precioUnitario: monto,
     nombre: datos.nombre,
     fechaVencimiento: datos.fechaVencimiento,
     descripcion: datos.descripcion,

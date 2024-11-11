@@ -216,6 +216,7 @@ export default function InventoryList({ refreshTrigger }) {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Nombre</TableHead>
+                            <TableHead>Fecha de Registro</TableHead>
                             <TableHead>Tipo</TableHead>
                             <TableHead>Cantidad</TableHead>
                             <TableHead>Precio</TableHead>
@@ -229,26 +230,17 @@ export default function InventoryList({ refreshTrigger }) {
                         {filteredItems != null && filteredItems.map((item) => (
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">{item.nombre}</TableCell>
+                                <TableCell className="font-medium">{item.created_at.substr(0, 10).split('-').reverse().join('/')}</TableCell>
                                 <TableCell>{item.tipo === 'producto' ? 'Producto' : 'Servicio'}</TableCell>
                                 <TableCell>{item.cantidad} {item.unit}</TableCell>
-                                <TableCell>${item.precioUnitario.toFixed(2)}</TableCell>
+                                <TableCell>{item.precioUnitario}</TableCell>
                                 <TableCell>{item.sector}</TableCell>
                                 <TableCell>{item.proveedor}</TableCell>
                                 <TableCell>{item.caja}</TableCell>
-                                {/* <TableCell>
-                                    {item.cantidad <= item.minStock ? (
-                                        <span className="text-red-500 font-medium">Stock Bajo</span>
-                                    ) : item.quantity <= item.reorderPoint ? (
-                                        <span className="text-yellow-500 font-medium">Reordenar</span>
-                                    ) : (
-                                        <span className="text-green-500 font-medium">OK</span>
-                                    )}
-                                </TableCell> */}
+
                                 <TableCell>
                                     <div className="flex gap-2">
-                                        {/* <Button variant="ghost" size="icon" onClick={() => handleEdit(item.id)}>
-                                            <Edit2 className="h-4 w-4" />
-                                        </Button> */}
+
                                         <Button
                                             variant="ghost"
                                             size="icon"
