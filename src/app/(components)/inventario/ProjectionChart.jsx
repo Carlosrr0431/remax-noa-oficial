@@ -1,18 +1,38 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabaseClient } from '@/supabase/client';
-import { ChartView } from './ChartView';
-import { TableView } from './TableView';
+import { useState, useMemo, useEffect } from 'react'
+import { Bar, BarChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { startOfMonth, endOfMonth } from 'date-fns'
+import { es } from 'date-fns/locale'
+import { supabaseClient } from '@/supabase/client'
+
+// .replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
 
 
-export default function ProjectionChart({ refreshTrigger }) {
+// Datos de ejemplo
+const itemsEjemplo = [
+    { tipo: 'sueldo', fecha: new Date(2024, 10, 15), costo: 2000, nombre: 'Sueldo Mayo' },
+    { tipo: 'sueldo', fecha: new Date(2024, 10, 30), costo: 2200, nombre: 'Sueldo Extra Mayo' },
+    { tipo: 'servicio', fecha: new Date(2024, 10, 5), costo: 100, nombre: 'Electricidad' },
+    { tipo: 'servicio', fecha: new Date(2024, 10, 20), costo: 80, nombre: 'Internet' },
+    { tipo: 'producto', fecha: new Date(2024, 10, 10), costo: 500, nombre: 'Laptop' },
+    { tipo: 'producto', fecha: new Date(2024, 10, 25), costo: 200, nombre: 'Impresora' },
+]
+
+const años = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i)
+const meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+]
+
+
+export default function GraficoCostosPorTipo() {
+    const [año, setAño] = useState(new Date().getFullYear())
+    const [mes, setMes] = useState(new Date().getMonth())
     const [items, setItems] = useState([]);
-    const [selectedSector, setSelectedSector] = useState('all');
-    const [projectionData, setProjectionData] = useState([]);
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -20,86 +40,138 @@ export default function ProjectionChart({ refreshTrigger }) {
                 .from("item")
                 .select("*")
 
-
-
-
             setItems(data.data);
-
         }
 
         getSupabaseOficial()
 
-        calculateProjections(items, selectedSector);
-    }, [refreshTrigger, selectedSector]);
+    }, []);
 
-    const calculateProjections = (items, sector) => {
-        const filteredItems = sector === 'all'
-            ? items
-            : items.filter(item => item.sector === sector);
+    // useEffect(() => {
+    //     console.log("fecha: " + new Date(items[0]?.created_at))
+    // }, [items])
 
-        const projections = filteredItems.map(item => {
-            const currentStock = item.cantidad;
-            const minimumRequired = item.minStock;
-            const reorderPoint = item.reorderPoint;
 
-            const projected = currentStock <= reorderPoint
-                ? reorderPoint - currentStock + minimumRequired
-                : 0;
 
-            return {
-                name: item.nombre,
-                actual: currentStock,
-                projected: projected,
-                difference: projected - currentStock,
-                price: item.precioUnitario * projected
-            };
+
+    const datosAgrupados = useMemo(() => {
+        const fechaInicio = startOfMonth(new Date(año, mes))
+        const fechaFin = endOfMonth(fechaInicio)
+
+
+
+
+        const itemsDelMes = items.filter(item =>
+
+            new Date(item?.created_at) >= fechaInicio && new Date(item?.created_at) <= fechaFin
+        )
+
+        const totales = {
+            Sueldos: 0,
+            Servicios: 0,
+            Productos: 0
+        }
+
+        itemsDelMes.forEach(item => {
+
+            const cantidad = (item.cantidad).replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
+            const precio = (item.precioUnitario).replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
+
+            console.log("costo: " + parseInt(cantidad) * parseInt(precio));
+
+            switch (item.tipo) {
+                case 'sueldo':
+                    totales.Sueldos += (parseInt(cantidad) * parseInt(precio));
+                    break;
+                case 'servicio':
+                    totales.Servicios += (parseInt(cantidad) * parseInt(precio));
+                    break;
+                case 'producto':
+                    totales.Productos += (parseInt(cantidad) * parseInt(precio));
+                    break;
+            }
         })
-            .filter(item => item.projected > 0)
-            .sort((a, b) => b.projected - a.projected);
 
-        setProjectionData(projections);
-    };
+        return Object.entries(totales).map(([tipo, total]) => ({ tipo, total }))
+    }, [año, mes, items])
 
     return (
-        <div className="space-y-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Proyección de Compras Mensuales</CardTitle>
-                    <CardDescription>
-                        Análisis de necesidades de compra basado en niveles de inventario actuales
-                    </CardDescription>
-                    <div className="mt-4">
-                        <Select value={selectedSector} onValueChange={setSelectedSector}>
-                            <SelectTrigger className="w-[200px]">
-                                <SelectValue placeholder="Filtrar por sector" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">Todos los sectores</SelectItem>
-                                <SelectItem value="baño">Baño</SelectItem>
-                                <SelectItem value="buffet">Buffet</SelectItem>
-                                <SelectItem value="imprenta">Imprenta</SelectItem>
-
-                            </SelectContent>
-                        </Select>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <Tabs defaultValue="chart" className="space-y-4">
-                        <TabsList>
-                            <TabsTrigger value="chart">Gráfico</TabsTrigger>
-                            <TabsTrigger value="table">Tabla</TabsTrigger>
-                        </TabsList>
-
-                        <TabsContent value="chart">
-                            <ChartView data={projectionData} />
-                        </TabsContent>
-
-                        <TabsContent value="table">
-                            <TableView data={projectionData} />
-                        </TabsContent>
-                    </Tabs>
-                </CardContent>
-            </Card>
-        </div>
-    );
-};
+        <Card className="w-full max-w-4xl mx-auto">
+            <CardHeader>
+                <CardTitle>Gráfico de Costos por Tipo</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="flex justify-between mb-4">
+                    <Select value={año.toString()} onValueChange={(value) => setAño(parseInt(value))}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Seleccionar año" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {años.map((a) => (
+                                <SelectItem key={a} value={a.toString()}>{a}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select value={mes.toString()} onValueChange={(value) => setMes(parseInt(value))}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Seleccionar mes" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {meses.map((m, index) => (
+                                <SelectItem key={index} value={index.toString()}>{m}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <ChartContainer
+                    config={{
+                        Sueldos: {
+                            label: "Sueldos",
+                            color: "hsl(var(--chart-1))",
+                        },
+                        Servicios: {
+                            label: "Servicios",
+                            color: "hsl(var(--chart-2))",
+                        },
+                        Productos: {
+                            label: "Productos",
+                            color: "hsl(var(--chart-3))",
+                        },
+                    }}
+                    className="h-[400px]"
+                >
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={datosAgrupados}>
+                            <XAxis dataKey="tipo" />
+                            <YAxis />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Legend />
+                            <Bar
+                                dataKey="total"
+                                fill="hsl(var(--chart-1))"
+                                shape={props => {
+                                    const { x, y, width, height, tipo } = props;
+                                    let fill;
+                                    switch (tipo) {
+                                        case 'Sueldos':
+                                            fill = "hsl(var(--chart-1))";
+                                            break;
+                                        case 'Servicios':
+                                            fill = "hsl(var(--chart-2))";
+                                            break;
+                                        case 'Productos':
+                                            fill = "hsl(var(--chart-3))";
+                                            break;
+                                        default:
+                                            fill = "hsl(var(--chart-1))";
+                                    }
+                                    return <rect x={x} y={y} width={width} height={height} fill={fill} />;
+                                }}
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    )
+}

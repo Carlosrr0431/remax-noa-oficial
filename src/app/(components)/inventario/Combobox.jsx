@@ -79,7 +79,7 @@ export const ComboBox = ({ options, value, onChange, onCreateNew }) => {
                     ))}
                     {!filteredOptions.length && (
                         <li className="px-3 py-2 text-gray-500">
-                            No se encontraron resultados. Presione Enter para agregar.
+                            No se encontraron resultados.
                         </li>
                     )}
                 </ul>

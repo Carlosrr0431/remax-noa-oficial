@@ -30,20 +30,6 @@ import { guardarItem } from '@/app/action'
 import { supabaseClient } from '@/supabase/client'
 
 
-const sectoresEmpresa = [
-    "Ventas",
-    "Marketing",
-    "Finanzas",
-    "Recursos Humanos",
-    "Producción",
-    "Tecnología",
-    "Logística",
-    "Atención al Cliente",
-    "Investigación y Desarrollo",
-    "Administración"
-]
-
-
 export default function InventarioForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [nombreItem, setNombreItem] = useState("")
@@ -54,10 +40,7 @@ export default function InventarioForm() {
 
     const [monto, setMonto] = useState("")
 
-    const [proveedoresExistentes, setProveedoresExistentes] = useState([
-        { value: "pagofacil", label: "PagoFacil" },
-
-    ])
+    const [proveedoresExistentes, setProveedoresExistentes] = useState([])
     const form = useForm({
         defaultValues: {
             nombre: "",
@@ -82,6 +65,8 @@ export default function InventarioForm() {
 
             const searchArray = []
 
+
+
             data.data.map((elem) => {
                 searchArray.push({
                     value: elem.nombre.toLowerCase(),
@@ -90,7 +75,26 @@ export default function InventarioForm() {
             }
             )
 
-            setItemsExistentes(searchArray)
+
+            let set2 = new Set(searchArray.map(JSON.stringify))
+            let arrSinDuplicaciones2 = Array.from(set2).map(JSON.parse);
+
+
+            const searchArray2 = []
+
+            data.data.map((elem) => {
+                searchArray2.push({
+                    value: elem.proveedor.toLowerCase(),
+                    label: elem.proveedor
+                })
+            }
+            )
+
+            let set = new Set(searchArray2.map(JSON.stringify))
+            let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
+
+            setItemsExistentes(arrSinDuplicaciones2)
+            setProveedoresExistentes(arrSinDuplicaciones)
 
         }
 
