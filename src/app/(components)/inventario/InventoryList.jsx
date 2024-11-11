@@ -24,9 +24,6 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
-
 
 export default function InventoryList({ refreshTrigger }) {
     const [items, setItems] = useState([]);
@@ -34,6 +31,7 @@ export default function InventoryList({ refreshTrigger }) {
     const [search, setSearch] = useState('');
     const [filterType, setFilterType] = useState('all');
     const [filterSector, setFilterSector] = useState('all');
+    const [filterCaja, setFilterCaja] = useState('all');
     const [editingItem, setEditingItem] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [tipoSelect, setTipoSelect] = useState("producto")
@@ -111,8 +109,13 @@ export default function InventoryList({ refreshTrigger }) {
             filtered = filtered.filter(item => item.sector === filterSector);
         }
 
+
+        if (filterCaja !== 'all') {
+            filtered = filtered.filter(item => item.caja === filterCaja);
+        }
+
         setFilteredItems(filtered);
-    }, [search, filterType, filterSector, items]);
+    }, [search, filterType, filterSector, items, filterCaja]);
 
     const handleDelete = async (id) => {
         if (window.confirm('¿Está seguro de que desea eliminar este item?')) {
@@ -144,7 +147,7 @@ export default function InventoryList({ refreshTrigger }) {
             lastUpdated: new Date().toISOString(),
         };
 
-        console.log(updateItem);
+        console.log(updatedItem);
 
 
 
@@ -178,6 +181,7 @@ export default function InventoryList({ refreshTrigger }) {
                         <SelectItem value="all">Todos los tipos</SelectItem>
                         <SelectItem value="producto">Productos</SelectItem>
                         <SelectItem value="servicio y impuestos">Servicios</SelectItem>
+                        <SelectItem value="sueldos">Sueldos</SelectItem>
                     </SelectContent>
                 </Select>
                 <Select value={filterSector} onValueChange={setFilterSector}>
@@ -190,6 +194,19 @@ export default function InventoryList({ refreshTrigger }) {
                         <SelectItem value="buffet">Buffet</SelectItem>
                         <SelectItem value="imprenta">Imprenta</SelectItem>
 
+                    </SelectContent>
+                </Select>
+
+                <Select value={filterCaja} onValueChange={setFilterCaja}>
+                    <SelectTrigger className="md:w-1/4">
+                        <SelectValue placeholder="Filtrar por caja" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">Todas las cajas</SelectItem>
+                        <SelectItem value="1">Caja 1</SelectItem>
+                        <SelectItem value="2">Caja 2</SelectItem>
+                        <SelectItem value="3">Caja 3</SelectItem>
+                        <SelectItem value="4">Caja 4</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

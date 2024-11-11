@@ -11,15 +11,9 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import NotificationsComponent from './NotificationsComponent';
 import ChatComponent from './chatComponent';
-
 
 export const DashboardHome = () => {
 

@@ -8,6 +8,7 @@ const nextConfig = {
       "res.cloudinary.com",
       "lh3.googleusercontent.com",
       "demos.creative-tim.com",
+      "images.unsplash.com"
     ],
   },
   experimental: {

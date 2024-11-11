@@ -27,6 +27,10 @@ export async function guardarItem(datos, select) {
     }
   );
 
+  if (datos.cantidad == 0) {
+    datos.cantidad = 1;
+  }
+
   const result3 = await supabase.from("item").insert({
     unidadMedida: datos.unidadMedida,
     tipo: select,
