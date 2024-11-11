@@ -13,7 +13,7 @@ import {
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import NotificationsComponent from './NotificationsComponent';
-import ChatComponent from './chatComponent';
+import ChatComponent from './ChatComponent';
 
 export const DashboardHome = () => {
 
