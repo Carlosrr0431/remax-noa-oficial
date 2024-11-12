@@ -9,18 +9,6 @@ import { startOfMonth, endOfMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { supabaseClient } from '@/supabase/client'
 
-// .replace(/\./g, '').replace(/\$/g, '').replace(/[^0-9\.]/g, '')
-
-
-// Datos de ejemplo
-const itemsEjemplo = [
-    { tipo: 'sueldo', fecha: new Date(2024, 10, 15), costo: 2000, nombre: 'Sueldo Mayo' },
-    { tipo: 'sueldo', fecha: new Date(2024, 10, 30), costo: 2200, nombre: 'Sueldo Extra Mayo' },
-    { tipo: 'servicio', fecha: new Date(2024, 10, 5), costo: 100, nombre: 'Electricidad' },
-    { tipo: 'servicio', fecha: new Date(2024, 10, 20), costo: 80, nombre: 'Internet' },
-    { tipo: 'producto', fecha: new Date(2024, 10, 10), costo: 500, nombre: 'Laptop' },
-    { tipo: 'producto', fecha: new Date(2024, 10, 25), costo: 200, nombre: 'Impresora' },
-]
 
 const años = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i)
 const meses = [
@@ -31,8 +19,24 @@ const meses = [
 
 export default function GraficoCostosPorTipo() {
     const [año, setAño] = useState(new Date().getFullYear())
-    const [mes, setMes] = useState(new Date().getMonth())
+    const [mes, setMes] = useState("")
     const [items, setItems] = useState([]);
+    const [datos, setDatos] = useState([{
+        tipo: "Sueldos",
+        total: 0
+    },
+
+    {
+        tipo: "Servicios",
+        total: 0
+    },
+
+    {
+        tipo: "Productos",
+        total: 0
+    }
+
+    ])
 
     useEffect(() => {
         const getSupabaseOficial = async () => {
@@ -43,7 +47,11 @@ export default function GraficoCostosPorTipo() {
             setItems(data.data);
         }
 
-        getSupabaseOficial()
+        getSupabaseOficial().then(() => actualizarGrafica())
+
+
+        // if (items.length != 0 && año != undefined && mes != undefined)
+        //     actualizarGrafica()
 
     }, []);
 
@@ -52,11 +60,21 @@ export default function GraficoCostosPorTipo() {
     // }, [items])
 
 
+    useEffect(() => {
+
+        if (items.length != 0 && año != undefined && mes != undefined)
+            actualizarGrafica()
+
+    }, [año, mes])
 
 
-    const datosAgrupados = useMemo(() => {
+
+
+    const actualizarGrafica = () => {
         const fechaInicio = startOfMonth(new Date(año, mes))
         const fechaFin = endOfMonth(fechaInicio)
+
+
 
 
 
@@ -79,21 +97,33 @@ export default function GraficoCostosPorTipo() {
 
             console.log("costo: " + parseInt(cantidad) * parseInt(precio));
 
+            const costo = parseInt(cantidad) * parseInt(precio);
+
+            console.log("tipo de dato: " + typeof (totales.Sueldos));
+
+
             switch (item.tipo) {
                 case 'sueldo':
-                    totales.Sueldos += (parseInt(cantidad) * parseInt(precio));
+                    totales.Sueldos += costo;
+                    console.log("total sueldo: " + totales.Sueldos);
+
                     break;
-                case 'servicio':
-                    totales.Servicios += (parseInt(cantidad) * parseInt(precio));
+                case 'servicio y impuestos':
+                    totales.Servicios += costo;
+                    console.log("total servicio: " + totales.Servicios);
                     break;
                 case 'producto':
-                    totales.Productos += (parseInt(cantidad) * parseInt(precio));
+                    totales.Productos += costo;
+                    console.log("total producto: " + totales.Productos);
                     break;
             }
         })
 
-        return Object.entries(totales).map(([tipo, total]) => ({ tipo, total }))
-    }, [año, mes, items])
+        const nuevaGrafica = Object.entries(totales).map(([tipo, total]) => ({ tipo, total }))
+
+        setDatos(nuevaGrafica)
+
+    }
 
     return (
         <Card className="w-full max-w-4xl mx-auto">
@@ -112,7 +142,10 @@ export default function GraficoCostosPorTipo() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <Select value={mes.toString()} onValueChange={(value) => setMes(parseInt(value))}>
+                    <Select value={mes.toString()} onValueChange={(value) => {
+                        setMes(parseInt(value)),
+                            actualizarGrafica(parseInt(value))
+                    }}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Seleccionar mes" />
                         </SelectTrigger>
@@ -141,7 +174,7 @@ export default function GraficoCostosPorTipo() {
                     className="h-[400px]"
                 >
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={datosAgrupados}>
+                        <BarChart data={datos}>
                             <XAxis dataKey="tipo" />
                             <YAxis />
                             <ChartTooltip content={<ChartTooltipContent />} />
