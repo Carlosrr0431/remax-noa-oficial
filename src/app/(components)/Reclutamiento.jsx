@@ -6,6 +6,7 @@ import { useAutoScroll } from '../hooks/useAutoScroll';
 import { useEffect } from 'react';
 import { supabaseClient } from '@/supabase/client';
 import { actualizarEstado } from '../action';
+import { useDragScroll } from '../hooks/useDragScroll';
 
 // Initial demo data
 const initialCandidates = [
@@ -42,6 +43,7 @@ function App() {
     const [selectedStage, setSelectedStage] = useState('all');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const scrollContainerRef = useAutoScroll({ speed: 200, threshold: 400 });
+    const { attachListeners } = useDragScroll();
 
     const filteredCandidates = candidates?.filter(candidate => {
         const matchesSearch =
@@ -134,6 +136,14 @@ function App() {
 
 
     }, [])
+
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        container.style.cursor = 'grab';
+        return attachListeners(container);
+    }, [attachListeners]);
 
     return (
         <div className="min-h-screen bg-gray-100 w-full min-w-[1500px] -ml-14 relative">

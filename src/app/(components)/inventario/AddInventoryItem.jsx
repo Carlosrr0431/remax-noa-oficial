@@ -30,6 +30,7 @@ import { guardarItem } from '@/app/action'
 import { supabaseClient } from '@/supabase/client'
 
 
+
 export default function InventarioForm() {
     const [isLoading, setIsLoading] = useState(false)
     const [nombreItem, setNombreItem] = useState("")
@@ -42,17 +43,8 @@ export default function InventarioForm() {
 
     const [proveedoresExistentes, setProveedoresExistentes] = useState([])
     const form = useForm({
-        defaultValues: {
-            nombre: "",
-            tipo: "",
-            cantidad: "",
-            sector: "",
-            proveedor: "",
-            unidadMedida: "",
-            descripcion: "",
-            fechaVencimiento: "",
-            caja: "1"
-        },
+
+
     })
 
 
@@ -170,6 +162,13 @@ export default function InventarioForm() {
                             <FormField
                                 control={form.control}
                                 name="nombre"
+                                rules={{
+                                    required: "El nombre es requerido",
+                                    minLength: {
+                                        value: 2,
+                                        message: 'El nombre debe tener al menos 2 caracteres.'
+                                    }
+                                }}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Nombre del Item</FormLabel>
@@ -189,11 +188,12 @@ export default function InventarioForm() {
                             <FormField
                                 control={form.control}
                                 name="tipo"
+
+
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Tipo</FormLabel>
-                                        <Select onSelect={(value) => console.log(value)
-                                        } onValueChange={handleStringToInt} defaultValue={field.value}>
+                                        <Select onValueChange={handleStringToInt} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Seleccione el tipo" />
@@ -217,6 +217,13 @@ export default function InventarioForm() {
                             <FormField
                                 control={form.control}
                                 name="cantidad"
+                                rules={{
+                                    required: tipoSelect == 'producto' ? 'La cantidad es obligatoria' : false,
+                                    minLength: {
+                                        value: 1,
+                                        message: 'La cantidad debe tener al menos un digito.'
+                                    }
+                                }}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Cantidad</FormLabel>
@@ -254,11 +261,12 @@ export default function InventarioForm() {
                             <FormField
                                 control={form.control}
                                 name="precioUnitario"
+
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Monto</FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="$" onChange={handleMonto} value={monto} />
+                                            <Input type="text" {...field} placeholder="$" onChange={handleMonto} value={monto} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -267,6 +275,13 @@ export default function InventarioForm() {
                             <FormField
                                 control={form.control}
                                 name="caja"
+                                rules={{
+                                    required: 'La caja es obligatoria',
+                                    minLength: {
+                                        value: 1,
+                                        message: 'Debes seleccionar una opción.'
+                                    }
+                                }}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Caja</FormLabel>

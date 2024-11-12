@@ -148,17 +148,12 @@ export async function actualizarEstado(id, nuevoEstado) {
     }
   );
 
-  console.log("id" + id);
-
   const resultado = await supabase
     .from("formularioCV")
     .update({
       estado: nuevoEstado,
     })
-    .eq("id", id)
-    .single();
-
-  console.log("Resulado cambio de estado: " + resultado);
+    .eq("id", id);
 
   return {
     message: "Success",

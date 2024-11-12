@@ -15,7 +15,20 @@ export function Embudo({ stage, candidates, onDragStart, onDragOver, onDrop }) {
                 <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
                     {candidates?.length}
                 </span>
+
+
             </div>
+
+            {
+                stage == "CV Recibido" && <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-semibold text-gray-700">{stage}</h2>
+                    <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
+                        {candidates?.length}
+                    </span>
+
+
+                </div>
+            }
 
             <div className="space-y-3">
                 {candidates?.map((candidate) => (
