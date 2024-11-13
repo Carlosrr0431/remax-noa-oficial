@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Trophy, TrendingUp, Users, Bell, Gift, Crown, Star, Award, Newspaper, ChevronDown, Plus, Send } from 'lucide-react';
 import Blog from './Blog';
 import { Button } from "@/components/ui/button"
@@ -10,12 +10,20 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-
+import { useSession } from 'next-auth/react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import NotificationsComponent from './NotificationsComponent';
 import ChatComponent from './ChatComponent';
+import { supabaseClient } from '@/supabase/client';
 
 export const DashboardHome = () => {
+
+
+    const { data: session } = useSession()
+    const [usuario, setUsuario] = useState()
+    const [mounted, setMounted] = useState(false);
+
+
 
     const topReferrers = [
         { name: 'Ana García', points: 1850, badge: 'Diamante', avatar: 'https://i.pravatar.cc/150?img=1' },
@@ -46,6 +54,51 @@ export const DashboardHome = () => {
         },
     ];
 
+
+    useEffect(() => {
+        const getSupabaseOficial = async () => {
+            let data = await supabaseClient
+                .from("referidores")
+                .select("*")
+                .match({ correo: session?.user?.email }).single();
+
+
+            setUsuario(data.data)
+        }
+
+        if (session?.user?.email != undefined) {
+
+            console.log("correo: " + session?.user?.email);
+
+            getSupabaseOficial()
+        }
+
+        const channelUsuarios = supabaseClient
+            .channel('referidores')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'referidores' }, (payload) => {
+
+                if (payload.eventType == 'UPDATE' && session?.user?.email == payload.new.email) {
+                    return setUsuario(payload.new)
+                }
+            })
+            .subscribe()
+
+
+        return () => {
+
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+        }
+    }, [session?.user.email])
+
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
+
     return (
         <div className="space-y-8">
             {/* Welcome Section */}
@@ -54,11 +107,11 @@ export const DashboardHome = () => {
                     <div className="rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white p-4 sm:p-6">
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="referral-dashboard">
-                                <AccordionTrigger className="hover:no-underline">
+                                <AccordionTrigger className="hover:no-underline" >
                                     <div className="flex flex-col items-start text-left w-full">
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full mb-4">
                                             <div className="mb-4 sm:mb-0 w-[70%]">
-                                                <h2 className="text-2xl sm:text-3xl font-bold">¡Bienvenido, Carlos RR!</h2>
+                                                <h2 className="text-2xl sm:text-3xl font-bold">¡Bienvenido, {session?.user?.name}!</h2>
                                                 <p className="text-sm sm:text-base text-blue-100 mt-2">
                                                     Continúa refiriendo y gana increíbles premios. Invita a tus amigos y familiares, para sumar mayores puntos.
                                                 </p>
@@ -192,10 +245,10 @@ export const DashboardHome = () => {
                                             <Award className="h-5 w-5 text-yellow-400" />
                                         </div>
                                         <div className="mt-2 bg-white/20 rounded-full h-1.5">
-                                            <div
-                                                className="bg-blue-500 h-full rounded-full"
-                                                style={{ width: `${reward.progress}%` }}
-                                            />
+                                            <div className="bg-blue-500 h-full rounded-full"
+                                                style={{ width: `${reward.progress}%` }}></div>
+
+
                                         </div>
                                     </div>
                                 </div>
