@@ -143,7 +143,7 @@ function App() {
 
         container.style.cursor = 'grab';
         return attachListeners(container);
-    }, [attachListeners]);
+    }, [attachListeners, scrollContainerRef]);
 
     return (
         <div className="min-h-screen bg-gray-100 w-full min-w-[1500px] -ml-14 relative">
@@ -192,7 +192,7 @@ function App() {
                         <Embudo
                             key={stage}
                             stage={stage}
-                            candidates={filteredCandidates?.filter(c => c.estado === stage)}
+                            candidates={filteredCandidates?.filter(c => c.estado === stage && c.oficina === "salta")}
                             onDragStart={handleDragStart}
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}

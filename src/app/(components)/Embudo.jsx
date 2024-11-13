@@ -3,6 +3,7 @@ import { CandidatoCard } from './CandidatoCard';
 import { Button } from "@/components/ui/button"
 import { Check, X } from "lucide-react"
 import { useEffect } from 'react';
+import { supabaseClient } from '@/supabase/client';
 
 
 export function Embudo({ stage, candidates, onDragStart, onDragOver, onDrop }) {
@@ -29,6 +30,47 @@ export function Embudo({ stage, candidates, onDragStart, onDragOver, onDrop }) {
 
     useEffect(() => {
         setCandidatosFiltro(candidates)
+        setCvStatus('visto')
+    }, [candidates])
+
+
+    useEffect(() => {
+        const channelUsuarios = supabaseClient
+            .channel('formularioCV')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'formularioCV' }, (payload) => {
+
+                if (payload.eventType == "INSERT") {
+
+
+                    return (setCandidatosFiltro((antContenido) => [payload.new, ...antContenido]))
+
+
+                } else if (payload.eventType == 'UPDATE') {
+
+
+                    return (setCandidatosFiltro((antContenido) => antContenido.map((elem) => {
+                        if (elem.id == payload.new.id) {
+                            elem = payload.new
+                        }
+
+                        return elem;
+                    })))
+
+
+
+                } else if (payload.eventType == 'DELETE') {
+
+                    return (setCandidatosFiltro(antContenido => antContenido.filter((elem) => elem.id !== payload.old.id)))
+
+                }
+            })
+            .subscribe()
+
+
+        return () => {
+
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+        }
     }, [])
 
 
@@ -41,7 +83,7 @@ export function Embudo({ stage, candidates, onDragStart, onDragOver, onDrop }) {
             <div className="flex items-center justify-between mb-4">
                 <h2 className="font-semibold text-gray-700">{stage}</h2>
                 <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
-                    {candidates?.length}
+                    {candidatosFiltro?.length}
                 </span>
 
 
@@ -79,18 +121,18 @@ export function Embudo({ stage, candidates, onDragStart, onDragOver, onDrop }) {
 
             <div className="space-y-3">
                 {cvStatus != null ? candidatosFiltro?.map((candidate) => (
-                <CandidatoCard
-                    key={candidate.id}
-                    candidate={candidate}
-                    onDragStart={onDragStart}
-                />
+                    <CandidatoCard
+                        key={candidate.id}
+                        candidate={candidate}
+                        onDragStart={onDragStart}
+                    />
                 )) : candidates?.map((candidate) => (
                     <CandidatoCard
                         key={candidate.id}
                         candidate={candidate}
                         onDragStart={onDragStart}
                     />
-                    ))}
+                ))}
             </div>
         </div>
     );
