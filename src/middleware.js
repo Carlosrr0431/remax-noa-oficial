@@ -78,6 +78,6 @@ export default async function middleware(req, event) {
 //     "/mailingSystem/agentes",
 //     "/mailingSystem/rrhh",
 //     "/dashboard/rrhh",
-//     "/comunidadRemax/dashboard"
+//     "/comunidadRemax/dashboard",
 //   ],
 // };

@@ -16,7 +16,7 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
-export async function guardarItem(datos, select, monto) {
+export async function guardarItem(datos, select, monto, nombre, proveedor) {
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -35,9 +35,9 @@ export async function guardarItem(datos, select, monto) {
     unidadMedida: datos.unidadMedida,
     tipo: select,
     sector: datos.sector,
-    proveedor: datos.proveedor,
+    proveedor: proveedor,
     precioUnitario: monto,
-    nombre: datos.nombre,
+    nombre: nombre,
     fechaVencimiento: datos.fechaVencimiento,
     descripcion: datos.descripcion,
     cantidad: datos.cantidad,
@@ -278,7 +278,7 @@ export async function uploadPDF(formData) {
   return { success: true, message: "File uploaded successfully!" };
 }
 
-export async function postData(formData, userName, email) {
+export async function postData(formData, userName = "Carlos RR", email = "carlos.facundo.rr@gmail.com") {
   const message = formData.get("message");
 
   console.log(message + " " + userName + " " + email);

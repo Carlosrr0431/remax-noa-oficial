@@ -20,7 +20,7 @@ export const LeerCSV = () => {
     const listaCaptacion = new Array()
     const [tableRows, setTableRows] = useState([]);
     const expt = new RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}')
-    const arrayEmail = ['CARLOS.FACUNDO.RR@GMAIL.COM', 'giu40150135@gmail.com']
+    const arrayEmail = ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com']
     const [values, setValues] = useState([]);
     const [tableData, setTableData] = useState()
     const [content, setContent] = useState([]);
@@ -66,6 +66,8 @@ export const LeerCSV = () => {
             }
 
         }
+
+
 
     }
 
@@ -162,7 +164,8 @@ export const LeerCSV = () => {
             body: JSON.stringify({
                 listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
                 // listaEmail: arrayEmail,
-                htmlContenido: htmlContent
+                htmlContenido: htmlContent,
+                titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
             })
         })
         return await response.json()

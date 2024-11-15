@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -28,6 +28,16 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { ComboBox } from './Combobox'
 import { guardarItem } from '@/app/action'
 import { supabaseClient } from '@/supabase/client'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Search } from 'lucide-react'
+import { toast } from 'sonner'
+
+const suggestions = [
+    "Argentina", "Bolivia", "Brasil", "Chile", "Colombia",
+    "Ecuador", "Paraguay", "Perú", "Uruguay", "Venezuela",
+    "México", "Cuba", "República Dominicana", "Puerto Rico",
+    "Panamá", "Costa Rica", "Nicaragua", "Honduras", "El Salvador", "Guatemala"
+]
 
 
 
@@ -39,6 +49,7 @@ export default function InventarioForm() {
 
     ])
 
+
     const [monto, setMonto] = useState("")
 
     const [proveedoresExistentes, setProveedoresExistentes] = useState([])
@@ -46,6 +57,38 @@ export default function InventarioForm() {
 
 
     })
+
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState("")
+
+    const [open2, setOpen2] = useState(false)
+    const [value2, setValue2] = useState("")
+
+    // const filteredSuggestions = useMemo(() => {
+    //     if (!value) return itemsExistentes
+    //     return itemsExistentes.filter(item =>
+    //         item.toLowerCase().includes(value.toLowerCase())
+    //     )
+    // }, [value, itemsExistentes])
+
+    const handleInputFocus = () => {
+        setOpen(true)
+    }
+
+    const handleInputBlur = () => {
+        // Delay closing to allow for item selection
+        setTimeout(() => setOpen(false), 200)
+    }
+
+    const handleInputFocus2 = () => {
+        setOpen2(true)
+    }
+
+    const handleInputBlur2 = () => {
+        // Delay closing to allow for item selection
+        setTimeout(() => setOpen2(false), 200)
+    }
+
 
 
     useEffect(() => {
@@ -55,38 +98,49 @@ export default function InventarioForm() {
                 .select("*")
 
 
-            const searchArray = []
+            let searchArray = []
+            let searchArray2 = []
 
 
-
-            data.data.map((elem) => {
-                searchArray.push({
-                    value: elem.nombre.toLowerCase(),
-                    label: elem.nombre
-                })
+            data?.data?.map((elem) => {
+                if (elem.nombre !== null)
+                    searchArray.push(elem.nombre)
             }
             )
 
 
-            let set2 = new Set(searchArray.map(JSON.stringify))
-            let arrSinDuplicaciones2 = Array.from(set2).map(JSON.parse);
-
-
-            const searchArray2 = []
-
-            data.data.map((elem) => {
-                searchArray2.push({
-                    value: elem.proveedor.toLowerCase(),
-                    label: elem.proveedor
-                })
+            data?.data?.map((elem) => {
+                if (elem.proveedor !== null)
+                    searchArray2.push(elem.proveedor)
             }
             )
 
-            let set = new Set(searchArray2.map(JSON.stringify))
-            let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
 
-            setItemsExistentes(arrSinDuplicaciones2)
-            setProveedoresExistentes(arrSinDuplicaciones)
+            const sinDuplicados = [...new Set(searchArray)];
+            const sinDuplicados2 = [...new Set(searchArray2)];
+
+            console.log("arreglo: " + sinDuplicados);
+            setItemsExistentes(sinDuplicados)
+            setProveedoresExistentes(sinDuplicados2)
+            // let set2 = new Set(searchArray.map(JSON.stringify))
+            // let arrSinDuplicaciones2 = Array.from(set2).map(JSON.parse);
+
+
+            // const searchArray2 = []
+
+            // data?.data?.map((elem) => {
+            //     searchArray2.push({
+            //         value: elem?.proveedor?.toLowerCase(),
+            //         label: elem?.proveedor
+            //     })
+            // }
+            // )
+
+            // let set = new Set(searchArray2.map(JSON.stringify))
+            // let arrSinDuplicaciones = Array.from(set).map(JSON.parse);
+
+            // setItemsExistentes(arrSinDuplicaciones2)
+            // setProveedoresExistentes(arrSinDuplicaciones)
 
         }
 
@@ -97,12 +151,27 @@ export default function InventarioForm() {
     async function onSubmit(values) {
         setIsLoading(true)
 
-        await guardarItem(values, tipoSelect, monto)
+        await guardarItem(values, tipoSelect, monto, value, value2)
+
 
         setIsLoading(false)
+        toast.success(`El item ${value} fue cargado exitosamente.`)
 
-        form.reset()
-        setNombreItem("")
+        setValue('')
+        form.setValue('cantidad', '');
+        setValue2('')
+        setMonto('')
+
+        // Mantener el resto de los valores
+
+        form.setValue('tipo', values.tipo);
+        form.setValue('unidadMedida', values.unidadMedida);
+        form.setValue('caja', values.caja);
+        form.setValue('sector', values.sector);
+
+
+
+
     }
 
 
@@ -159,31 +228,43 @@ export default function InventarioForm() {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="nombre"
-                                rules={{
-                                    required: "El nombre es requerido",
-                                    minLength: {
-                                        value: 2,
-                                        message: 'El nombre debe tener al menos 2 caracteres.'
-                                    }
-                                }}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Nombre del Item</FormLabel>
-                                        <FormControl>
-                                            <ComboBox
-                                                options={itemsExistentes}
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                            // onCreateNew={handleCreateNewItem}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="relative w-full max-w-[500px] mt-[35px]">
+                                <Command className="rounded-lg  ">
+                                    <div className="flex items-center rounded-md border-[1px] border-gray-400 px-3  ">
+
+                                        <CommandInput
+                                            placeholder="Nombre del item..."
+                                            value={value}
+                                            name="nombre"
+                                            id="nombre"
+                                            onValueChange={setValue}
+                                            onFocus={handleInputFocus}
+                                            onBlur={handleInputBlur}
+                                            className="flex h-11 w-full rounded-md bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 "
+                                        />
+                                    </div>
+                                    {open && (
+                                        <CommandList>
+                                            <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+                                            <CommandGroup>
+                                                {itemsExistentes != null && itemsExistentes.map((item, index) => (
+                                                    <CommandItem
+                                                        key={index}
+                                                        onSelect={(currentValue) => {
+                                                            console.log("seleccionado: " + currentValue);
+
+                                                            setValue(currentValue)
+                                                            setOpen(false)
+                                                        }}
+                                                    >
+                                                        {item}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    )}
+                                </Command>
+                            </div>
 
                             <FormField
                                 control={form.control}
@@ -228,7 +309,7 @@ export default function InventarioForm() {
                                     <FormItem>
                                         <FormLabel>Cantidad</FormLabel>
                                         <FormControl>
-                                            <Input type="text" {...field} onChange={(e) => field.onChange(e.target.value)} />
+                                            <Input placeholder="Cantidad" type="text" {...field} onChange={(e) => field.onChange(e.target.value)} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -329,24 +410,43 @@ export default function InventarioForm() {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="proveedor"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Proveedor</FormLabel>
-                                        <FormControl>
-                                            <ComboBox
-                                                options={proveedoresExistentes}
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                            // onCreateNew={handleCreateNewProveedor}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="relative w-full max-w-[500px] mt-[35px]">
+                                <Command className="rounded-lg  ">
+                                    <div className="flex items-center rounded-md border-[1px] border-gray-400 px-3  ">
+
+                                        <CommandInput
+                                            placeholder="Nombre del proveedor..."
+                                            value={value2}
+                                            onValueChange={setValue2}
+                                            onFocus={handleInputFocus2}
+                                            onBlur={handleInputBlur2}
+                                            name="proveedor"
+                                            id="proveedor"
+                                            className="flex h-11 w-full rounded-md bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 "
+                                        />
+                                    </div>
+                                    {open2 && (
+                                        <CommandList>
+                                            <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+                                            <CommandGroup>
+                                                {proveedoresExistentes != null && proveedoresExistentes.map((item, index) => (
+                                                    <CommandItem
+                                                        key={index}
+                                                        onSelect={(currentValue) => {
+                                                            console.log("seleccionado: " + currentValue);
+
+                                                            setValue2(currentValue)
+                                                            setOpen2(false)
+                                                        }}
+                                                    >
+                                                        {item}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    )}
+                                </Command>
+                            </div>
                         </div>
 
 

@@ -13,6 +13,7 @@ import { Upload } from "lucide-react"
 import * as XLSX from 'xlsx';
 const { read, utils } = XLSX;
 import { toast } from 'sonner';
+import { supabaseClient } from "@/supabase/client"
 
 cloudinary.config({
   cloud_name: "dlxwkq6bm",
@@ -21,25 +22,25 @@ cloudinary.config({
 });
 
 const PropertySchema = z.object({
-  title: z.string().min(1, "El título es requerido"),
-  description: z.string().min(1, "La descripción es requerida"),
-  url: z.string().url("La URL debe ser válida"),
-  rooms: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Debe ser un número mayor que 0",
-  }),
-  bathrooms: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Debe ser un número mayor que 0",
-  }),
-  coveredArea: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Debe ser un número mayor que 0",
-  }),
-  totalArea: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Debe ser un número mayor que 0",
-  }),
-  price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Debe ser un número mayor que 0",
-  }),
-  image: z.instanceof(File, { message: "La imagen es requerida" }),
+  // title: z.string().min(1, "El título es requerido"),
+  // description: z.string().min(1, "La descripción es requerida"),
+  // url: z.string().url("La URL debe ser válida"),
+  // rooms: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //   message: "Debe ser un número mayor que 0",
+  // }),
+  // bathrooms: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //   message: "Debe ser un número mayor que 0",
+  // }),
+  // coveredArea: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //   message: "Debe ser un número mayor que 0",
+  // }),
+  // totalArea: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //   message: "Debe ser un número mayor que 0",
+  // }),
+  // price: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+  //   message: "Debe ser un número mayor que 0",
+  // }),
+  // image: z.instanceof(File, { message: "La imagen es requerida" }),
 })
 
 const initialPropertyData = {
@@ -64,6 +65,7 @@ export default function FormularioMailingOfrecer() {
   const [errors1, setErrors1] = useState({})
   const [errors2, setErrors2] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
+  const arrayPropio = ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'comercialremaxnoa@gmail.com']
   const [file, setFile] = useState(null)
   const expt = new RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}')
 
@@ -114,117 +116,178 @@ export default function FormularioMailingOfrecer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (isFormValid) {
-      console.log("Propiedad 1:", property1)
-      console.log("Propiedad 2:", property2)
-      console.log("Propiedad 3 (Excel):", property3)
 
-      const propiedad2 = {
-        title2: '1',
-        description2: '2',
-        url2: '3',
-        rooms2: '4',
-        bathrooms2: "5",
-        coveredArea2: "3",
-        totalArea2: "1",
-        price2: "2",
-        image2: new Object()
-      };
+    const correosMasivos = await supabaseClient
+      .from("correosEnviados")
+      .select("*")
+      .eq("id", 1)
 
-      const propiedad1 = {
-        title1: '1',
-        description1: '2',
-        url1: '3',
-        rooms1: '4',
-        bathrooms1: "5",
-        coveredArea1: "3",
-        totalArea1: "1",
-        price1: "2",
-        image1: new Object()
-      };
+    const result3 = await supabaseClient.from("correosEnviadosOfrecer").update({
+      correos: [...correosMasivos.data[0]?.correos, ...values]
+    }).eq("id", 1);
+
+    const result4 = await supabaseClient.from("correosEnviadosOfrecer").insert({
+      correos: values
+    })
+
+    console.log(result4);
 
 
+    const result = await sendMail(emailOfrecerCorrejido({
+      title2: "Casa con Departamento en Santa Ana 1 - Venta",
+      description2: "Casa + Departamento en venta, Barrio Santa Ana 1, ubicada sobre calle Ramos a 50 mts de Av. Domingo Perón.",
+      url2: "https://www.remax.com.ar/listings/casa-con-departamento-3-dorm-venta-santa-ana-1",
+      rooms2: "3 Habitaciones",
+      bathrooms2: "1 Baño",
+      coveredArea2: "100",
+      totalArea2: "140",
+      price2: "60.000",
+      image2: "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589673/jbycjt9lf3pqqu3e4j8v.webp",
+      title1: "Casa en Praderas San lorenzo Chico - Venta",
+      description1: "Praderas brinda los más altos estándares de calidad, seguridad y servicios, a su vez el Club cuenta con: Piletas, Solárium, Canchas de tenis y fútbol, Quinchos, Club House, Diversos espacios verdes, Lagunas, Gimnasio.",
+      url1: "https://www.remax.com.ar/listings/casa-5-dorm-venta-praderas-san-lorenzo-chico",
+      rooms1: "5 Habitaciones",
+      bathrooms1: "3 Baños",
+      coveredArea1: "430",
+      totalArea1: "430",
+      price1: "590.000",
+      image1: "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589674/aka2rp9kzm4cvxt6hbp6.webp",
+    }))
 
-      for (const item in property1) {
+    setValues([])
 
-        propiedad1[`${item}1`] = property1[item]
-
-      }
+    console.log(result);
 
 
+    // if (isFormValid) {
+    //   console.log("Propiedad 1:", property1)
+    //   console.log("Propiedad 2:", property2)
+    //   console.log("Propiedad 3 (Excel):", property3)
 
-      for (const item in property2) {
+    //   const propiedad2 = {
+    //     title2: '1',
+    //     description2: '2',
+    //     url2: '3',
+    //     rooms2: '4',
+    //     bathrooms2: "5",
+    //     coveredArea2: "3",
+    //     totalArea2: "1",
+    //     price2: "2",
+    //     image2: new Object()
+    //   };
 
-        propiedad2[`${item}2`] = property2[item]
+    //   const propiedad1 = {
+    //     title1: '1',
+    //     description1: '2',
+    //     url1: '3',
+    //     rooms1: '4',
+    //     bathrooms1: "5",
+    //     coveredArea1: "3",
+    //     totalArea1: "1",
+    //     price1: "2",
+    //     image1: new Object()
+    //   };
 
-      }
 
-      const bytes = await propiedad2.image2.arrayBuffer();
-      const buffer = Buffer.from(bytes);
 
-      const result2 = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({}, (err, result) => {
-            if (err) reject(err);
+    //   for (const item in property1) {
 
-            resolve(result);
-          })
-          .end(buffer);
-      });
+    //     propiedad1[`${item}1`] = property1[item]
 
-      const bytes2 = await property1.image.arrayBuffer();
-      const buffer2 = Buffer.from(bytes2);
+    //   }
 
-      const result1 = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({}, (err, result) => {
-            if (err) reject(err);
 
-            resolve(result);
-          })
-          .end(buffer2);
-      });
 
-      propiedad1['image1'] = result1.secure_url
-      propiedad2['image2'] = result2.secure_url
+    //   for (const item in property2) {
 
-      if (propiedad1['rooms1'] == '1') {
-        propiedad1['rooms1'] = "1 Habitación"
-      } else if (propiedad1['rooms1'] != '1') {
-        propiedad1['rooms1'] = `${propiedad1['rooms1']} Habitaciones`
-      }
+    //     propiedad2[`${item}2`] = property2[item]
 
-      if (propiedad2['rooms2'] == '1') {
-        propiedad2['rooms2'] = "1 Habitación"
-      } else if (propiedad2['rooms2'] != '1') {
-        propiedad2['rooms2'] = `${propiedad2['rooms2']} Habitaciones`
-      }
+    //   }
 
-      if (propiedad1['bathrooms1'] == '1') {
-        propiedad1['bathrooms1'] = "1 Baño"
-      } else if (propiedad1['bathrooms1'] != '1') {
-        propiedad1['bathrooms1'] = `${propiedad1['bathrooms1']} Baños`
-      }
+    //   const bytes = await propiedad2.image2.arrayBuffer();
+    //   const buffer = Buffer.from(bytes);
 
-      if (propiedad2['bathrooms2'] == '1') {
-        propiedad2['bathrooms2'] = "1 Baño"
-      } else if (propiedad2['bathrooms2'] != '1') {
-        propiedad2['bathrooms2'] = `${propiedad2['bathrooms2']} Baños`
-      }
+    //   const result2 = await new Promise((resolve, reject) => {
+    //     cloudinary.uploader
+    //       .upload_stream({}, (err, result) => {
+    //         if (err) reject(err);
 
-      console.log({ ...propiedad1, ...propiedad2 });
+    //         resolve(result);
+    //       })
+    //       .end(buffer);
+    //   });
 
-      const result = await sendMail(emailOfrecerCorrejido({ ...propiedad1, ...propiedad2 }))
+    //   const bytes2 = await property1.image.arrayBuffer();
+    //   const buffer2 = Buffer.from(bytes2);
 
-      setValues([])
+    //   const result1 = await new Promise((resolve, reject) => {
+    //     cloudinary.uploader
+    //       .upload_stream({}, (err, result) => {
+    //         if (err) reject(err);
 
-      if (result.message == "Email Masivo enviado exitosamente!") {
-        toast.success(result.message)
-      }
+    //         resolve(result);
+    //       })
+    //       .end(buffer2);
+    //   });
 
-    } else {
-      console.log("El formulario contiene errores o faltan datos. Por favor, complete todos los campos antes de enviar.")
-    }
+    //   propiedad1['image1'] = result1.secure_url
+    //   propiedad2['image2'] = result2.secure_url
+
+    //   if (propiedad1['rooms1'] == '1') {
+    //     propiedad1['rooms1'] = "1 Habitación"
+    //   } else if (propiedad1['rooms1'] != '1') {
+    //     propiedad1['rooms1'] = `${propiedad1['rooms1']} Habitaciones`
+    //   }
+
+    //   if (propiedad2['rooms2'] == '1') {
+    //     propiedad2['rooms2'] = "1 Habitación"
+    //   } else if (propiedad2['rooms2'] != '1') {
+    //     propiedad2['rooms2'] = `${propiedad2['rooms2']} Habitaciones`
+    //   }
+
+    //   if (propiedad1['bathrooms1'] == '1') {
+    //     propiedad1['bathrooms1'] = "1 Baño"
+    //   } else if (propiedad1['bathrooms1'] != '1') {
+    //     propiedad1['bathrooms1'] = `${propiedad1['bathrooms1']} Baños`
+    //   }
+
+    //   if (propiedad2['bathrooms2'] == '1') {
+    //     propiedad2['bathrooms2'] = "1 Baño"
+    //   } else if (propiedad2['bathrooms2'] != '1') {
+    //     propiedad2['bathrooms2'] = `${propiedad2['bathrooms2']} Baños`
+    //   }
+
+    //   console.log({ ...propiedad1, ...propiedad2 });
+
+    //   const result = await sendMail(emailOfrecerCorrejido({ ...propiedad1, ...propiedad2 }))
+
+    // const result3 = await supabaseClient.from("correosEnviadosOfrecer").update({
+    //   correos: [...values]
+    // }).eq("id", 1);
+
+    // const result4 = await supabaseClient.from("correosEnviadosOfrecer").insert({
+    //   correos: values
+    // })
+
+    // console.log(result4);
+
+    // const result = await sendMail(emailOfrecerCorrejido())
+
+    // setValues([])
+
+    // if (result.message == "Email Masivo enviado exitosamente!") {
+    //   toast.success(result.message)
+    // }
+
+    //   setValues([])
+
+    //   if (result.message == "Email Masivo enviado exitosamente!") {
+    //     toast.success(result.message)
+    //   }
+
+    // } else {
+    //   console.log("El formulario contiene errores o faltan datos. Por favor, complete todos los campos antes de enviar.")
+    // }
   }
 
 
@@ -289,9 +352,12 @@ export default function FormularioMailingOfrecer() {
       headers: {
         'content-type': 'application/json'
       },
+      // 'castanedasantos@gmail.com'
       body: JSON.stringify({
-        listaEmail: ['carlos.facundo.rr@gmail.com'],
-        htmlContenido: htmlContent
+        // 'castanedasantos@gmail.com'
+        listaEmail: [...values, ...arrayPropio],
+        htmlContenido: htmlContent,
+        titulo: "El sueño de tu Casa/Departamento propio está cerca en RE/MAX NOA"
       })
     })
     return await response.json()
@@ -411,7 +477,7 @@ export default function FormularioMailingOfrecer() {
                   Volver a Propiedad 1
                 </Button>
                 <Button type="submit" disabled={!isFormValid}>
-                  Enviar a -{values && <span className="text-sm ">{values.length} Contactos</span>}
+                  Enviar a {" "} {values && <span className="text-sm ">{values.length} Contactos</span>}
                 </Button>
               </div>
             </div>

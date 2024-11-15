@@ -16,7 +16,10 @@ export const ComboBox = ({ options, value, onChange, onCreateNew }) => {
 
     useEffect(() => {
         setInputValue(value)
-    }, [value])
+
+        console.log("options: " + options[0].label);
+
+    }, [value, options])
 
     const handleInputChange = (e) => {
         const newValue = e.target.value
@@ -24,7 +27,7 @@ export const ComboBox = ({ options, value, onChange, onCreateNew }) => {
         setIsOpen(true)
 
         const filtered = options.filter(option =>
-            option.label.toLowerCase().includes(newValue.toLowerCase())
+            option.label.includes(newValue.toLowerCase())
         )
         setFilteredOptions(filtered)
 

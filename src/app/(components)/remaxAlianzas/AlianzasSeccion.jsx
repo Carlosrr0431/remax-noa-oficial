@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label"
 import { ShoppingBag, Utensils, Plane, Dumbbell, CheckCircle, Facebook, Instagram, MessageCircle, MapPin } from 'lucide-react'
 import { useState } from 'react'
 
+import BodegonHotel from '../../public/elbodegon.png'
+import HerClub from '../../public/HerClub.png'
+import Image from 'next/image'
+
+
 export default function AlianzasSeccion() {
     const [showForm, setShowForm] = useState(false)
     const [submitted, setSubmitted] = useState(false)
@@ -39,36 +44,42 @@ export default function AlianzasSeccion() {
                     </section>
                     <section className="grid gap-8 lg:grid-cols-2 mb-12">
                         <DiscountCard
-                            icon={<ShoppingBag className="h-10 w-10 text-blue-500" />}
-                            title="MegaMart"
-                            description="Supermercado"
-                            discount="10% de descuento en todas tus compras"
+                            icon={BodegonHotel}
+                            title="El Bodeguero Hotel "
+                            description="Hotel"
+                            discount="5% de descuento en almuerzos y cenas."
+                            discount1="5% de descuento en gift cards de almuerzos y cenas, para disfrutar o regalar."
+                            discount2="Descuento aplicable solo en pagos en efectivo."
                             color="bg-blue-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/megamart",
-                                instagram: "https://instagram.com/megamart",
-                                whatsapp: "https://wa.me/1234567890",
-                                location: "https://maps.google.com/?q=MegaMart"
+                                instagram: "https://www.instagram.com/elbodeguerohotel?igsh=dmNpMzJoODl3OWU4",
+                                whatsapp: "https://wa.me/+5493872582022",
+                                location: "https://maps.app.goo.gl/YkBffAjLpCgzGpBRA"
                             }}
                         />
                         <DiscountCard
-                            icon={<Utensils className="h-10 w-10 text-green-500" />}
-                            title="Sabor Gourmet"
+                            icon={HerClub}
+                            title="The Her Club"
                             description="Restaurantes"
-                            discount="15% de descuento en cenas"
+                            discount="20% de descuento en gift cards empresariales."
+                            discount1="20% de descuento en todos los servicios y combos."
+                            discount2="Descuento válido únicamente en efectivo. No acumulable con otras promociones."
                             color="bg-green-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/saborgourmet",
-                                instagram: "https://instagram.com/saborgourmet",
-                                whatsapp: "https://wa.me/1234567891",
-                                location: "https://maps.google.com/?q=SaborGourmet"
+                                instagram: "https://www.instagram.com/herclub.ok?igsh=eG1mb2tmcnJqZmN2",
+                                whatsapp: "https://wa.me/+5493875494142",
+                                location: "https://maps.app.goo.gl/ua5zeYnmPGPAMBAC6"
                             }}
                         />
                         <DiscountCard
-                            icon={<Plane className="h-10 w-10 text-purple-500" />}
+                            icon={BodegonHotel}
                             title="Viajes Felices"
                             description="Agencia de viajes"
-                            discount="5% de descuento en paquetes turísticos"
+                            discount="5% de descuento en almuerzos y cenas."
+                            discount1="5% de descuento en almuerzos y cenas."
+                            discount2="5% de descuento en almuerzos y cenas."
                             color="bg-purple-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/viajesfelices",
@@ -78,10 +89,12 @@ export default function AlianzasSeccion() {
                             }}
                         />
                         <DiscountCard
-                            icon={<Dumbbell className="h-10 w-10 text-red-500" />}
+                            icon={BodegonHotel}
                             title="FitLife Gym"
                             description="Gimnasio"
-                            discount="20% de descuento en membresías anuales"
+                            discount="5% de descuento en almuerzos y cenas."
+                            discount1="5% de descuento en almuerzos y cenas."
+                            discount2="5% de descuento en almuerzos y cenas."
                             color="bg-red-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/fitlifegym",
@@ -147,40 +160,106 @@ export default function AlianzasSeccion() {
     )
 }
 
-function DiscountCard({ icon, title, description, discount, color, socialLinks }) {
+function DiscountCard({ icon, title, description, discount, discount1, discount2, color, socialLinks }) {
     return (
+
         <Card className={`flex flex-col h-full ${color} border-none shadow-lg hover:shadow-xl transition duration-300`}>
-            <CardHeader className="pb-4">
+            <CardHeader className="pb-2 sm:pb-4">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <div className="p-3 rounded-full bg-white shadow-md">{icon}</div>
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                        <Image
+                            src={icon}
+                            alt=""
+                            width={100}
+                            height={100}
+                            className='object-content max-w-[100px] max-h-[100px]'
+                        />
+
                         <div>
-                            <CardTitle className="text-2xl font-semibold">{title}</CardTitle>
-                            <CardDescription className="text-lg text-gray-600">{description}</CardDescription>
+                            <CardTitle className="text-lg sm:text-xl md:text-2xl font-semibold">{title}</CardTitle>
+                            <CardDescription className="text-sm sm:text-base md:text-lg text-gray-600">{description}</CardDescription>
                         </div>
                     </div>
-                    <a
-                        href={socialLinks.location}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
-                        aria-label="Ubicación"
-                    >
-                        <MapPin className="h-8 w-8 text-gray-600" />
-                    </a>
                 </div>
             </CardHeader>
-            <CardContent className="flex-grow flex flex-col justify-between pt-4">
-                <Badge variant="secondary" className="text-lg font-medium px-4 py-2 mb-6 self-start">
-                    {discount}
-                </Badge>
-                <div className="flex justify-center items-center space-x-6 mt-4">
-                    <IconButton href={socialLinks.facebook} icon={<Facebook className="h-6 w-6" />} label="Facebook" />
-                    <IconButton href={socialLinks.instagram} icon={<Instagram className="h-6 w-6" />} label="Instagram" />
-                    <IconButton href={socialLinks.whatsapp} icon={<MessageCircle className="h-6 w-6" />} label="WhatsApp" />
+            <CardContent className="flex-grow flex flex-col justify-between pt-2 sm:pt-4">
+                <div>
+                    <Badge variant="secondary" className="text-lg font-medium px-4 text-blue-800 py-2  self-start">
+                        {discount}
+                    </Badge>
+
+                    <Badge variant="secondary" className="text-lg font-medium px-4 py-2 text-blue-900 self-start">
+                        {discount1}
+                    </Badge>
+                    <Badge variant="primary" className="text-lg font-medium px-4 py-2 self-start text-gray-600">
+                        {discount2}
+                    </Badge>
+                </div>
+                {/* <div className="relative w-full h-32 sm:h-40 mb-4 rounded-lg overflow-hidden">
+                    <Image
+                        src={imageSrc}
+                        alt={`Imagen de ${title}`}
+                        layout="fill"
+                        objectFit="cover"
+                    />
+                </div> */}
+                <div className="flex flex-col sm:flex-row justify-between items-center mt-4 space-y-4 sm:space-y-0">
+                    <div className="flex space-x-4">
+                        <IconButton href={socialLinks.facebook} icon={<Facebook className="h-5 w-5 sm:h-6 sm:w-6" />} label="Facebook" />
+                        <IconButton href={socialLinks.instagram} icon={<Instagram className="h-5 w-5 sm:h-6 sm:w-6" />} label="Instagram" />
+                        <IconButton href={socialLinks.whatsapp} icon={<MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />} label="WhatsApp" />
+                    </div>
+                    <LocationButton href={socialLinks.location} />
                 </div>
             </CardContent>
         </Card>
+        // <Card className={`flex flex-col h-full ${color} border-none shadow-lg hover:shadow-xl transition duration-300`}>
+        //     <CardHeader className="pb-4">
+        //         <div className="flex items-center justify-between">
+        //             <div className="flex items-center space-x-4">
+
+        // <Image
+        //     src={icon}
+        //     alt=""
+        //     width={100}
+        //     height={100}
+        //     className='object-cover'
+        // />
+
+        //                 <div>
+        //                     <CardTitle className="text-2xl font-semibold">{title}</CardTitle>
+        //                     <CardDescription className="text-lg text-gray-600">{description}</CardDescription>
+        //                 </div>
+        //             </div>
+        //             <a
+        //                 href={socialLinks.location}
+        //                 target="_blank"
+        //                 rel="noopener noreferrer"
+        //                 className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-300 flex items-center justify-center shadow-md hover:shadow-lg"
+        //                 aria-label="Ubicación"
+        //             >
+        //                 <MapPin className="h-8 w-8 text-gray-600" />
+        //             </a>
+        //         </div>
+        //     </CardHeader>
+        //     <CardContent className="flex-grow flex flex-col justify-between pt-4">
+        // <Badge variant="secondary" className="text-lg font-medium px-4 text-blue-800 py-2  self-start">
+        //     {discount}
+        // </Badge>
+
+        // <Badge variant="secondary" className="text-lg font-medium px-4 py-2 text-blue-900 self-start">
+        //     {discount1}
+        // </Badge>
+        // <Badge variant="primary" className="text-lg font-medium px-4 py-2 self-start text-gray-600">
+        //     {discount2}
+        // </Badge>
+        //         <div className="flex justify-center items-center space-x-6 mt-4">
+        //             <IconButton href={socialLinks.facebook} icon={<Facebook className="h-6 w-6" />} label="Facebook" />
+        //             <IconButton href={socialLinks.instagram} icon={<Instagram className="h-6 w-6" />} label="Instagram" />
+        //             <IconButton href={socialLinks.whatsapp} icon={<MessageCircle className="h-6 w-6" />} label="WhatsApp" />
+        //         </div>
+        //     </CardContent>
+        // </Card>
     )
 }
 
@@ -194,6 +273,21 @@ function IconButton({ href, icon, label }) {
             aria-label={label}
         >
             {icon}
+        </a>
+    )
+}
+
+function LocationButton({ href }) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-600 transition duration-300 shadow-md hover:shadow-lg"
+            aria-label="Ver ubicación"
+        >
+            <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
+            <span className="font-semibold text-sm sm:text-base">Ver ubicación</span>
         </a>
     )
 }

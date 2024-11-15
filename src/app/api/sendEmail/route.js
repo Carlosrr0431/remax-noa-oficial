@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 
 export async function POST(request) {
   try {
-    const { listaEmail, htmlContenido } = await request.json();
+    const { listaEmail, htmlContenido, titulo } = await request.json();
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -11,8 +11,8 @@ export async function POST(request) {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL3,
+        pass: process.env.EMAIL_PASS3,
       },
       logger: true,
       debug: true,
@@ -52,12 +52,13 @@ export async function POST(request) {
 
     const mailOption = {
       from: {
-        name: "RE/MAX NOA RRHH",
-        address: "rrhhremaxnoa@gmail.com",
+        name: "Re/Max Noa Comercial",
+        address: "comercialremaxnoa@gmail.com",
       },
       to: [...listaEmail],
       // to: email,
-      subject: "¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!",
+      // subject: "¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!",
+      subject: titulo,
       html: htmlContenido,
     };
 

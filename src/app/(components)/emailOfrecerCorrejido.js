@@ -2,24 +2,24 @@
 // entre ${nombre_variable}
 
 export const emailOfrecerCorrejido = ({
-  title2,
-  description2,
-  url2,
-  rooms2,
-  bathrooms2,
-  coveredArea2,
-  totalArea2,
-  price2,
-  image2,
-  title1,
-  description1,
-  url1,
-  rooms1,
-  bathrooms1,
-  coveredArea1,
-  totalArea1,
-  price1,
-  image1,
+  title2 = "Casa con Departamento en Santa Ana 1 - Venta",
+  description2 = "Casa + Departamento en venta, Barrio Santa Ana 1, ubicada sobre calle Ramos a 50 mts de Av. Domingo Perón.",
+  url2 = "https://www.remax.com.ar/listings/casa-con-departamento-3-dorm-venta-santa-ana-1",
+  rooms2 = "3",
+  bathrooms2 = "1",
+  coveredArea2 = "100",
+  totalArea2 = "140",
+  price2 = "60000",
+  image2 = "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589673/jbycjt9lf3pqqu3e4j8v.webp",
+  title1 = "Casa en Praderas San lorenzo Chico - Venta",
+  description1 = "Praderas brinda los más altos estándares de calidad, seguridad y servicios, a su vez el Club cuenta con: Piletas, Solárium, Canchas de tenis y fútbol, Quinchos, Club House, Diversos espacios verdes, Lagunas, Gimnasio.",
+  url1 = "https://www.remax.com.ar/listings/casa-5-dorm-venta-praderas-san-lorenzo-chico",
+  rooms1 = "5",
+  bathrooms1 = "3",
+  coveredArea1 = "430",
+  totalArea1 = "430",
+  price1 = "590000",
+  image1 = "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589674/aka2rp9kzm4cvxt6hbp6.webp",
 }) => {
   return `
     
@@ -234,17 +234,7 @@ export const emailOfrecerCorrejido = ({
                 </td>
               </tr>
             
-              <tr>
-                <td
-                   align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;"
-                >
-                  
-      <div
-         style="font-family:Poppins, Arial, sans-serif;font-size:16px;line-height:1.5;text-align:center;color:#7f8c8d;"
-      >Propiedades exclusivas que se adaptan a tu estilo de vida</div>
-    
-                </td>
-              </tr>
+        
             
         </tbody>
       </table>
@@ -863,30 +853,30 @@ export const emailOfrecerCorrejido = ({
          border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%"
       >
         <tbody>
-          
-              <tr>
+               <tr>
                 <td
                    align="center" style="font-size:0px;padding:10px 25px;padding-bottom:20px;word-break:break-word;"
                 >
                   
       <div
          style="font-family:Poppins, Arial, sans-serif;font-size:24px;font-weight:600;line-height:1;text-align:center;color:#ffffff;"
-      >Tenemos +300 propiedades para mostrarte</div>
+      >Tenemos más de 338 propiedades</div>
     
                 </td>
               </tr>
             <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
             <tr>
               <td align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:25px;cursor:auto;padding:0;background:#25D366;">
-                <a href="https://wa.me/+5493876852073?text=Quiero mas info..." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
+                <a href="https://wa.me/+5493876852073?text=Quiero mas información sobre las propiedades que ví por correo electronico." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
                   <img src="https://img.icons8.com/color/48/000000/whatsapp.png" style="width:24px;height:24px;margin-right:8px;vertical-align:middle;" />
-                  <span style="vertical-align:middle;">Contactanos por WhatsApp</span>
+                  <span style="vertical-align:middle;">Contactanos para más información</span>
                 </a>
               </td>
             </tr>
-          </table>
+      
         </tbody>
       </table>
+      // agregado
     
             </td>
           </tr>
