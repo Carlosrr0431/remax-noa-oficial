@@ -95,9 +95,12 @@ export default function InventoryList({ refreshTrigger }) {
         let filtered = items;
 
         if (search) {
-            filtered = filtered.filter(item =>
-                item.nombre.toLowerCase().includes(search.toLowerCase()) ||
-                item.proveedor.toLowerCase().includes(search.toLowerCase())
+            filtered = filtered.filter(item => {
+                if (item.nombre != null && item.proveedor != null) {
+                    return item.nombre.toLowerCase().includes(search.toLowerCase()) ||
+                        item.proveedor.toLowerCase().includes(search.toLowerCase())
+                }
+            }
             );
         }
 
