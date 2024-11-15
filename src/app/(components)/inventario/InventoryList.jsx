@@ -94,11 +94,12 @@ export default function InventoryList({ refreshTrigger }) {
     useEffect(() => {
         let filtered = items;
 
+        console.log("search: " + search);
+
         if (search) {
             filtered = filtered.filter(item => {
-                if (item.nombre != null && item.proveedor != null) {
-                    return item.nombre.toLowerCase().includes(search.toLowerCase()) ||
-                        item.proveedor.toLowerCase().includes(search.toLowerCase())
+                if (item.nombre != null) {
+                    return item.nombre.toLowerCase().includes(search.toLowerCase())
                 }
             }
             );
@@ -171,7 +172,7 @@ export default function InventoryList({ refreshTrigger }) {
         <Card className="p-6">
             <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <Input
-                    placeholder="Buscar por nombre o proveedor..."
+                    placeholder="Buscar por nombre..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="md:w-1/3"
