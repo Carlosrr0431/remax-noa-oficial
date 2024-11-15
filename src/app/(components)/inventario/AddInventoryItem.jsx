@@ -31,6 +31,7 @@ import { supabaseClient } from '@/supabase/client'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Search } from 'lucide-react'
 import { toast } from 'sonner'
+import { Label } from '@/components/ui/label'
 
 const suggestions = [
     "Argentina", "Bolivia", "Brasil", "Chile", "Colombia",
@@ -222,16 +223,14 @@ export default function InventarioForm() {
 
 
     return (
-        <Card className="w-full max-w-2xl mx-auto">
-            <CardHeader>
-                <CardTitle>Agregar Producto al Inventario</CardTitle>
-                <CardDescription>Complete el formulario para agregar un nuevo producto o servicio al inventario.</CardDescription>
-            </CardHeader>
+        <Card className="w-full max-w-[1000px] mx-auto">
+
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="relative w-full max-w-[500px] mt-[35px]">
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="relative w-full max-w-[500px]">
+                                <Label htmlFor="name">Nombre</Label>
                                 <Command className="rounded-lg  ">
                                     <div className="flex items-center rounded-md border-[1px] border-gray-400 px-3  ">
 
@@ -293,69 +292,9 @@ export default function InventarioForm() {
                                     </FormItem>
                                 )}
                             />
-                        </div>
 
 
-                        <div className={`grid grid-cols-2 gap-4 ${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
 
-                            <FormField
-                                control={form.control}
-                                name="cantidad"
-                                rules={{
-                                    required: tipoSelect == 'producto' ? 'La cantidad es obligatoria' : false,
-                                    minLength: {
-                                        value: 1,
-                                        message: 'La cantidad debe tener al menos un digito.'
-                                    }
-                                }}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Cantidad</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Cantidad" type="text" {...field} onChange={(e) => field.onChange(e.target.value)} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="unidadMedida"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Unidad de Medida</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Seleccione el tipo" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="unidad">Unidad</SelectItem>
-                                                <SelectItem value="pack">Pack</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="precioUnitario"
-
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Monto</FormLabel>
-                                        <FormControl>
-                                            <Input type="text" {...field} placeholder="$" onChange={handleMonto} value={monto} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
                             <FormField
                                 control={form.control}
                                 name="caja"
@@ -389,6 +328,79 @@ export default function InventarioForm() {
                         </div>
 
 
+                        <div className={`grid grid-cols-3 gap-4 `}>
+
+                            <FormField
+                                control={form.control}
+                                name="precioUnitario"
+
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Monto</FormLabel>
+                                        <FormControl>
+                                            <Input type="text" {...field} placeholder="$" onChange={handleMonto} value={monto} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <div className={`${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
+                                <FormField
+                                    control={form.control}
+                                    name="cantidad"
+
+                                    rules={{
+                                        required: tipoSelect == 'producto' ? 'La cantidad es obligatoria' : false,
+                                        minLength: {
+                                            value: 1,
+                                            message: 'La cantidad debe tener al menos un digito.'
+                                        }
+                                    }}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Cantidad</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Cantidad" type="text" {...field} onChange={(e) => field.onChange(e.target.value)} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+
+
+                            <div className={`${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
+
+                                <FormField
+                                    control={form.control}
+                                    name="unidadMedida"
+                                    className={`${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Unidad de Medida</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Seleccione el tipo" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="unidad">Unidad</SelectItem>
+                                                    <SelectItem value="pack">Pack</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                        </div>
+
+
+
                         <div className={`grid grid-cols-2 gap-4 ${tipoSelect == 'producto' ? 'visible' : 'hidden'}`}>
 
                             <FormField
@@ -413,9 +425,10 @@ export default function InventarioForm() {
                                     </FormItem>
                                 )}
                             />
-                            <div className="relative w-full max-w-[500px] mt-[35px]">
+                            <div className="relative w-full max-w-[500px] -mt-[2px]  ">
+                                <Label htmlFor="proveedor">Proveedor</Label>
                                 <Command className="rounded-lg  ">
-                                    <div className="flex items-center rounded-md border-[1px] border-gray-400 px-3  ">
+                                    <div className="flex items-center rounded-md border-[1px]  border-gray-400 px-3  ">
 
                                         <CommandInput
                                             placeholder="Nombre del proveedor..."
