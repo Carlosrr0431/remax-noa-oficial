@@ -151,6 +151,9 @@ export default function InventarioForm() {
     async function onSubmit(values) {
         setIsLoading(true)
 
+        console.log("El valor del nombre es: " + value);
+
+
         await guardarItem(values, tipoSelect, monto, value, value2)
 
 
