@@ -10,8 +10,6 @@ const { read, utils } = XLSX;
 import mammoth from 'mammoth';
 import { emailCaptacionHTML } from './emailCaptacionHTML'
 import { toast } from 'sonner';
-import { emailOfrecer } from './emailOfrecer'
-import { emailOfrecerCorrejido } from './emailOfrecerCorrejido'
 import { supabaseClient } from '@/supabase/client'
 
 export const LeerCSV = () => {
@@ -50,6 +48,11 @@ export const LeerCSV = () => {
             const result3 = await supabaseClient.from("correosEnviados").update({
                 correos: [...correosMasivos.data[0]?.correos, ...values]
             }).eq("id", 1);
+
+            // const result4 = await supabaseClient.from("correosEnviados").insert({
+            //     correos: values,
+            //     remailing: true
+            // })
 
             const result4 = await supabaseClient.from("correosEnviados").insert({
                 correos: values
@@ -165,6 +168,9 @@ export const LeerCSV = () => {
                 listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
                 // listaEmail: arrayEmail,
                 htmlContenido: htmlContent,
+                // ¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!
+                // ¡Tu proximo trabajo esta cerca en RE/MAX NOA!
+
                 titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
             })
         })

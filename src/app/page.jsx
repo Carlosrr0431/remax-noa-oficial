@@ -16,6 +16,7 @@ import { SwiperOficina } from "./(components)/SwiperOficinas";
 import { FooterSencillo } from "./(components)/FooterSencillo";
 import { FaArrowUp } from "react-icons/fa";
 import { AiOutlineUp } from "react-icons/ai";
+import { AlianzasEstrategicas } from "./(components)/AlianzasEstrategicas";
 
 const fadeInAnimationVariants = {
   initial: (i) => ({
@@ -121,11 +122,10 @@ const Home = () => {
         <Beneficios />
       </section> */}
 
-      {/* 
 
-      <section className="h-[50%] w-[100%] bg-slate-600">
-        <Sponsor />
-      </section> */}
+
+
+
 
 
 
@@ -140,7 +140,12 @@ const Home = () => {
       </section>
 
 
-      <section id="testimonios" className="h-[80%] w-[100%] bg-gray-300 space-y-8 mt-[200px] sm:mt-[100px] sm:space-y-0 ">
+      <section className="h-[50%] w-[100%] bg-slate-600">
+        {/* < /> */}
+        <AlianzasEstrategicas />
+      </section>
+
+      <section id="testimonios" className="h-[80%] w-[100%] bg-gray-300 space-y-8 mt-[250px] sm:mt-[350px] sm:space-y-0 ">
         <h1 className='bg-rgb(178, 190, 181) text-center flex justify-center text-[40px]  bottom-[130px] sm:bottom-[80px] mx-auto relative text-black'>Nuestros Testimonios</h1>
         <TestimonialSlider />
       </section>

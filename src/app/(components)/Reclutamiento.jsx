@@ -146,11 +146,11 @@ function App() {
     }, [attachListeners, scrollContainerRef]);
 
     return (
-        <div className="min-h-screen bg-gray-100 w-full min-w-[1500px] -ml-14 relative">
+        <div className="min-h-screen bg-gray-100 w-full min-w-[1200px] -ml-14 relative mx-auto">
             <div className=" p-6">
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors absolute left-[58%]"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors absolute left-[70%]"
                 >
                     <UserPlus size={20} />
                     <span>Nuevo Candidato</span>
@@ -187,7 +187,7 @@ function App() {
                     </div>
                 </div>
 
-                <div className="flex gap-6 pb-6  overflow-x-scroll px-4" ref={scrollContainerRef} style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="flex gap-6 pb-6  overflow-x-scroll px-4 w-full" ref={scrollContainerRef} style={{ WebkitOverflowScrolling: 'touch' }}>
                     {STAGES.map(stage => (
                         <Embudo
                             key={stage}

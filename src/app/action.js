@@ -112,6 +112,81 @@ export async function guardarFomulario(datos) {
   return { message: "Success" };
 }
 
+export async function guardarReferido(datos, id) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const referidor = await supabase.from("referidores").select("*").eq("id", id);
+
+  if (referidor?.data[0].referidos == null) {
+    const result5 = await supabase.from("referidos").insert({
+      nombre: datos.name,
+      email: datos.email,
+      telefono: datos.phone,
+      tipo: datos.type,
+      propiedad: datos.property,
+      estado: "pendiente",
+      mailReferidor: referidor?.data[0].correo,
+    });
+
+    const result3 = await supabase
+      .from("referidores")
+      .update({
+        referidos: [
+          {
+            nombre: datos.name,
+            email: datos.email,
+            telefono: datos.phone,
+            tipo: datos.type,
+            propiedad: datos.property,
+            estado: "pendiente",
+          },
+        ],
+      })
+      .eq("id", id);
+
+    console.log(result5);
+  } else {
+    const result4 = await supabase
+      .from("referidores")
+      .update({
+        referidos: [
+          ...referidor?.data[0].referidos,
+          {
+            nombre: datos.name,
+            email: datos.email,
+            telefono: datos.phone,
+            tipo: datos.type,
+            propiedad: datos.property,
+            estado: "pendiente",
+          },
+        ],
+      })
+      .eq("id", id);
+
+    const result5 = await supabase.from("referidos").insert({
+      nombre: datos.name,
+      email: datos.email,
+      telefono: datos.phone,
+      tipo: datos.type,
+      propiedad: datos.property,
+      estado: "pendiente",
+      mailReferidor: referidor?.data[0]?.correo,
+    });
+
+    console.log(result5);
+  }
+
+  return { message: "Success" };
+}
+
 export async function guardarFomularioBaja(datos) {
   const cookieStore = cookies();
 
@@ -278,7 +353,11 @@ export async function uploadPDF(formData) {
   return { success: true, message: "File uploaded successfully!" };
 }
 
-export async function postData(formData, userName = "Carlos RR", email = "carlos.facundo.rr@gmail.com") {
+export async function postData(
+  formData,
+  userName = "Carlos RR",
+  email = "carlos.facundo.rr@gmail.com"
+) {
   const message = formData.get("message");
 
   console.log(message + " " + userName + " " + email);

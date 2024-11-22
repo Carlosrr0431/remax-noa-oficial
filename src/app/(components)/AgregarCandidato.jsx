@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
-
-
-
 export function AgregarCandidato({ isOpen, onClose, onAdd }) {
     const [formData, setFormData] = useState({
         name: '',

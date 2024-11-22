@@ -20,6 +20,7 @@ export const emailOfrecerCorrejido = ({
   totalArea1,
   price1,
   image1,
+  telefono,
 }) => {
   return `
     
@@ -229,7 +230,7 @@ export const emailOfrecerCorrejido = ({
                   
       <div
          style="font-family:Poppins, Arial, sans-serif;font-size:32px;font-weight:600;line-height:1;text-align:center;color:#2c3e50;"
-      >Propiedades Más Destacadas</div>
+      >Propiedades Más Destacadas </div>
     
                 </td>
               </tr>
@@ -1016,7 +1017,7 @@ export const emailOfrecerCorrejido = ({
             <tbody>
               <tr>
                 <td  style="font-size:0;height:30px;vertical-align:middle;width:30px;">
-                  <a   href="https://wa.me/+5493876852073?text=Quiero mas info..." target="_blank">
+                  <a   href="https://wa.me/+549${telefono}?text=Quiero mas info..." target="_blank">
                     <img
                        alt="" height="30" src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/external-whatsapp-messenger-cross-platform-mobile-devices-messaging-application-logo-color-tal-revivo.png" style="border-radius:3px;display:block;" width="30"
                     />

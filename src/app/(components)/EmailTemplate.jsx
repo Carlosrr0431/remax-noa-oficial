@@ -9,6 +9,13 @@ import {
   Text,
 } from "@react-email/components";
 
+// https://res.cloudinary.com/dlxwkq6bm/image/upload/v1732299043/ve3cfp7wwvannurkgfxo.jpg
+
+// https://api.whatsapp.com/send/?phone=543878533045&text=Hola+3878+533045%2C+te+contacto+por+la+siguiente+propiedad%3A+CASA+VENTA+TRES+CERRITOS+3+DORMITORIOS+Y+PILETA+https%3A%2F%2Fwww.remax.com.ar%2F251176-225&type=phone_number&app_absent=0
+
+
+// https://api.whatsapp.com/send/?phone=543878533045&text=Hola+3878+533045%2C+te+contacto+por+la+siguiente+propiedad%3A+CASA+VENTA+TRES+CERRITOS+3+DORMITORIOS+Y+PILETA+https%3A%2F%2Fres.cloudinary.com%2Fdlxwkq6bm%2Fimage%2Fupload%2Fv1732299043%2Fve3cfp7wwvannurkgfxo.jpg&type=phone_number&app_absent=0
+
 export const EmailTemplate = ({ message, email }) => {
   const containerStyle = {
     margin: "0 auto",

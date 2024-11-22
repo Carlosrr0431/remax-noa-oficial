@@ -11,8 +11,8 @@ export async function POST(request) {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.EMAIL3,
-        pass: process.env.EMAIL_PASS3,
+        user: process.env.EMAIL2,
+        pass: process.env.EMAIL_PASS2,
       },
       logger: true,
       debug: true,
@@ -49,6 +49,9 @@ export async function POST(request) {
     // });
 
     // const emailHtml = render(EmailTemplate());
+
+    // comercialremaxnoa@gmail.com
+    // rrhhremaxnoa@gmail.com
 
     const mailOption = {
       from: {

@@ -132,7 +132,6 @@ export default function FormularioMailingOfrecer() {
 
     console.log(result4);
 
-
     const result = await sendMail(emailOfrecerCorrejido({
       title2: "Casa con Departamento en Santa Ana 1 - Venta",
       description2: "Casa + Departamento en venta, Barrio Santa Ana 1, ubicada sobre calle Ramos a 50 mts de Av. Domingo Perón.",

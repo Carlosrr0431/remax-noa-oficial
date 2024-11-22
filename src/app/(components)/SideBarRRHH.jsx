@@ -51,7 +51,7 @@ const SideBarRRHH = () => {
         // { name: "Saved", link: "/", icon: MdOutlineDashboard, margin: true },
 
     ];
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
 
     const handleClick = (info) => {
@@ -123,11 +123,11 @@ const SideBarRRHH = () => {
                     <h2 className={`text-white whitespace-pre duration-500  overflow-hidden transition-all text-[15px] ${!open ? 'hidden' : 'block'}`} style={{
                         transitionDelay: `${1000}00ms`,
                     }}>Elija una opción</h2>
-                    <HiMenuAlt3
+                    {/* <HiMenuAlt3
                         size={26}
                         className="cursor-pointer overflow-hidden  duration-700"
                         onClick={() => setOpen(!open)}
-                    />
+                    /> */}
                 </div>
                 <div className={`top-[60px] flex flex-col gap-4 fixed ${open ? 'w-[200px]' : 'w-[110px]'}`}>
                     {menus?.map((menu, i) => {

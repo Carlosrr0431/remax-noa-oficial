@@ -25,6 +25,7 @@ import * as z from "zod"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp';
 import Chat from './Chat';
 import Providers from '@/app/(providers)/Providers';
+import { guardarReferido } from '@/app/action';
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -52,6 +53,7 @@ export const DashboardHome = () => {
     const [mounted, setMounted] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [topReferidos, setTopReferidos] = useState([])
+    const [id, setId] = useState()
     const puntos = 10000
 
     const form = useForm({
@@ -70,8 +72,11 @@ export const DashboardHome = () => {
 
 
     function onSubmit(values) {
-        console.log(values)
+        console.log(JSON.stringify(values))
         setIsModalOpen(false)
+
+        guardarReferido(values, 1)
+
         form.reset()
     }
 

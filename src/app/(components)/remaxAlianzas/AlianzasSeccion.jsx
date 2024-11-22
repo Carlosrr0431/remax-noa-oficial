@@ -9,8 +9,15 @@ import { ShoppingBag, Utensils, Plane, Dumbbell, CheckCircle, Facebook, Instagra
 import { useState } from 'react'
 
 import BodegonHotel from '../../public/elbodegon.png'
-import HerClub from '../../public/HerClub.png'
+import HerClub from '../../public/Logo the her club-05 (1) (1).png'
+import AmberSpa from '../../public/amberspa.png'
+import BenditoCafe from '../../public/benditoCafe.jpg'
+
+import Gilberto from '../../public/Logo-gilberto-2.png'
+
 import Image from 'next/image'
+
+
 
 
 export default function AlianzasSeccion() {
@@ -24,7 +31,7 @@ export default function AlianzasSeccion() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-200 ">
-            <div className="min-w-full mx-auto bg-white shadow-2xl rounded-t-[70px] overflow-hidden">
+            <div className="min-w-full mx-auto bg-white shadow-2xl  overflow-hidden">
                 <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 lg:p-12">
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4">
                         Descuentos Exclusivos para Agentes
@@ -45,12 +52,13 @@ export default function AlianzasSeccion() {
                     <section className="grid gap-8 lg:grid-cols-2 mb-12">
                         <DiscountCard
                             icon={BodegonHotel}
-                            title="El Bodeguero Hotel "
-                            description="Hotel"
+                            title="El Bodeguero Hotel"
+                            description="Cafe & Resto Bar"
                             discount="5% de descuento en almuerzos y cenas."
                             discount1="5% de descuento en gift cards de almuerzos y cenas, para disfrutar o regalar."
                             discount2="Descuento aplicable solo en pagos en efectivo."
-                            color="bg-blue-50"
+                            discount3=""
+                            color="bg-blue-600"
                             socialLinks={{
                                 facebook: "https://facebook.com/megamart",
                                 instagram: "https://www.instagram.com/elbodeguerohotel?igsh=dmNpMzJoODl3OWU4",
@@ -61,10 +69,11 @@ export default function AlianzasSeccion() {
                         <DiscountCard
                             icon={HerClub}
                             title="The Her Club"
-                            description="Restaurantes"
+                            description="Cafe & Resto Bar"
                             discount="20% de descuento en gift cards empresariales."
                             discount1="20% de descuento en todos los servicios y combos."
                             discount2="Descuento válido únicamente en efectivo. No acumulable con otras promociones."
+                            discount3=""
                             color="bg-green-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/saborgourmet",
@@ -74,35 +83,56 @@ export default function AlianzasSeccion() {
                             }}
                         />
                         <DiscountCard
-                            icon={BodegonHotel}
-                            title="Viajes Felices"
-                            description="Agencia de viajes"
-                            discount="5% de descuento en almuerzos y cenas."
-                            discount1="5% de descuento en almuerzos y cenas."
-                            discount2="5% de descuento en almuerzos y cenas."
+                            icon={AmberSpa}
+                            title="Amber Spa"
+                            description="Spa"
+                            discount="20% de descuento en todos los servicios del spa pagando en efectivo."
+                            discount1="15% de descuento en todos los servicios del spa pagando con medios bancarizados (tarjetas de crédito/débito y transferencia."
+                            discount2=""
+                            discount3=""
                             color="bg-purple-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/viajesfelices",
-                                instagram: "https://instagram.com/viajesfelices",
-                                whatsapp: "https://wa.me/1234567892",
-                                location: "https://maps.google.com/?q=ViajesFelices"
+                                instagram: "https://www.instagram.com/amberspasalta?igsh=NTJwOHdpY3A2Z2Rm",
+                                whatsapp: "https://wa.me/+5493874681921",
+                                location: "https://maps.app.goo.gl/yddPxqhLLyyJoebn7"
                             }}
                         />
                         <DiscountCard
-                            icon={BodegonHotel}
-                            title="FitLife Gym"
-                            description="Gimnasio"
-                            discount="5% de descuento en almuerzos y cenas."
-                            discount1="5% de descuento en almuerzos y cenas."
-                            discount2="5% de descuento en almuerzos y cenas."
+                            icon={BenditoCafe}
+                            title="Bendito Cafe"
+                            description="Cafe & Resto Bar"
+                            discount="12% de descuento en todos los productos de la carta."
+                            discount1="12% de descuento en gift cards, para que puedas regalar una experiencia o disfrutarla vos mismo."
+                            discount2=""
+                            discount3=""
                             color="bg-red-50"
                             socialLinks={{
                                 facebook: "https://facebook.com/fitlifegym",
-                                instagram: "https://instagram.com/fitlifegym",
+                                instagram: "https://www.instagram.com/benditocafe.salta?igsh=c3g0cDRwZjZtOHJn",
                                 whatsapp: "https://wa.me/1234567893",
-                                location: "https://maps.google.com/?q=FitLifeGym"
+                                location: "https://maps.app.goo.gl/CTPWKTh5fG1mE12T8"
                             }}
                         />
+
+                        <DiscountCard
+                            icon={Gilberto}
+                            title="Gilberto"
+                            description="Decoraciones"
+                            discount="10% de descuento en productos al pagar con transferencia bancaria."
+                            discount1="20% de descuento en productos al pagar en efectivo."
+                            discount2=""
+                            discount3="5% de descuento pagando con tarjeta de débito o crédito (en un solo pago)."
+                            color="bg-red-50"
+                            socialLinks={{
+                                facebook: "https://facebook.com/fitlifegym",
+                                instagram: "https://www.instagram.com/gilbertocasaartedeco?igsh=MWt0enZzbjNpNHBrZA==",
+                                whatsapp: "https://wa.me/+5493873116510",
+                                location: "https://maps.app.goo.gl/B7FbbbFPtkMTpy1u5"
+                            }}
+                        />
+
+
                     </section>
                     {!showForm && !submitted && (
                         <section className="text-center">
@@ -160,10 +190,10 @@ export default function AlianzasSeccion() {
     )
 }
 
-function DiscountCard({ icon, title, description, discount, discount1, discount2, color, socialLinks }) {
+function DiscountCard({ icon, title, description, discount, discount1, discount2, discount3, color, socialLinks }) {
     return (
 
-        <Card className={`flex flex-col h-full ${color} border-none shadow-lg hover:shadow-xl transition duration-300`}>
+        <Card className={`flex flex-col h-full bg-gradient-to-r from-blue-500 to-blue-600 border-none shadow-lg hover:shadow-xl transition duration-300`}>
             <CardHeader className="pb-2 sm:pb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3 sm:space-x-4">
@@ -172,27 +202,30 @@ function DiscountCard({ icon, title, description, discount, discount1, discount2
                             alt=""
                             width={100}
                             height={100}
-                            className='object-content max-w-[100px] max-h-[100px]'
+                            className={`object-content  max-w-[100px] max-h-[100px] ${title == 'El Bodeguero Hotel' ? 'max-w-[60px] max-h-[60px]' : 'max-w-[100px] max-h-[100px]'}`}
                         />
 
                         <div>
-                            <CardTitle className="text-lg sm:text-xl md:text-2xl font-semibold">{title}</CardTitle>
-                            <CardDescription className="text-sm sm:text-base md:text-lg text-gray-600">{description}</CardDescription>
+                            <CardTitle className="text-lg sm:text-xl text-white md:text-2xl font-semibold">{title}</CardTitle>
+                            <CardDescription className="text-sm sm:text-base md:text-lg text-gray-200">{description}</CardDescription>
                         </div>
                     </div>
                 </div>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col justify-between pt-2 sm:pt-4">
                 <div>
-                    <Badge variant="secondary" className="text-lg font-medium px-4 text-blue-800 py-2  self-start">
+                    <Badge variant="secondary" className="text-lg font-medium px-4 mb-2  text-black py-2  self-start">
                         {discount}
                     </Badge>
 
-                    <Badge variant="secondary" className="text-lg font-medium px-4 py-2 text-blue-900 self-start">
+                    <Badge variant="secondary" className="text-lg font-medium px-4 py-2 mb-2 text-black self-start">
                         {discount1}
                     </Badge>
-                    <Badge variant="primary" className="text-lg font-medium px-4 py-2 self-start text-gray-600">
+                    <Badge variant="secondary" className={`text-lg font-medium px-4 py-2 self-start text-gray-600 ${discount2 != '' ? 'visible' : 'hidden'}`}>
                         {discount2}
+                    </Badge>
+                    <Badge variant="secondary" className={`text-lg font-medium px-4 py-2 mb-2 text-black self-start ${discount3 != '' ? 'visible' : 'hidden'}`}>
+                        {discount3}
                     </Badge>
                 </div>
                 {/* <div className="relative w-full h-32 sm:h-40 mb-4 rounded-lg overflow-hidden">
@@ -283,7 +316,7 @@ function LocationButton({ href }) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-600 transition duration-300 shadow-md hover:shadow-lg"
+            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-600 transition duration-300 shadow-md hover:shadow-lg"
             aria-label="Ver ubicación"
         >
             <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
