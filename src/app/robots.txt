@@ -1,4 +1,5 @@
 User-agent: *
 Disallow:
+Allow: /api/og/*
 
-Sitemap: https://remaxnoa.vercel.app/sitemap.xml
+Sitemap: https://remaxnoa.com.ar/sitemap.xml
