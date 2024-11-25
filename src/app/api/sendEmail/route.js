@@ -11,8 +11,8 @@ export async function POST(request) {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.EMAIL2,
-        pass: process.env.EMAIL_PASS2,
+        user: process.env.EMAIL3,
+        pass: process.env.EMAIL_PASS3,
       },
       logger: true,
       debug: true,
@@ -55,7 +55,7 @@ export async function POST(request) {
 
     const mailOption = {
       from: {
-        name: "Re/Max Noa Comercial",
+        name: "RE/MAX NOA COMERCIAL",
         address: "comercialremaxnoa@gmail.com",
       },
       to: [...listaEmail],

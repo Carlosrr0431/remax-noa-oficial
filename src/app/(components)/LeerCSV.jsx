@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Upload } from "lucide-react"
+import { Loader2, Upload } from "lucide-react"
 import * as XLSX from 'xlsx';
 const { read, utils } = XLSX;
 import mammoth from 'mammoth';
@@ -230,6 +230,7 @@ export const LeerCSV = () => {
                 >
                     Enviar Campaña {values && <span className="text-sm "> {values.length} Contactos</span>}
                 </Button>
+
             </CardFooter>
         </Card>
 

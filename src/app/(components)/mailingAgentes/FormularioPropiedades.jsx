@@ -12,11 +12,11 @@ import * as XLSX from 'xlsx';
 const { read, utils } = XLSX;
 import { toast } from 'sonner';
 import { supabaseClient } from "@/supabase/client"
-import { emailOfrecerCorrejido } from "../emailOfrecerCorrejido"
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import moment from "moment-timezone";
+import { emailVisualizarAgentes } from "./emailVisualizarAgentes"
 
 cloudinary.config({
     cloud_name: "dlxwkq6bm",
@@ -71,11 +71,13 @@ export default function FormularioPropiedades({ agente }) {
     const arrayPropio = ['carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com', 'comercialremaxnoa@gmail.com']
     const [file, setFile] = useState(null)
     const expt = new RegExp('[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}')
-
+    const [loading, setLoading] = useState(false)
     const [values, setValues] = useState([]);
 
 
     const [value, setValue] = useState("")
+    const [titulo, setTitulo] = useState("")
+
 
     const formatPhoneNumber = (input) => {
         const cleaned = input.replace(/\D/g, "")
@@ -89,6 +91,14 @@ export default function FormularioPropiedades({ agente }) {
     const handleChange2 = (e) => {
         const formatted = formatPhoneNumber(e.target.value)
         setValue(formatted)
+    }
+
+    const handleChange3 = (e) => {
+
+        setTitulo(e.target.value)
+
+        console.log("titulo:" + e.target.value);
+
     }
 
 
@@ -113,7 +123,7 @@ export default function FormularioPropiedades({ agente }) {
         setIsFormValid(
             Object.keys(errors1).length === 0 &&
             Object.keys(errors2).length === 0 &&
-            values.length <= 88
+            values.length <= 88 && values.length > 0
         )
 
 
@@ -294,15 +304,17 @@ export default function FormularioPropiedades({ agente }) {
 
             console.log({ ...propiedad1, ...propiedad2 });
 
-            const result = await sendMail(emailOfrecerCorrejido({ ...propiedad1, ...propiedad2, telefono: value.replace('-', '') }))
+            setLoading(true)
 
-            const result3 = await supabaseClient
-                .from("correosEnviadosAgentes")
-                .update({
-                    cantidad: agente.cantidad + 1,
-                    fechaEnvio: moment().tz("America/Argentina/Salta").format("DD/MM/yyyy")
-                })
-                .eq("id", agente.id);
+            const result = await sendMail(emailVisualizarAgentes({ ...propiedad1, ...propiedad2, telefono: value.replace('-', '') }))
+
+            // const result3 = await supabaseClient
+            //     .from("correosEnviadosAgentes")
+            //     .update({
+            //         cantidad: agente.cantidad + 1,
+            //         fechaEnvio: moment().tz("America/Argentina/Salta").format("DD/MM/yyyy")
+            //     })
+            //     .eq("id", agente.id);
 
 
 
@@ -336,6 +348,7 @@ export default function FormularioPropiedades({ agente }) {
 
             if (result.message == "Email Masivo enviado exitosamente!") {
                 toast.success(result.message)
+                setLoading(false)
             }
 
 
@@ -409,10 +422,10 @@ export default function FormularioPropiedades({ agente }) {
             // 'castanedasantos@gmail.com'
             body: JSON.stringify({
                 // 'castanedasantos@gmail.com'
-                // listaEmail: [...values, ...arrayPropio],
-                listaEmail: [...arrayPropio],
+                listaEmail: [...values],
+                // listaEmail: [...arrayPropio],
                 htmlContenido: htmlContent,
-                titulo: "El sueño de tu Casa/Departamento propio está cerca en RE/MAX NOA"
+                titulo: titulo
             })
         })
         return await response.json()
@@ -538,6 +551,20 @@ export default function FormularioPropiedades({ agente }) {
                                     {/* {error && <p className="text-sm text-red-500">{error}</p>} */}
                                 </div>
 
+                                <div className="space-y-2">
+                                    <Label htmlFor="phone">Titulo</Label>
+                                    <Input
+                                        type="text"
+                                        id="titulo"
+                                        placeholder="Titulo del mensaje..."
+                                        value={titulo}
+                                        onChange={handleChange3}
+
+
+                                    />
+                                    {/* {error && <p className="text-sm text-red-500">{error}</p>} */}
+                                </div>
+
                                 {property3 && (
                                     <p className="mt-2 text-sm text-gray-500">Archivo seleccionado: {property3.name}</p>
                                 )}
@@ -546,9 +573,17 @@ export default function FormularioPropiedades({ agente }) {
                                 <Button type="button" onClick={toggleProperty}>
                                     Volver a Propiedad 1
                                 </Button>
-                                <Button type="submit" disabled={!isFormValid}>
-                                    Enviar a {" "} {values && <span className="text-sm ml-1"> {" "} {values.length}  Contactos</span>}
-                                </Button>
+                                <div>
+                                    <Button type="submit" disabled={!isFormValid} className={`${loading ? 'hidden' : 'visible'}`}>
+                                        Enviar a {" "} {values && <span className="text-sm ml-1"> {" "} {values.length}  Contactos</span>}
+                                    </Button>
+
+
+                                    <Button disabled={loading} className={`${loading ? 'visible' : 'hidden'}`} >
+                                        <Loader2 className="animate-spin mr-2" />
+                                        Espera por favor...
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </CardContent>
@@ -587,7 +622,7 @@ export default function FormularioPropiedades({ agente }) {
 
     return (
         <div className="max-w-2xl mx-auto p-6">
-            {
+            {/* {
                 agente != undefined && agente?.cantidad < 4 ? <div>
                     <h1 className="text-2xl font-bold mb-6">Formulario de Propiedades {agente?.cantidad}</h1>
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -610,6 +645,18 @@ export default function FormularioPropiedades({ agente }) {
                     </CardContent>
 
                 </Card></div>)
+
+            } */}
+
+
+            {
+                <div>
+                    <h1 className="text-2xl font-bold mb-6">Formulario de Propiedades {agente?.cantidad}</h1>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <Progress value={currentProperty === 1 ? 33 : currentProperty === 2 ? 66 : 100} className="mb-4" />
+                        {renderPropertyForm()}
+                    </form>
+                </div>
 
             }
         </div>

@@ -8,6 +8,7 @@ import WhatsApp from "./(components)/WhatsApp";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata = {
   title: "RE/MAX NOA SALTA & JUJUY",
@@ -66,6 +67,8 @@ export default function RootLayout({ children }) {
           </Suspense>
         </Providers>
       </body>
+
+      <GoogleAnalytics gaId="G-9YE0KT4S6B" />
     </html>
   );
 }

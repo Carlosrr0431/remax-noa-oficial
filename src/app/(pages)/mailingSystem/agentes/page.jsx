@@ -13,7 +13,7 @@ import FormularioPropiedades from '@/app/(components)/mailingAgentes/FormularioP
 import { supabaseClient } from '@/supabase/client'
 
 const menus = [
-  { name: "Mailing/Ofrecer", link: "/", icon: LayoutDashboard },
+  { name: "Mailing/Visualización", link: "/", icon: LayoutDashboard },
 
 ];
 
@@ -100,7 +100,7 @@ const AgentesMailing = () => {
 
             <h2 className={`text-white whitespace-pre duration-500  overflow-hidden transition-all text-[15px] ${!open ? 'hidden' : 'block'}`} style={{
               transitionDelay: `${1000}00ms`,
-            }}>{agente?.email}</h2>
+            }}>Elegir una opción</h2>
             <HiMenuAlt3
               size={26}
               className="cursor-pointer overflow-hidden  duration-700"
@@ -185,7 +185,7 @@ const AgentesMailing = () => {
         <div className={`relative duration-500 transition-all  md:flex  md:flex-wrap md:gap-x-8 left-[100px]  mb-20 md:left-[300px] -mx-6   max-w-[80%] h-full ${open ? '' : 'md:-ml-[120px] md:gap-x-12 '}  `}>
 
           {
-            opcion == "Mailing/Ofrecer" && <FormularioPropiedades agente={agente} />
+            opcion == "Mailing/Visualización" && <FormularioPropiedades agente={agente} />
           }
 
 
