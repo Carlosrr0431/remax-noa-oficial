@@ -159,22 +159,43 @@ export const LeerCSV = () => {
     const sendMail = async (htmlContent) => {
 
 
-        const response = await fetch('/api/sendEmail', {
-            method: 'POST',
-            headers: {
+        for (let index = 0; index < values.length; index++) {
+            const element = values[index];
+      
+            const response = await fetch('/api/sendEmail', {
+              method: 'POST',
+              headers: {
                 'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
-                // listaEmail: arrayEmail,
+              },
+              // 'castanedasantos@gmail.com'
+              body: JSON.stringify({
+                // 'castanedasantos@gmail.com'
+                listaEmail: element,
                 htmlContenido: htmlContent,
-                // ¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!
-                // ¡Tu proximo trabajo esta cerca en RE/MAX NOA!
-
                 titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+              })
             })
-        })
-        return await response.json()
+      
+          }
+      
+      
+          return "Enviado correctamente"
+
+        // const response = await fetch('/api/sendEmail', {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
+
+        //         htmlContenido: htmlContent,
+     
+
+        //         titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+        //     })
+        // })
+        // return await response.json()
     }
 
 

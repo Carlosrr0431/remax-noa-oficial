@@ -17,6 +17,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import moment from "moment-timezone";
 import { emailVisualizarAgentes } from "./emailVisualizarAgentes"
+import { emailOfrecerMejorado } from "../emailOfrecerMejorado"
 
 cloudinary.config({
     cloud_name: "dlxwkq6bm",
@@ -306,7 +307,9 @@ export default function FormularioPropiedades({ agente }) {
 
             setLoading(true)
 
-            const result = await sendMail(emailVisualizarAgentes({ ...propiedad1, ...propiedad2, telefono: value.replace('-', '') }))
+            // const result = await sendMail(emailVisualizarAgentes({ ...propiedad1, ...propiedad2, telefono: value.replace('-', '') }))
+
+            const result = await sendMail(emailOfrecerMejorado({ ...propiedad1, ...propiedad2, telefono: value.replace('-', '') }))
 
             // const result3 = await supabaseClient
             //     .from("correosEnviadosAgentes")
@@ -350,7 +353,6 @@ export default function FormularioPropiedades({ agente }) {
                 toast.success(result.message)
                 setLoading(false)
             }
-
 
         } else {
             console.log("El formulario contiene errores o faltan datos. Por favor, complete todos los campos antes de enviar.")
@@ -414,7 +416,7 @@ export default function FormularioPropiedades({ agente }) {
     const sendMail = async (htmlContent) => {
 
 
-        const response = await fetch('/api/sendEmail', {
+        const response = await fetch('/api/sendEmailAgentes', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -425,7 +427,11 @@ export default function FormularioPropiedades({ agente }) {
                 listaEmail: [...values],
                 // listaEmail: [...arrayPropio],
                 htmlContenido: htmlContent,
-                titulo: titulo
+                titulo: titulo,
+                nombre: agente.nombre,
+                correo: agente.email,
+                pass: agente.appPass
+
             })
         })
         return await response.json()

@@ -36,7 +36,7 @@ const SideBarRRHH = () => {
     const { data: session } = useSession()
 
     const menus = [
-        { name: "Empleados", link: "/", icon: UserCircle },
+        { name: "Agentes", link: "/", icon: UserCircle },
         { name: "Evaluaciones", link: "/", icon: ChartCandlestick },
         { name: "Reportes", link: "/", icon: ChartBar },
         { name: "Reclutamiento", link: "/", icon: ContactRound },

@@ -31,14 +31,11 @@ const AgentesMailing = () => {
         .select("*")
         .match({ email: session.user.email }).single();
 
-
       console.log("correo: " + session?.user?.email);
-
 
       console.log("data: " + JSON.stringify(data.data));
 
       setAgente(data.data)
-
     }
 
 

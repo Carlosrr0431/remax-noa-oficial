@@ -15,6 +15,8 @@ export const AppWrapper = ({ children }) => {
     inputEl: inputEl
   })
 
+  const [selectedArticle, setSelectedArticle] = useState(null);
+
   const [stateScroll, setStateScroll] = useState({
     bodyScroll: bodyScroll
   })
@@ -36,6 +38,8 @@ export const AppWrapper = ({ children }) => {
   const [isOpenBiblia, setIsOpenBiblia] = useState(false);
   const [cambioHeader, setCambioHeader] = useState(false)
   const [ancho, setAncho] = useState();
+  const [selectedCategory, setSelectedCategory] = useState('Todas')
+  const [selectedProperty, setSelectedProperty] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -44,6 +48,12 @@ export const AppWrapper = ({ children }) => {
   }, [])
 
   const obj = {
+    selectedProperty,
+    setSelectedProperty,
+    selectedCategory,
+    setSelectedCategory,
+    selectedArticle,
+    setSelectedArticle,
     inputEl: state,
     userName: userName,
     setUserName: setUserName,

@@ -321,6 +321,8 @@ export async function uploadPDF(formData) {
   const file = formData.get("file");
   const email = formData.get("email");
   const oficina = formData.get("oficina");
+  const nombre = formData.get('name')
+
   let fuente = "";
   if (correosMasivos.includes(email)) {
     fuente = "Mailing Masivo";

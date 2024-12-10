@@ -75,9 +75,9 @@ export const config = {
     "/dashboard/administrador",
     "/dashboard/jujuy",
     "/user",
-    "/mailingSystem/agentes",
-    "/mailingSystem/rrhh",
-    "/dashboard/rrhh",
-    "/comunidadRemax/dashboard",
+    // "/mailingSystem/agentes",
+    // "/mailingSystem/rrhh",
+    // "/dashboard/rrhh",
+    // "/comunidadRemax/dashboard",
   ],
 };

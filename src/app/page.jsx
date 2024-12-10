@@ -17,6 +17,8 @@ import { FooterSencillo } from "./(components)/FooterSencillo";
 import { FaArrowUp } from "react-icons/fa";
 import { AiOutlineUp } from "react-icons/ai";
 import { AlianzasEstrategicas } from "./(components)/AlianzasEstrategicas";
+import SeccionPropiedades from "./(components)/SeccionPropiedades";
+import CarouselPropiedades from "./(components)/landingInmobilaria/CarouselPropiedades";
 
 const fadeInAnimationVariants = {
   initial: (i) => ({
@@ -135,12 +137,13 @@ const Home = () => {
       </section>
 
 
+
       <section className="h-screen w-[100%] bg-white mt-[600px] sm:mt-[60px]">
         <SwiperOficina />
       </section>
 
 
-      <section className="h-[50%] w-[100%] bg-slate-600">
+      <section className="h-[50%] w-[100%] bg-slate-600 mt-[100px]">
         {/* < /> */}
         <AlianzasEstrategicas />
       </section>

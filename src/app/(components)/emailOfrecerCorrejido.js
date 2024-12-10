@@ -868,7 +868,7 @@ export const emailOfrecerCorrejido = ({
             <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 auto;">
             <tr>
               <td align="center" bgcolor="#25D366" role="presentation" style="border:none;border-radius:25px;cursor:auto;padding:0;background:#25D366;">
-                <a href="https://wa.me/+549${telefono}?text=Quiero mas información sobre las propiedades que ví por correo electronico." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
+                <a href="https://wa.me/+5493876852073?text=Quiero mas información sobre las propiedades que ví por correo electronico." style="display:inline-block;background:#25D366;color:white;font-family:Poppins, Arial, sans-serif;font-size:16px;font-weight:600;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:15px 25px;border-radius:25px;">
                   <img src="https://img.icons8.com/color/48/000000/whatsapp.png" style="width:24px;height:24px;margin-right:8px;vertical-align:middle;" />
                   <span style="vertical-align:middle;">Contactanos para más información</span>
                 </a>
@@ -877,7 +877,7 @@ export const emailOfrecerCorrejido = ({
       
         </tbody>
       </table>
-      // agregado
+
     
             </td>
           </tr>
@@ -1003,7 +1003,7 @@ export const emailOfrecerCorrejido = ({
             <tbody>
               <tr>
                 <td  style="font-size:0;height:30px;vertical-align:middle;width:30px;">
-                  <a   href="https://wa.me/+549${telefono}?text=Quiero mas información sobre las propiedades que ví por correo electronico." target="_blank">
+                  <a   href="https://wa.me/+5493876852073?text=Quiero mas información sobre las propiedades que ví por correo electronico." target="_blank">
                     <img
                        alt="" height="30" src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/external-whatsapp-messenger-cross-platform-mobile-devices-messaging-application-logo-color-tal-revivo.png" style="border-radius:3px;display:block;" width="30"
                     />
@@ -1342,3 +1342,5 @@ export const emailOfrecerCorrejido = ({
 
 //   </body>
 // </html>
+
+

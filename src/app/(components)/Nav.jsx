@@ -32,8 +32,13 @@ const Nav = () => {
   // https://wa.me/+5493876852073?text=Quiero mas info...
   // https://www.linkedin.com/company/64931051/admin/dashboard/     **falta el icono
 
+
+
+
+
+
   return (
-    <nav className={`${pathname == '/dashboard' || pathname == '/ranking' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/mailingSystem' || pathname == '/alianzas/agentes' || pathname == '/comunidadRemax/dashboard/profile' || pathname == '/comunidadRemax/agentes' || pathname == '/alianzas/negocios' || pathname == '/comunidadRemax/dashboard' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' ? 'hidden' : 'flex'} montserrat  flex-col  items-center xl:justify-center gap-y-4  fixed h-max bottom-0 mt-auto xl:right-[2%]  z-50 w-full top-0 xl:w-12 xl:max-w-md xl:h-[60%] xl:bottom-[150px]`}>
+    <nav className={`${pathname == '/dashboard' || pathname == '/nuevaLanding/forma-parte' || pathname == '/nuevaLanding/porque-vender' || pathname == '/nuevaLanding/dashboard' || pathname == '/ranking' || pathname == '/nuevaLanding/porque-comprar' || pathname == '/login' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/mailingSystem/rrhh' || pathname == '/mailingSystem/agentes' || pathname == '/nuevaLanding/reclutamiento' || pathname == '/nuevaLanding/propiedades' || pathname == '/mailingSystem' || pathname == '/alianzas/agentes' || pathname == '/comunidadRemax/dashboard/profile' || pathname == '/nuevaLanding' || pathname == '/comunidadRemax/agentes' || pathname == '/alianzas/negocios' || pathname == '/comunidadRemax/dashboard' || pathname == '/inventarioRemax' || pathname == '/dashboard/rrhh' ? 'hidden' : 'flex'} montserrat  flex-col  items-center xl:justify-center gap-y-4  fixed h-max bottom-0 mt-auto xl:right-[2%]  z-50 w-full top-0 xl:w-12 xl:max-w-md xl:h-[60%] xl:bottom-[150px]`}>
       <div className={` w-full xl:flex-col items-center justify-between xl:justify-center gap-y-7 px-4 md:px-40 xl:  h-[80px]  text-3xl xl:text-xl xl:rounded-full xl:h-max py-4  opacity-80 bg-blend-multiply hidden sm:flex`}>
 
         <Link target="_blank" href={'https://www.facebook.com/remaxnoasalta'} className="duration-300 transition-all hover:scale-110  focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85]"> <Image src={Facebook} width={10} height={10} alt="" /> </Link>

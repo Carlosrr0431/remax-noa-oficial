@@ -70,16 +70,16 @@ export function AlianzasEstrategicas() {
     }, [emblaApi])
 
     const alianzas = [
-        {
-            id: 1,
-            nombre: "Gilberto",
-            subtitulo: "Casa Arte Deco",
-            tamaño: "90px",
-            logo: Gilberto,
-            instagram: "https://www.instagram.com/gilbertocasaartedeco?igsh=MWt0enZzbjNpNHBrZA==",
-            web: "https://www.instagram.com/gilbertocasaartedeco?igsh=MWt0enZzbjNpNHBrZA==",
-            whatsapp: "+5493873116510"
-        },
+        // {
+        //     id: 1,
+        //     nombre: "Gilberto",
+        //     subtitulo: "Casa Arte Deco",
+        //     tamaño: "90px",
+        //     logo: Gilberto,
+        //     instagram: "https://www.instagram.com/gilbertocasaartedeco?igsh=MWt0enZzbjNpNHBrZA==",
+        //     web: "https://www.instagram.com/gilbertocasaartedeco?igsh=MWt0enZzbjNpNHBrZA==",
+        //     whatsapp: "+5493873116510"
+        // },
         {
             id: 2,
             nombre: "El Bodeguero Hotel",
@@ -124,8 +124,8 @@ export function AlianzasEstrategicas() {
 
     return (
         <div className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8 bg-gradient-to-r from-gray-50 to-gray-100">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 text-gray-800">
-                Nuestras Alianzas Estratégicas
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-12 text-gray-800">
+                Alianzas Estrategicas Para Nuestros Agentes
             </h2>
             <div className="relative w-full max-w-7xl mx-auto">
                 <Carousel

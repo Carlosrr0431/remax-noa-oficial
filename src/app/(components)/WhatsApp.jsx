@@ -12,8 +12,12 @@ const WhatsApp = () => {
     const pathname = usePathname()
 
     return (
+
+
         // fixed right-0 bottom-0 z-50 mb-8 mr-8
-        <div className={`${pathname == '/dashboard' || pathname == '/comunidadRemax/dashboard/profile' || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/login' || pathname == '/mailingSystem' || pathname == '/mailingSystem/rrhh' || pathname == '/comunidadRemax/dashboard' || pathname == '/inventarioRemax' || pathname == '/alianzas/agentes' || pathname == '/dashboard/rrhh' || pathname == '/comunidadRemax/agentes' || pathname == '/mailingSystem/agentes' ? 'hidden' : 'block'} `}>
+
+
+        <div className={`${pathname == '/dashboard' || pathname == '/nuevaLanding' || pathname == '/comunidadRemax/dashboard/profile' || pathname == '/nuevaLanding/dashboard' || pathname == '/contactanos' || pathname == '/dashboard/administrador' || pathname == '/dashboard/jujuy' || pathname == '/login' || pathname == '/mailingSystem' || pathname == '/mailingSystem/rrhh' || pathname == '/comunidadRemax/dashboard' || pathname == '/nuevaLanding/propiedades' || pathname == '/inventarioRemax' || pathname == '/alianzas/agentes' || pathname == '/dashboard/rrhh' || pathname == '/comunidadRemax/agentes' || pathname == '/mailingSystem/agentes' ? 'hidden' : 'block'} `}>
             <Link
 
                 rel="noopener noreferrer"

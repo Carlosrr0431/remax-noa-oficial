@@ -11,8 +11,8 @@ export async function POST(request) {
       port: 587,
       secure: true,
       auth: {
-        user: process.env.EMAIL3,
-        pass: process.env.EMAIL_PASS3,
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS,
       },
       logger: true,
       debug: true,
@@ -52,13 +52,15 @@ export async function POST(request) {
 
     // comercialremaxnoa@gmail.com
     // rrhhremaxnoa@gmail.com
+    // remaxnoacomercial@gmail.com
 
     const mailOption = {
       from: {
-        name: "RE/MAX NOA COMERCIAL",
-        address: "comercialremaxnoa@gmail.com",
+        name: "RE/MAX NOA RRHH",
+        address: "rrhhremaxnoa@gmail.com",
       },
-      to: [...listaEmail],
+      // to: [...listaEmail]
+      to: listaEmail,
       // to: email,
       // subject: "¡Tu proximo emprendimiento esta cerca en RE/MAX NOA!",
       subject: titulo,

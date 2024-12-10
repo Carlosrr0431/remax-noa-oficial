@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx';
 const { read, utils } = XLSX;
 import { toast } from 'sonner';
 import { supabaseClient } from "@/supabase/client"
+import { emailOfrecerMejorado } from "./emailOfrecerMejorado"
 
 cloudinary.config({
   cloud_name: "dlxwkq6bm",
@@ -132,7 +133,7 @@ export default function FormularioMailingOfrecer() {
 
     console.log(result4);
 
-    const result = await sendMail(emailOfrecerCorrejido({
+    const result = await sendMail(emailOfrecerMejorado({
       title2: "Casa con Departamento en Santa Ana 1 - Venta",
       description2: "Casa + Departamento en venta, Barrio Santa Ana 1, ubicada sobre calle Ramos a 50 mts de Av. Domingo Perón.",
       url2: "https://www.remax.com.ar/listings/casa-con-departamento-3-dorm-venta-santa-ana-1",
@@ -142,15 +143,15 @@ export default function FormularioMailingOfrecer() {
       totalArea2: "140",
       price2: "60.000",
       image2: "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589673/jbycjt9lf3pqqu3e4j8v.webp",
-      title1: "Casa en Praderas San lorenzo Chico - Venta",
+      title1: "Casa en Portezuelo Sur - Venta",
       description1: "Praderas brinda los más altos estándares de calidad, seguridad y servicios, a su vez el Club cuenta con: Piletas, Solárium, Canchas de tenis y fútbol, Quinchos, Club House, Diversos espacios verdes, Lagunas, Gimnasio.",
-      url1: "https://www.remax.com.ar/listings/casa-5-dorm-venta-praderas-san-lorenzo-chico",
-      rooms1: "5 Habitaciones",
-      bathrooms1: "3 Baños",
-      coveredArea1: "430",
-      totalArea1: "430",
-      price1: "590.000",
-      image1: "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1731589674/aka2rp9kzm4cvxt6hbp6.webp",
+      url1: "https://www.remax.com.ar/listings/casa-3-dormitorios-venta-portezuelo-sur",
+      rooms1: "4 Habitaciones",
+      bathrooms1: "2 Baños",
+      coveredArea1: "120",
+      totalArea1: "288",
+      price1: "120.000",
+      image1: "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1732713631/Casa_PorteZuelo_dh8ivx.webp",
     }))
 
     setValues([])
@@ -346,20 +347,27 @@ export default function FormularioMailingOfrecer() {
   const sendMail = async (htmlContent) => {
 
 
-    const response = await fetch('/api/sendEmail', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      // 'castanedasantos@gmail.com'
-      body: JSON.stringify({
+    for (let index = 0; index < values.length; index++) {
+      const element = values[index];
+
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
         // 'castanedasantos@gmail.com'
-        listaEmail: [...values, ...arrayPropio],
-        htmlContenido: htmlContent,
-        titulo: "El sueño de tu Casa/Departamento propio está cerca en RE/MAX NOA"
+        body: JSON.stringify({
+          // 'castanedasantos@gmail.com'
+          listaEmail: element,
+          htmlContenido: htmlContent,
+          titulo: "El sueño de tu Casa/Departamento propio está cerca en RE/MAX NOA"
+        })
       })
-    })
-    return await response.json()
+
+    }
+
+
+    return "Enviado correctamente"
   }
 
   const toggleProperty = () => {

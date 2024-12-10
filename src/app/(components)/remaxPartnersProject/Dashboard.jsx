@@ -33,8 +33,6 @@ export const Dashboard = () => {
                 return <Contacts />;
             case 'blog':
                 return <Blog />;
-            // default:
-            //     return <DashboardHome />;
         }
     };
 
@@ -67,11 +65,7 @@ export const Dashboard = () => {
                     {/* User Profile Section */}
                     <div className="p-6 border-b border-gray-100">
                         <div className="flex items-center space-x-4">
-                            {/* <img
-                                src={user?.picture}
-                                alt={user?.name}
-                                className="h-12 w-12 rounded-full ring-2 ring-blue-500 ring-offset-2"
-                            /> */}
+                        
                             <div className="flex-1 min-w-0">
                                 <h2 className="text-sm font-semibold text-gray-900 truncate">
                                     Carlos RR
@@ -102,10 +96,10 @@ export const Dashboard = () => {
                         ))}
                     </nav>
 
-                    {/* Logout Button */}
+            
                     <div className="p-4 border-t border-gray-100">
                         <button
-                            // onClick={() => logout()}
+                   
                             className="w-full flex items-center px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                         >
                             <LogOut className="h-5 w-5 mr-3" />
@@ -115,7 +109,6 @@ export const Dashboard = () => {
                 </div>
             </aside>
 
-            {/* Main Content */}
             <main className={`transition-all duration-300 ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-64'}`}>
                 <div className="min-h-screen p-4 lg:p-8 pt-20 lg:pt-8">
                     <div className="max-w-7xl mx-auto">

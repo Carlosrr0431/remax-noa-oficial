@@ -223,6 +223,8 @@ export const FormularioBaja = () => {
                                 <TableHead>Razón Personal</TableHead>
                                 <TableHead>Razón Emocional</TableHead>
                                 <TableHead className="text-right">Razón Empresa</TableHead>
+                                <TableHead className="text-right">Otros</TableHead>
+
                             </TableRow>
                         </TableHeader>
                         <TableBody>

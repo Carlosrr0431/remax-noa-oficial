@@ -24,7 +24,7 @@ const Socials = () => {
   const pathname = usePathname();
 
   return <div>
-    <div className={`${pathname == '/cursos' || pathname == '/planes' || pathname == '/about' || cambioHeader ? 'sm:hidden hidden' : ''} hidden sm:flex gap-x-7 items-center justify-center montserrat relative sm:left-[250px] `}>
+    <div className={`${pathname == '/cursos'  || pathname == '/planes' || pathname == '/about' || cambioHeader ? 'sm:hidden hidden' : ''} hidden sm:flex gap-x-7 items-center justify-center montserrat relative sm:left-[250px] `}>
 
       <Link href={'#nosotros'} className="duration-300 transition-all hover:scale-105  focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] text-white font-light montserrat hover:font-medium "> Nosotros  </Link>
 
