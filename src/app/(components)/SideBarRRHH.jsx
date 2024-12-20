@@ -2,27 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
-import { KeyIcon } from 'lucide-react';
-import { HiMenuAlt3 } from 'react-icons/hi';
-import { MdOutlineDashboard } from 'react-icons/md';
-import { BsPersonArmsUp } from "react-icons/bs";
-import { BsPersonStanding } from "react-icons/bs";
-import { CardCursos } from './CardCursos';
-import { LuDumbbell } from "react-icons/lu";
-import { GiHieroglyphLegs } from "react-icons/gi";
+
+
 import { supabaseClient } from '@/supabase/client';
 import { signOut, useSession } from 'next-auth/react';
 import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon, UserMinus, UserCircle, ChartCandlestick, ChartBar, Receipt, ContactRound } from "lucide-react"
 import { FormularioBaja } from './FomularioBaja';
-import { BigCalendar } from './BigCalendar';
-import { UsuariosRRHH } from './UsuariosRRHH';
 import Empleados from './Empleados';
 import Evaluaciones from './Evaluaciones';
 import Reportes from './Reportes';
-import { BiLogOut } from 'react-icons/bi';
 import Reclutamiento from './Reclutamiento';
 import Tracking from './Tracking';
 import CalendarioEntrevistas from './dashboardRRHH/CalendarioEntrevistas';
