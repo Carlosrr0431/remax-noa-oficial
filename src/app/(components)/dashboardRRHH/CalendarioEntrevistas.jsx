@@ -128,13 +128,9 @@ export default function CalendarioEntrevistas() {
             .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
 
                 if (payload.eventType == "INSERT") {
-
-                    alert("ENTRO A CALENDARIO")
                     return obtenerEntrevistas()
 
                 } else if (payload.eventType == 'UPDATE') {
-
-
                     return obtenerEntrevistas()
                     // return handleSelectEvent()
 
@@ -178,9 +174,6 @@ export default function CalendarioEntrevistas() {
         const dia = moment(interview.start).tz("America/Argentina/Salta").format("DD/MM/yyyy HH:mm").substr(0, 10)
         const hora = moment(interview.start).tz("America/Argentina/Salta").format("DD/MM/yyyy HH:mm").substr(11, 5)
 
-        console.log("HORA" + hora);
-
-
         const { data, error } = await supabaseClient
             .from('cuposDisponibles')
             .select().eq('date', dia).eq('time', hora)
@@ -188,9 +181,6 @@ export default function CalendarioEntrevistas() {
 
         if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
             let listaReclutados = []
-
-            console.log("DATOS 2: " + JSON.stringify(data[0]));
-
 
             data[0]?.reclutados.map((elem, index) => {
 
