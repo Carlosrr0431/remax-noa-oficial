@@ -131,7 +131,7 @@ export default function PersonalInfoForm({ onSubmit }) {
                                         className="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
                                     >
                                         <span>Sube un archivo</span>
-                                        <input id="file-upload" name="cvFile" type="file" className="sr-only" onChange={handleChange} accept=".pdf,.doc,.docx" />
+                                        <input id="file-upload" name="cvFile" type="file" className="sr-only" onChange={handleChange} accept=".pdf" />
                                     </label>
                                     <p className="pl-1 text-gray-600">o arrastra y suelta</p>
                                 </div>
