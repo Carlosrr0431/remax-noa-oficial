@@ -12,6 +12,8 @@ import moment from "moment-timezone";
 import { supabaseClient } from '@/supabase/client'
 import InterviewModal2 from './InterviewModal2'
 import { useAppContext } from '@/app/(context)/AppWrapper'
+import { format, startOfWeek, endOfWeek, getMonth, getYear, isSaturday, isSunday, addDays } from 'date-fns'
+import { es } from 'date-fns/locale'
 // AZUL PRIMERA ENTREVISTA, VERDE SEGUNDA Y ROJO LA ENTREVISTA PROXIMA
 
 // Unite a la red inmobiliaria N°1 
@@ -126,12 +128,14 @@ export default function CalendarioEntrevistas() {
             .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
 
                 if (payload.eventType == "INSERT") {
-                    return await obtenerEntrevistas()
+
+                    alert("ENTRO A CALENDARIO")
+                    return obtenerEntrevistas()
 
                 } else if (payload.eventType == 'UPDATE') {
 
 
-                    return await obtenerEntrevistas()
+                    return obtenerEntrevistas()
                     // return handleSelectEvent()
 
                 }
@@ -395,6 +399,44 @@ export default function CalendarioEntrevistas() {
         );
     };
 
+    // const CustomToolbar = (toolbar) => {
+    //     const goToBack = () => {
+    //         toolbar.onNavigate('PREV');
+    //     };
+
+    //     const goToNext = () => {
+    //         toolbar.onNavigate('NEXT');
+    //     };
+
+    //     const goToCurrent = () => {
+    //         toolbar.onNavigate('TODAY');
+    //     };
+
+    //     return (
+    //         <div className="rbc-toolbar">
+    //             <span className="rbc-btn-group">
+    //                 <button type="button" onClick={goToBack}>Anterior</button>
+    //                 <button type="button" onClick={goToCurrent}>Hoy</button>
+    //                 <button type="button" onClick={goToNext}>Siguiente</button>
+    //             </span>
+    //             <span className="rbc-toolbar-label">{toolbar.label}</span>
+    //             <span className="rbc-btn-group">
+    //                 {toolbar.views.map((view) => (
+    //                     <button
+    //                         key={view}
+    //                         type="button"
+    //                         onClick={() => toolbar.onView(view)}
+    //                         className={view === toolbar.view ? 'rbc-active' : ''}
+    //                     >
+    //                         {view === 'week' ? 'Semana' : 'Día'}
+    //                     </button>
+    //                 ))}
+    //             </span>
+    //         </div>
+    //     );
+    // };
+
+
     const CustomToolbar = (toolbar) => {
         const goToBack = () => {
             toolbar.onNavigate('PREV');
@@ -408,6 +450,27 @@ export default function CalendarioEntrevistas() {
             toolbar.onNavigate('TODAY');
         };
 
+        const formatWeekRange = (date) => {
+            let start = startOfWeek(date, { locale: es, weekStartsOn: 1 });
+            let end = endOfWeek(date, { locale: es, weekStartsOn: 1 });
+
+            // Ajustar el rango para mostrar solo de lunes a viernes
+            if (isSunday(start)) start = addDays(start, 1);
+            if (isSaturday(end)) end = addDays(end, -1);
+
+            const formatDate = (d) => format(d, 'd', { locale: es });
+            const formatMonth = (d) => format(d, 'MMMM', { locale: es });
+            const formatYear = (d) => format(d, 'yyyy', { locale: es });
+
+            if (getMonth(start) === getMonth(end)) {
+                return `${formatDate(start)} - ${formatDate(end)} de ${formatMonth(start)} de ${formatYear(start)}`;
+            } else if (getYear(start) === getYear(end)) {
+                return `${formatDate(start)} de ${formatMonth(start)} - ${formatDate(end)} de ${formatMonth(end)} de ${formatYear(start)}`;
+            } else {
+                return `${formatDate(start)} de ${formatMonth(start)} de ${formatYear(start)} - ${formatDate(end)} de ${formatMonth(end)} de ${formatYear(end)}`;
+            }
+        };
+
         return (
             <div className="rbc-toolbar">
                 <span className="rbc-btn-group">
@@ -415,21 +478,18 @@ export default function CalendarioEntrevistas() {
                     <button type="button" onClick={goToCurrent}>Hoy</button>
                     <button type="button" onClick={goToNext}>Siguiente</button>
                 </span>
-                <span className="rbc-toolbar-label">{toolbar.label}</span>
-                <span className="rbc-btn-group">
-                    {toolbar.views.map((view) => (
-                        <button
-                            key={view}
-                            type="button"
-                            onClick={() => toolbar.onView(view)}
-                            className={view === toolbar.view ? 'rbc-active' : ''}
-                        >
-                            {view === 'week' ? 'Semana' : 'Día'}
-                        </button>
-                    ))}
+                <span className="rbc-toolbar-label">
+                    {formatWeekRange(toolbar.date)}
                 </span>
+                {/* Eliminamos los botones de cambio de vista ya que solo tenemos una */}
             </div>
         );
+    };
+
+    const workWeekRange = (date) => {
+        let start = startOfWeek(date, { weekStartsOn: 1 });
+        let end = addDays(start, 4);
+        return { start, end };
     };
 
     const minTime = useMemo(() => {
@@ -479,6 +539,8 @@ export default function CalendarioEntrevistas() {
                     defaultView={Views.WEEK}
                     min={minTime}
                     max={maxTime}
+                    workDays={[1, 2, 3, 4, 5]}
+                    length={5}
                     step={20}
                     // formats={{
                     //     eventTimeRangeFormat: () => '', 
@@ -486,6 +548,7 @@ export default function CalendarioEntrevistas() {
                     //         localizer?.format(date, 'HH:mm', culture)
                     // }}
                     formats={formats}
+                    range={workWeekRange}
                     components={{
                         event: customEventWrapper,
                         toolbar: CustomToolbar,
@@ -508,7 +571,7 @@ export default function CalendarioEntrevistas() {
                         event: "Evento",
                         noEventsInRange: "No hay entrevistas programadas en este rango.",
                     }}
-                    className="rounded-md overflow-hidden shadow-lg text-gray-700 w-full h-full"
+                    className="rounded-lg overflow-hidden shadow-lg calendar-container"
                     dayLayoutAlgorithm="no-overlap"
                 // style={{ height: 700, width: full}}
                 />

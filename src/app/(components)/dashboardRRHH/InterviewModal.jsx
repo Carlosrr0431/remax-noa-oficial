@@ -29,113 +29,113 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
         }
 
 
-        const channelUsuarios = supabaseClient
-            .channel('cuposDisponibles')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
+        // const channelUsuarios = supabaseClient
+        //     .channel('cuposDisponibles')
+        //     .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
 
-                if (payload.eventType == "UPDATE") {
+        //         if (payload.eventType == "UPDATE") {
 
-                    const actualizarInterview = async () => {
+        //             const actualizarInterview = async () => {
 
-                        const { data, error } = await supabaseClient
-                            .from('cuposDisponibles')
-                            .select().eq('date', dia).eq('time', hora)
+        //                 const { data, error } = await supabaseClient
+        //                     .from('cuposDisponibles')
+        //                     .select().eq('date', dia).eq('time', hora)
 
-                        if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
-                            let listaReclutados = []
+        //                 if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
+        //                     let listaReclutados = []
 
-                            data[0]?.reclutados.map((elem, index) => {
+        //                     data[0]?.reclutados.map((elem, index) => {
 
-                                const object = {
-                                    nombre: elem.nombre,
-                                    email: elem.email,
-                                    telefono: elem.telefono,
-                                    cv: elem.cv,
-                                    status: elem.status,
-                                    rescheduleDate: null,
-                                    interviewPassed: elem.interviewPassed,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    diaSegundaEntrevista: elem.diaSegundaEntrevista,
-                                    horaSegundaEntrevista: elem.horaSegundaEntrevista
-                                }
+        //                         const object = {
+        //                             nombre: elem.nombre,
+        //                             email: elem.email,
+        //                             telefono: elem.telefono,
+        //                             cv: elem.cv,
+        //                             status: elem.status,
+        //                             rescheduleDate: null,
+        //                             interviewPassed: elem.interviewPassed,
+        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+        //                             diaSegundaEntrevista: elem.diaSegundaEntrevista,
+        //                             horaSegundaEntrevista: elem.horaSegundaEntrevista
+        //                         }
 
-                                listaReclutados.push(object)
-                            })
+        //                         listaReclutados.push(object)
+        //                     })
 
-                            setUsers(listaReclutados)
+        //                     setUsers(listaReclutados)
 
-                        }
-                    }
-                    actualizarInterview()
-
-
-                    const obtenerEntrevistas = async () => {
-                        const { data, error } = await supabaseClient
-                            .from('cuposDisponibles')
-                            .select('*')
-
-                        let entrevistas = []
-
-                        data?.map((elem, index) => {
-                            const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
-
-                            if (elem.segundaEntrevista) {
-
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(20, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            } else {
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(40, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            }
-
-                        })
-
-                        setInterviews([...entrevistas])
-
-                    }
-
-                    await obtenerEntrevistas()
-                }
-
-            })
-            .subscribe()
+        //                 }
+        //             }
+        //             actualizarInterview()
 
 
+        //             const obtenerEntrevistas = async () => {
+        //                 const { data, error } = await supabaseClient
+        //                     .from('cuposDisponibles')
+        //                     .select('*')
+
+        //                 let entrevistas = []
+
+        //                 data?.map((elem, index) => {
+        //                     const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+
+        //                     if (elem.segundaEntrevista) {
+
+        //                         const object = {
+        //                             start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+        //                             name: elem.nombreCompleto,
+        //                             end: elem.end || moment(date).add(20, 'minutes').toDate(),
+        //                             email: elem.email,
+        //                             phone: elem.telefono,
+        //                             cv: elem.cv,
+        //                             status: "pendiente",
+        //                             rescheduleDate: null,
+        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+        //                             segundaEntrevista: elem.segundaEntrevista,
+        //                             isUrgent: elem.isUrgent,
+        //                             displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+        //                         }
+        //                         entrevistas.push(object)
+        //                     } else {
+        //                         const object = {
+        //                             start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+        //                             name: elem.nombreCompleto,
+        //                             end: elem.end || moment(date).add(40, 'minutes').toDate(),
+        //                             email: elem.email,
+        //                             phone: elem.telefono,
+        //                             cv: elem.cv,
+        //                             status: "pendiente",
+        //                             rescheduleDate: null,
+        //                             segundaEntrevista: elem.segundaEntrevista,
+        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+        //                             isUrgent: elem.isUrgent,
+        //                             displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+        //                         }
+        //                         entrevistas.push(object)
+        //                     }
+
+        //                 })
+
+        //                 setInterviews([...entrevistas])
+
+        //             }
+
+        //             await obtenerEntrevistas()
+        //         }
+
+        //     })
+        //     .subscribe()
 
 
-        window.addEventListener('keydown', handleEscape)
+
+
+        // window.addEventListener('keydown', handleEscape)
 
         return () => {
-            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+            // supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
             window.removeEventListener('keydown', handleEscape)
         }
     }, [])

@@ -33,132 +33,132 @@ export default function Home() {
     const contentRef = useRef(null)
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
 
 
-        const channelUsuarios = supabaseClient
-            .channel('cuposDisponibles')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
+    //     const channelUsuarios = supabaseClient
+    //         .channel('cuposDisponibles')
+    //         .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
 
-                if (payload.eventType == "UPDATE") {
-                    const obtenerEntrevistas = async () => {
-                        const { data, error } = await supabaseClient
-                            .from('cuposDisponibles')
-                            .select('*')
+    //             if (payload.eventType == "UPDATE") {
+    //                 const obtenerEntrevistas = async () => {
+    //                     const { data, error } = await supabaseClient
+    //                         .from('cuposDisponibles')
+    //                         .select('*')
 
-                        let entrevistas = []
+    //                     let entrevistas = []
 
-                        data?.map((elem, index) => {
-                            const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+    //                     data?.map((elem, index) => {
+    //                         const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
 
-                            if (elem.segundaEntrevista) {
+    //                         if (elem.segundaEntrevista) {
 
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(20, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            } else {
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(40, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            }
+    //                             const object = {
+    //                                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+    //                                 name: elem.nombreCompleto,
+    //                                 end: elem.end || moment(date).add(20, 'minutes').toDate(),
+    //                                 email: elem.email,
+    //                                 phone: elem.telefono,
+    //                                 cv: elem.cv,
+    //                                 status: "pendiente",
+    //                                 rescheduleDate: null,
+    //                                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+    //                                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+    //                                 segundaEntrevista: elem.segundaEntrevista,
+    //                                 isUrgent: elem.isUrgent,
+    //                                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+    //                             }
+    //                             entrevistas.push(object)
+    //                         } else {
+    //                             const object = {
+    //                                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+    //                                 name: elem.nombreCompleto,
+    //                                 end: elem.end || moment(date).add(40, 'minutes').toDate(),
+    //                                 email: elem.email,
+    //                                 phone: elem.telefono,
+    //                                 cv: elem.cv,
+    //                                 status: "pendiente",
+    //                                 rescheduleDate: null,
+    //                                 segundaEntrevista: elem.segundaEntrevista,
+    //                                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+    //                                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+    //                                 isUrgent: elem.isUrgent,
+    //                                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+    //                             }
+    //                             entrevistas.push(object)
+    //                         }
 
-                        })
+    //                     })
 
-                        setInterviews([...entrevistas])
+    //                     setInterviews([...entrevistas])
 
-                    }
-                    await obtenerEntrevistas()
-                } else if (payload.eventType == "INSERT") {
-                    const obtenerEntrevistas = async () => {
-                        const { data, error } = await supabaseClient
-                            .from('cuposDisponibles')
-                            .select('*')
+    //                 }
+    //                 obtenerEntrevistas()
+    //             } else if (payload.eventType == "INSERT") {
+    //                 const obtenerEntrevistas = async () => {
+    //                     const { data, error } = await supabaseClient
+    //                         .from('cuposDisponibles')
+    //                         .select('*')
 
-                        let entrevistas = []
+    //                     let entrevistas = []
 
-                        data?.map((elem, index) => {
-                            const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+    //                     data?.map((elem, index) => {
+    //                         const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
 
-                            if (elem.segundaEntrevista) {
+    //                         if (elem.segundaEntrevista) {
 
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(20, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            } else {
-                                const object = {
-                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                                    name: elem.nombreCompleto,
-                                    end: elem.end || moment(date).add(40, 'minutes').toDate(),
-                                    email: elem.email,
-                                    phone: elem.telefono,
-                                    cv: elem.cv,
-                                    status: "pendiente",
-                                    rescheduleDate: null,
-                                    segundaEntrevista: elem.segundaEntrevista,
-                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                                    isUrgent: elem.isUrgent,
-                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                                }
-                                entrevistas.push(object)
-                            }
+    //                             const object = {
+    //                                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+    //                                 name: elem.nombreCompleto,
+    //                                 end: elem.end || moment(date).add(20, 'minutes').toDate(),
+    //                                 email: elem.email,
+    //                                 phone: elem.telefono,
+    //                                 cv: elem.cv,
+    //                                 status: "pendiente",
+    //                                 rescheduleDate: null,
+    //                                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+    //                                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+    //                                 segundaEntrevista: elem.segundaEntrevista,
+    //                                 isUrgent: elem.isUrgent,
+    //                                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+    //                             }
+    //                             entrevistas.push(object)
+    //                         } else {
+    //                             const object = {
+    //                                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+    //                                 name: elem.nombreCompleto,
+    //                                 end: elem.end || moment(date).add(40, 'minutes').toDate(),
+    //                                 email: elem.email,
+    //                                 phone: elem.telefono,
+    //                                 cv: elem.cv,
+    //                                 status: "pendiente",
+    //                                 rescheduleDate: null,
+    //                                 segundaEntrevista: elem.segundaEntrevista,
+    //                                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+    //                                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+    //                                 isUrgent: elem.isUrgent,
+    //                                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+    //                             }
+    //                             entrevistas.push(object)
+    //                         }
 
-                        })
+    //                     })
 
-                        setInterviews([...entrevistas])
+    //                     setInterviews([...entrevistas])
 
-                    }
+    //                 }
 
-                    await obtenerEntrevistas()
-                }
+    //                 obtenerEntrevistas()
+    //             }
 
-            })
-            .subscribe()
+    //         })
+    //         .subscribe()
 
-        return () => {
-            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
-        }
-    }, [setInterviews])
+    //     return () => {
+    //         supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+    //     }
+    // }, [setInterviews])
 
 
     const handlePersonalInfoSubmit = async (datos) => {
@@ -172,61 +172,61 @@ export default function Home() {
 
         const result = await guardarCV(formData, dia, hora)
 
-        const obtenerEntrevistas = async () => {
-            const { data, error } = await supabaseClient
-                .from('cuposDisponibles')
-                .select('*')
+        // const obtenerEntrevistas = async () => {
+        //     const { data, error } = await supabaseClient
+        //         .from('cuposDisponibles')
+        //         .select('*')
 
-            let entrevistas = []
+        //     let entrevistas = []
 
-            data?.map((elem, index) => {
-                const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+        //     data?.map((elem, index) => {
+        //         const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
 
 
-                if (elem.segundaEntrevista) {
+        //         if (elem.segundaEntrevista) {
 
-                    const object = {
-                        start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                        name: elem.nombreCompleto,
-                        end: elem.end || moment(date).add(20, 'minutes').toDate(),
-                        email: elem.email,
-                        phone: elem.telefono,
-                        cv: elem.cv,
-                        status: "pendiente",
-                        rescheduleDate: null,
-                        diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                        horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                        segundaEntrevista: elem.segundaEntrevista,
-                        isUrgent: elem.isUrgent,
-                        displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                    }
-                    entrevistas.push(object)
-                } else {
-                    const object = {
-                        start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                        name: elem.nombreCompleto,
-                        end: elem.end || moment(date).add(40, 'minutes').toDate(),
-                        email: elem.email,
-                        phone: elem.telefono,
-                        cv: elem.cv,
-                        status: "pendiente",
-                        rescheduleDate: null,
-                        segundaEntrevista: elem.segundaEntrevista,
-                        diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                        horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                        isUrgent: elem.isUrgent,
-                        displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-                    }
-                    entrevistas.push(object)
-                }
+        //             const object = {
+        //                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+        //                 name: elem.nombreCompleto,
+        //                 end: elem.end || moment(date).add(20, 'minutes').toDate(),
+        //                 email: elem.email,
+        //                 phone: elem.telefono,
+        //                 cv: elem.cv,
+        //                 status: "pendiente",
+        //                 rescheduleDate: null,
+        //                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+        //                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+        //                 segundaEntrevista: elem.segundaEntrevista,
+        //                 isUrgent: elem.isUrgent,
+        //                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+        //             }
+        //             entrevistas.push(object)
+        //         } else {
+        //             const object = {
+        //                 start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+        //                 name: elem.nombreCompleto,
+        //                 end: elem.end || moment(date).add(40, 'minutes').toDate(),
+        //                 email: elem.email,
+        //                 phone: elem.telefono,
+        //                 cv: elem.cv,
+        //                 status: "pendiente",
+        //                 rescheduleDate: null,
+        //                 segundaEntrevista: elem.segundaEntrevista,
+        //                 diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+        //                 horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+        //                 isUrgent: elem.isUrgent,
+        //                 displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
+        //             }
+        //             entrevistas.push(object)
+        //         }
 
-            })
+        //     })
 
-            setInterviews([...entrevistas])
+        //     setInterviews([...entrevistas])
 
-        }
+        // }
 
-        await obtenerEntrevistas()
+        //  obtenerEntrevistas()
 
         setStep(4)
 
