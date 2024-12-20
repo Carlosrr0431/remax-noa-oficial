@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+
 const MobileMenu = ({
     activeSection,
     onSectionChange,
@@ -31,41 +32,35 @@ const MobileMenu = ({
         <div className="relative w-full py-4">
             <AnimatePresence mode="wait">
                 {activeIndex > 0 && (
-                    <motion.div
+                    <motion.button
                         key="left-arrow"
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
                         transition={{ duration: 0.2 }}
+                        onClick={() => navigate(-1)}
                     >
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all"
-                            disabled={activeIndex === 0}
-                        >
+                        <div className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all">
                             <ChevronLeft className="w-5 h-5 text-gray-600" />
-                        </button>
-                    </motion.div>
+                        </div>
+                    </motion.button>
                 )}
 
                 {activeIndex < menuItems.length - 1 && (
-                    <motion.div
+                    <motion.button
                         key="right-arrow"
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
                         transition={{ duration: 0.2 }}
+                        onClick={() => navigate(1)}
                     >
-                        <button
-                            onClick={() => navigate(1)}
-                            className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all"
-                            disabled={activeIndex === menuItems.length - 1}
-                        >
+                        <div className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all">
                             <ChevronRight className="w-5 h-5 text-gray-600" />
-                        </button>
-                    </motion.div>
+                        </div>
+                    </motion.button>
                 )}
             </AnimatePresence>
 

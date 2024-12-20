@@ -25,6 +25,7 @@ import Reportes from './Reportes';
 import { BiLogOut } from 'react-icons/bi';
 import Reclutamiento from './Reclutamiento';
 import Tracking from './Tracking';
+import CalendarioEntrevistas from './dashboardRRHH/CalendarioEntrevistas';
 
 
 const SideBarRRHH = () => {
@@ -204,7 +205,7 @@ const SideBarRRHH = () => {
 
             </div>
 
-            <div className={`relative duration-500 transition-all  md:flex  md:flex-wrap md:gap-x-8 left-[100px]   md:left-[300px] -mx-6   max-w-[80%] h-full ${open ? '' : 'md:-ml-[120px] md:gap-x-12 '}  `}>
+            <div className={`relative duration-500 transition-all  md:flex  md:flex-wrap md:gap-x-8 left-[100px]   md:left-[300px] -mx-6   max-w-[100%] h-full ${open ? '' : 'md:-ml-[120px] md:gap-x-12 '}  `}>
 
                 {
                     opcion == "Bajas" && <FormularioBaja />
@@ -215,7 +216,7 @@ const SideBarRRHH = () => {
                 }
 
                 {
-                    opcion == "Calendario" && <BigCalendar />
+                    opcion == "Calendario" && <CalendarioEntrevistas />
                 }
 
                 {

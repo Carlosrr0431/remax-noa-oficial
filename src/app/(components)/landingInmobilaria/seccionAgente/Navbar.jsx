@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Target, Users } from 'lucide-react';
-import MobileMenu from './MobileMenu';
+
+
 const menuItems = [
     { id: 'vision', icon: Building2, text: 'Visión y Valores' },
     { id: 'why', icon: Target, text: '¿Por qué RE/MAX NOA?' },
@@ -12,18 +13,8 @@ const Navbar = ({ activeSection, onSectionChange }) => {
     return (
         <nav className="w-full bg-white shadow-md rounded-lg my-4">
             <div className="max-w-7xl mx-auto px-4 py-2">
-                {/* Mobile Menu */}
-                <div className="sm:hidden">
-                    <MobileMenu
-                        activeSection={activeSection}
-                        onSectionChange={onSectionChange}
-                        menuItems={menuItems}
-                    />
-                </div>
-
-                {/* Desktop Menu */}
                 <motion.div
-                    className="hidden sm:flex flex-row items-center justify-center gap-4 lg:gap-8 py-2"
+                    className="flex flex-row items-center justify-center gap-4 lg:gap-8 py-2"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}

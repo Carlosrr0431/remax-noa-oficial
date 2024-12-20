@@ -55,6 +55,9 @@ const ReMailing = () => {
                 });
 
                 setValues(sinDuplicados)
+
+                console.log("values: " + values);
+
             }
 
         }

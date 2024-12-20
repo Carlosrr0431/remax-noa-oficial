@@ -1,30 +1,34 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Bell, Search, Menu, X, LayoutDashboard, Users, DollarSign, CheckSquare, CalendarClockIcon, ChartColumnDecreasingIcon } from "lucide-react"
-import SideBarRRHH from "@/app/(components)/SideBarRRHH"
+import { useState } from 'react'
+import { SidebarProvider, SidebarInset, useSidebar } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/app/(components)/dashboardRRHH/AppSidebar'
+import { DashboardContent } from '@/app/(components)/dashboardRRHH/DashboardContent'
 
-const sidebarItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-    { icon: Users, label: "Captaciones", href: "/clientes" },
-    { icon: ChartColumnDecreasingIcon, label: "Resumenes", href: "/ventas" },
-    { icon: CalendarClockIcon, label: "Calendario", href: "/tareas" },
-]
+function Dashboard() {
+    const [activeItem, setActiveItem] = useState('dashboard')
+    const { state, toggleSidebar } = useSidebar()
 
-export default function Layout({ children }) {
+    const isExpanded = state === 'expanded'
 
     return (
-        <div className='bg-slate-800 w-full h-full relative overflow-y-scroll '>
-
-            {/* <div className='fixed left-[55%] md:left-[85%] top-[20px]  z-20'>
-            <Loguear />
-        </div> */}
-            <SideBarRRHH />
-
+        <div className="flex h-screen overflow-hidden bg-background w-full">
+            <AppSidebar setActiveItem={setActiveItem} activeItem={activeItem} />
+            <SidebarInset className="flex-grow transition-all duration-300 ease-in-out w-full h-full">
+                <DashboardContent
+                    activeItem={activeItem}
+                    isExpanded={isExpanded}
+                    toggleSidebar={toggleSidebar}
+                />
+            </SidebarInset>
         </div>
+    )
+}
+
+export default function Page() {
+    return (
+        <SidebarProvider>
+            <Dashboard />
+        </SidebarProvider>
     )
 }

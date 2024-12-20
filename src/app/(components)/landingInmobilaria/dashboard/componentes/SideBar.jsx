@@ -51,7 +51,7 @@ export function Sidebar() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 h-full w-full overflow-y-auto">
             {/* Mobile menu button */}
             <div className="lg:hidden fixed top-4 left-4 z-50">
                 <button

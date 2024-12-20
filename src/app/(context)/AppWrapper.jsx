@@ -40,6 +40,7 @@ export const AppWrapper = ({ children }) => {
   const [ancho, setAncho] = useState();
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [interviews, setInterviews] = useState([])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -48,6 +49,8 @@ export const AppWrapper = ({ children }) => {
   }, [])
 
   const obj = {
+    interviews,
+    setInterviews,
     selectedProperty,
     setSelectedProperty,
     selectedCategory,

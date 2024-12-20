@@ -16,6 +16,104 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
+export async function guardarCV(datos, dia, hora) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const file = datos.get("file");
+  const email = datos.get("email");
+  const telefono = datos.get("telefono");
+  const nombre = datos.get("nombre");
+
+  const data2 = await supabase
+    .from("cuposDisponibles")
+    .select("*")
+    .eq("time", hora)
+    .eq("date", dia);
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({}, (err, result) => {
+        if (err) reject(err);
+
+        resolve(result);
+      })
+      .end(buffer);
+  });
+
+  const object = {
+    nombre: nombre,
+    cv: result.secure_url,
+    email: email,
+    telefono: telefono,
+    diaPrimeraEntrevista: dia,
+    horaPrimeraEntrevista: hora,
+  };
+
+  console.log("Resultado del pdf: " + result.secure_url);
+
+  console.log("Data: " + data2?.data[0]);
+
+  if (
+    data2?.data[0]?.date != null &&
+    data2?.data[0]?.time != null &&
+    data2?.data[0]?.reclutados == null
+  ) {
+    const result3 = await supabase
+      .from("cuposDisponibles")
+      .update({
+        email: email,
+        cv: result.secure_url,
+        telefono: telefono,
+        nombreCompleto: nombre,
+        reclutados: [object],
+        cantidadGrupo: 1,
+      })
+      .eq("time", hora)
+      .eq("date", dia);
+  } else if (
+    data2?.data[0]?.date != null &&
+    data2?.data[0]?.time != null &&
+    data2?.data[0].reclutados != null
+  ) {
+    const result3 = await supabase
+      .from("cuposDisponibles")
+      .update({
+        email: email,
+        cv: result.secure_url,
+        telefono: telefono,
+        nombreCompleto: nombre,
+        reclutados: [...data2?.data[0].reclutados, object],
+        cantidadGrupo: data2?.data[0].cantidadGrupo + 1,
+      })
+      .eq("time", hora)
+      .eq("date", dia);
+  } else if (data2?.data[0]?.date == null && data2?.data[0]?.time == null) {
+    const result3 = await supabase.from("cuposDisponibles").insert({
+      email: email,
+      cv: result.secure_url,
+      telefono: telefono,
+      nombreCompleto: nombre,
+      reclutados: [object],
+      cantidadGrupo: 1,
+      date: dia,
+      time: hora,
+    });
+  }
+
+  return { success: true, message: "File uploaded successfully!" };
+}
+
 export async function guardarItem(datos, select, monto, nombre, proveedor) {
   const cookieStore = cookies();
 
@@ -321,7 +419,7 @@ export async function uploadPDF(formData) {
   const file = formData.get("file");
   const email = formData.get("email");
   const oficina = formData.get("oficina");
-  const nombre = formData.get('name')
+  const nombre = formData.get("name");
 
   let fuente = "";
   if (correosMasivos.includes(email)) {

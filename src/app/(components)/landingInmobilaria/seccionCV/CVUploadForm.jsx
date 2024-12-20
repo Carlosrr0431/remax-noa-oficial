@@ -139,14 +139,14 @@ export function CVUploadForm() {
             whileInView="animate"
             viewport={{ once: true }}
             custom={1}
-            className="p-1 mt-[100px] sm:p-6 w-full sm:mt-[50px] sm:mx-auto border-none">
+            className="mt-[100px] sm:p-6  sm:mx-auto border-none w-full  h-[50%] sm:h-full sm:mt-0 sm:w-1/2  flex items-center justify-center p-1 bg-transparent">
             <Form {...form} >
 
                 <form onSubmit={form.handleSubmit(onSubmit)} >
-                    <Card className="w-full min-w-[550px]  mb-[100px] sm:mb-0 sm:max-w-md sm:mx-auto relative bottom-[50px] shadow-none border-none">
+                    <Card className="w-full min-w-[350px] sm:min-w-[550px]  mb-[100px] sm:mb-0 sm:max-w-md sm:mx-auto relative bottom-[50px] shadow-none border-none bg-transparent">
+               
 
-
-                        <CardContent className="space-y-4">
+                        <CardContent className="space-y-4 bg-transparent">
 
                             <div className="space-y-2" >
 

@@ -19,6 +19,8 @@ const nextConfig = {
         "localhost:3000",
       ],
     },
+    // opcional
+    appDir: true,
   },
 
   webpack(config, { isServer }) {

@@ -40,25 +40,25 @@ export const LeerCSV = () => {
 
             setFile(null)
 
-            const correosMasivos = await supabaseClient
-                .from("correosEnviados")
-                .select("*")
-                .eq("id", 1)
+            // const correosMasivos = await supabaseClient
+            //     .from("correosEnviados")
+            //     .select("*")
+            //     .eq("id", 1)
 
-            const result3 = await supabaseClient.from("correosEnviados").update({
-                correos: [...correosMasivos.data[0]?.correos, ...values]
-            }).eq("id", 1);
+            // const result3 = await supabaseClient.from("correosEnviados").update({
+            //     correos: [...correosMasivos.data[0]?.correos, ...values]
+            // }).eq("id", 1);
 
             // const result4 = await supabaseClient.from("correosEnviados").insert({
             //     correos: values,
             //     remailing: true
             // })
 
-            const result4 = await supabaseClient.from("correosEnviados").insert({
-                correos: values
-            })
+            // const result4 = await supabaseClient.from("correosEnviados").insert({
+            //     correos: values
+            // })
 
-            console.log(result4);
+            // console.log(result4);
 
             const result = await sendMail(emailCaptacionHTML())
 
@@ -161,25 +161,25 @@ export const LeerCSV = () => {
 
         for (let index = 0; index < values.length; index++) {
             const element = values[index];
-      
+
             const response = await fetch('/api/sendEmail', {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json'
-              },
-              // 'castanedasantos@gmail.com'
-              body: JSON.stringify({
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
                 // 'castanedasantos@gmail.com'
-                listaEmail: element,
-                htmlContenido: htmlContent,
-                titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
-              })
+                body: JSON.stringify({
+                    // 'castanedasantos@gmail.com'
+                    listaEmail: element,
+                    htmlContenido: htmlContent,
+                    titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+                })
             })
-      
-          }
-      
-      
-          return "Enviado correctamente"
+
+        }
+
+
+        return "Enviado correctamente"
 
         // const response = await fetch('/api/sendEmail', {
         //     method: 'POST',
@@ -190,7 +190,7 @@ export const LeerCSV = () => {
         //         listaEmail: [...values, 'carlos.facundo.rr@gmail.com', 'giu40150135@gmail.com'],
 
         //         htmlContenido: htmlContent,
-     
+
 
         //         titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
         //     })

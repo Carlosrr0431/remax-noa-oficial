@@ -157,28 +157,7 @@ export default function SeccionHome() {
                             <Button variant="outline" className="text-black border-white hover:bg-white hover:text-black">
                                 Enviar CV
                             </Button></Link>
-                        {/* <Sheet>
-                            <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="lg:hidden">
-                                    <Menu className="h-6 w-6 text-white" />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                                <nav className="flex flex-col space-y-4">   
-                                    {tabs.map((tab) => (
-                                        <Link
-                                            key={tab.id}
-                                            href={`/${tab.id}`}
-                                            className="text-lg font-medium hover:text-primary"
-                                        >
-                                            {tab.label}
-                                        </Link>
-                                    ))}
 
-                                    <Button className="mt-4">Unirse</Button>
-                                </nav>
-                            </SheetContent>
-                        </Sheet> */}
                     </div>
                 </nav>
 

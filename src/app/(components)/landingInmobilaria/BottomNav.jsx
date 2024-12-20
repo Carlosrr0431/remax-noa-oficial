@@ -6,28 +6,28 @@ export function BottomNav() {
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t lg:hidden z-20">
             <div className="flex justify-around items-center h-16">
                 <Link
-                    href="/"
+                    href="/nuevaLanding"
                     className="flex flex-col items-center justify-center text-xs text-gray-600 hover:text-primary"
                 >
                     <Home className="h-5 w-5 mb-1" />
                     <span>Inicio</span>
                 </Link>
                 <Link
-                    href="/conocenos"
+                    href="/nuevaLanding/porque-comprar"
                     className="flex flex-col items-center justify-center text-xs text-gray-600 hover:text-primary"
                 >
                     <Users className="h-5 w-5 mb-1" />
-                    <span>Conócenos</span>
+                    <span>Comprar</span>
                 </Link>
                 <Link
-                    href="/testimonios"
+                    href="/nuevaLanding/porque-vender"
                     className="flex flex-col items-center justify-center text-xs text-gray-600 hover:text-primary"
                 >
                     <MessageSquare className="h-5 w-5 mb-1" />
-                    <span>Testimonios</span>
+                    <span>Vender</span>
                 </Link>
                 <Link
-                    href="/enviar-cv"
+                    href="/nuevaLanding/forma-parte"
                     className="flex flex-col items-center justify-center text-xs text-gray-600 hover:text-primary"
                 >
                     <FileText className="h-5 w-5 mb-1" />
