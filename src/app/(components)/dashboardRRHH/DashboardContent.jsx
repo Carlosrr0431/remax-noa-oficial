@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
 import CalendarioEntrevistas from './CalendarioEntrevistas'
+import EstadisticaReclutados from './tablaCandidatos/EstadisticaReclutados'
+import CalendarioPablo from './calendarioPablo/CalendarioPablo'
 
 
 const components = {
     dashboard: CalendarioEntrevistas,
-    // analytics: AnalyticsComponent,
+    analytics: EstadisticaReclutados,
+    customers: CalendarioPablo
     // customers: CustomersComponent,
     // settings: SettingsComponent,
 }
@@ -29,7 +32,7 @@ export function DashboardContent({ activeItem, isExpanded, toggleSidebar }) {
                     <Menu className="h-5 w-5" />
                 </Button>
             </div> */}
-            <div className="flex-1">
+            <div className="flex-1 w-full h-full overflow-y-scroll">
                 <ActiveComponent />
             </div>
         </div>

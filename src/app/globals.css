@@ -324,6 +324,12 @@
   color: white;
 }
 
+
+.interview-event.sinProgramar {
+  background-color: #8a8988;
+  color: white;
+}
+
 .rbc-event {
   background-color: transparent;
   border: none;

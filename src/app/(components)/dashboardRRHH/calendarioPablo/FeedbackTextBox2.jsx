@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { MessageSquare } from 'lucide-react'
 import { supabaseClient } from '@/supabase/client'
 
-export function FeedbackTextbox({ user }) {
+export function FeedbackTextbox2({ user, dec }) {
     const [feedback, setFeedback] = useState('')
     const [isOpen, setIsOpen] = useState(false)
 
@@ -21,7 +21,7 @@ export function FeedbackTextbox({ user }) {
         let nuevosReclutados = []
 
         result3.data[0].reclutados.map((elem) => {
-            if (elem.nombre == user.nombre && elem.email == user.email) {
+            if (elem.nombre == user.nombreCompleto && elem.email == user.email) {
                 const object = {
                     cv: elem.cv,
                     email: elem.email,
@@ -58,14 +58,25 @@ export function FeedbackTextbox({ user }) {
 
         console.log("FEEDBACK: " + JSON.stringify(user));
 
+        if (dec) {
+            const result6 = await supabaseClient
+                .from("cuposDisponibles")
+                .update({
+                    feedBack: feedback,
+                })
+                .eq("time", user.time)
+                .eq("date", user.date).eq('email', user.email).eq('telefono', user.telefono)
+        } else {
+            const result6 = await supabaseClient
+                .from("cuposDisponibles")
+                .update({
+                    feedBack: feedback,
+                })
+                .eq("horaTerceraEntrevista", user.horaTerceraEntrevista)
+                .eq("diaTerceraEntrevista", user.diaTerceraEntrevista).eq('email', user.email).eq('telefono', user.telefono)
+        }
 
-        const result6 = await supabaseClient
-            .from("cuposDisponibles")
-            .update({
-                feedBack: feedback,
-            })
-            .eq("time", user.horaSegundaEntrevista)
-            .eq("date", user.diaSegundaEntrevista).eq('email', user.email).eq('telefono', user.telefono)
+
 
 
         return result4.status

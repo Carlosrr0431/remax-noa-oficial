@@ -16,7 +16,7 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
-export async function guardarCV(datos, dia, hora) {
+export async function guardarCV(datos, dia, hora, fuente) {
   const cookieStore = cookies();
 
   const supabase = createServerClient(
@@ -38,77 +38,133 @@ export async function guardarCV(datos, dia, hora) {
     .eq("time", hora)
     .eq("date", dia);
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  if (file == null) {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-  const result = await new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream({}, (err, result) => {
-        if (err) reject(err);
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({}, (err, result) => {
+          if (err) reject(err);
 
-        resolve(result);
-      })
-      .end(buffer);
-  });
+          resolve(result);
+        })
+        .end(buffer);
+    });
 
-  const object = {
-    nombre: nombre,
-    cv: result.secure_url,
-    email: email,
-    telefono: telefono,
-    diaPrimeraEntrevista: dia,
-    horaPrimeraEntrevista: hora,
-  };
+    const object = {
+      nombre: nombre,
+      cv: result.secure_url,
+      email: email,
+      telefono: telefono,
+      diaPrimeraEntrevista: dia,
+      horaPrimeraEntrevista: hora,
+      fuente: fuente,
+    };
 
-  console.log("Resultado del pdf: " + result.secure_url);
-
-  console.log("Data: " + data2?.data[0]);
-
-  if (
-    data2?.data[0]?.date != null &&
-    data2?.data[0]?.time != null &&
-    data2?.data[0]?.reclutados == null
-  ) {
-    const result3 = await supabase
-      .from("cuposDisponibles")
-      .update({
+    if (
+      data2?.data[0]?.date != null &&
+      data2?.data[0]?.time != null &&
+      data2?.data[0]?.reclutados == null
+    ) {
+      const result3 = await supabase
+        .from("cuposDisponibles")
+        .update({
+          email: email,
+          cv: result.secure_url,
+          telefono: telefono,
+          nombreCompleto: nombre,
+          reclutados: [object],
+          cantidadGrupo: 1,
+        })
+        .eq("time", hora)
+        .eq("date", dia);
+    } else if (
+      data2?.data[0]?.date != null &&
+      data2?.data[0]?.time != null &&
+      data2?.data[0].reclutados != null
+    ) {
+      const result3 = await supabase
+        .from("cuposDisponibles")
+        .update({
+          email: email,
+          cv: result.secure_url,
+          telefono: telefono,
+          nombreCompleto: nombre,
+          reclutados: [...data2?.data[0].reclutados, object],
+          cantidadGrupo: data2?.data[0].cantidadGrupo + 1,
+        })
+        .eq("time", hora)
+        .eq("date", dia);
+    } else if (data2?.data[0]?.date == null && data2?.data[0]?.time == null) {
+      const result3 = await supabase.from("cuposDisponibles").insert({
         email: email,
         cv: result.secure_url,
         telefono: telefono,
         nombreCompleto: nombre,
         reclutados: [object],
         cantidadGrupo: 1,
-      })
-      .eq("time", hora)
-      .eq("date", dia);
-  } else if (
-    data2?.data[0]?.date != null &&
-    data2?.data[0]?.time != null &&
-    data2?.data[0].reclutados != null
-  ) {
-    const result3 = await supabase
-      .from("cuposDisponibles")
-      .update({
+        date: dia,
+        time: hora,
+      });
+    }
+  } else {
+    const object = {
+      nombre: nombre,
+      cv: "",
+      email: email,
+      telefono: telefono,
+      diaPrimeraEntrevista: dia,
+      horaPrimeraEntrevista: hora,
+      fuente: fuente,
+    };
+
+    if (
+      data2?.data[0]?.date != null &&
+      data2?.data[0]?.time != null &&
+      data2?.data[0]?.reclutados == null
+    ) {
+      const result3 = await supabase
+        .from("cuposDisponibles")
+        .update({
+          email: email,
+          cv: "",
+          telefono: telefono,
+          nombreCompleto: nombre,
+          reclutados: [object],
+          cantidadGrupo: 1,
+        })
+        .eq("time", hora)
+        .eq("date", dia);
+    } else if (
+      data2?.data[0]?.date != null &&
+      data2?.data[0]?.time != null &&
+      data2?.data[0].reclutados != null
+    ) {
+      const result3 = await supabase
+        .from("cuposDisponibles")
+        .update({
+          email: email,
+          cv: "",
+          telefono: telefono,
+          nombreCompleto: nombre,
+          reclutados: [...data2?.data[0].reclutados, object],
+          cantidadGrupo: data2?.data[0].cantidadGrupo + 1,
+        })
+        .eq("time", hora)
+        .eq("date", dia);
+    } else if (data2?.data[0]?.date == null && data2?.data[0]?.time == null) {
+      const result3 = await supabase.from("cuposDisponibles").insert({
         email: email,
-        cv: result.secure_url,
+        cv: "",
         telefono: telefono,
         nombreCompleto: nombre,
-        reclutados: [...data2?.data[0].reclutados, object],
-        cantidadGrupo: data2?.data[0].cantidadGrupo + 1,
-      })
-      .eq("time", hora)
-      .eq("date", dia);
-  } else if (data2?.data[0]?.date == null && data2?.data[0]?.time == null) {
-    const result3 = await supabase.from("cuposDisponibles").insert({
-      email: email,
-      cv: result.secure_url,
-      telefono: telefono,
-      nombreCompleto: nombre,
-      reclutados: [object],
-      cantidadGrupo: 1,
-      date: dia,
-      time: hora,
-    });
+        reclutados: [object],
+        cantidadGrupo: 1,
+        date: dia,
+        time: hora,
+      });
+    }
   }
 
   return { success: true, message: "File uploaded successfully!" };

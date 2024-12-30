@@ -17,6 +17,8 @@ export default function InterviewScheduler({ onSchedule }) {
     useEffect(() => {
         fetchAvailableSlots()
     }, [])
+
+
     // Horarios personalizables
     const availableTimeSlots = {
         0: [], // Domingo

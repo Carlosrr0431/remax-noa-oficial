@@ -5,17 +5,14 @@ import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import 'moment/locale/es'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Clock, CalendarIcon, Plus } from 'lucide-react'
-import InterviewCard from './InterviewCard'
-import InterviewModal from './InterviewModal'
-import WorkingHoursModal from './WorkingHoursModal'
 import moment from "moment-timezone";
 import { supabaseClient } from '@/supabase/client'
-import InterviewModal2 from './InterviewModal2'
-import { useAppContext } from '@/app/(context)/AppWrapper'
 import { format, startOfWeek, endOfWeek, getMonth, getYear, isSaturday, isSunday, addDays } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
-import InterviewSchedulerModal from './InterviewSchedulerModal'
+import { useAppContext } from '@/app/(context)/AppWrapper'
+import InterviewModalProgramar from './InterviewModalProgramar'
+import InterviewModalCalendar from './InterviewModalCalendar'
 // AZUL PRIMERA ENTREVISTA, VERDE SEGUNDA Y ROJO LA ENTREVISTA PROXIMA
 
 // Unite a la red inmobiliaria N°1 
@@ -23,7 +20,7 @@ import InterviewSchedulerModal from './InterviewSchedulerModal'
 moment.locale('es-AR')
 const localizer = momentLocalizer(moment)
 
-export default function CalendarioEntrevistas() {
+export default function CalendarioPablo() {
     const { interviews, setInterviews } = useAppContext()
     const [selectedInterview, setSelectedInterview] = useState([])
     const [selectedInterview2, setSelectedInterview2] = useState()
@@ -32,6 +29,7 @@ export default function CalendarioEntrevistas() {
     const [isModalOpen2, setIsModalOpen2] = useState(false)
     const [currentTime, setCurrentTime] = useState(new Date())
     const [isSchedulerModalOpen, setIsSchedulerModalOpen] = useState(false)
+
     const [workingHours, setWorkingHours] = useState({
         availableSlots: [
             { hour: 8, minute: 0 },
@@ -73,15 +71,15 @@ export default function CalendarioEntrevistas() {
         const obtenerEntrevistas = async () => {
             const { data, error } = await supabaseClient
                 .from('cuposDisponibles')
-                .select('*')
+                .select('*').neq('diaTerceraEntrevista', undefined)
 
             let entrevistas = []
 
             data?.map((elem, index) => {
-                const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+                const date = elem.diaTerceraEntrevista.split('/').reverse().join('-') + " " + elem.horaTerceraEntrevista;
 
 
-                if (elem.segundaEntrevista) {
+                if (elem.diaTerceraEntrevista != undefined) {
 
                     const object = {
                         start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
@@ -89,62 +87,30 @@ export default function CalendarioEntrevistas() {
                         end: elem.end || moment(date).add(20, 'minutes').toDate(),
                         email: elem.email,
                         phone: elem.telefono,
-                        time: elem.time,
-                        date: elem.date,
                         cv: elem.cv,
                         status: "pendiente",
                         rescheduleDate: null,
                         diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                        fuente: elem.fuente,
                         horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
                         segundaEntrevista: elem.segundaEntrevista,
                         horaSegundaEntrevista: elem.horaSegundaEntrevista,
+                        diaSegundaEntrevista: elem.diaSegundaEntrevista,
                         isUrgent: elem.isUrgent,
-                        interviewPassed: elem.interviewPassed,
-                        feedBack: elem.feedBack,
-                        displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `,
-                        pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
-                        pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
-                        horaTerceraEntrevista: elem.horaTerceraEntrevista,
-                        diaTerceraEntrevista: elem.diaTerceraEntrevista
-                    }
-                    entrevistas.push(object)
-                } else {
-                    const object = {
-                        start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-                        name: elem.nombreCompleto,
-                        end: elem.end || moment(date).add(40, 'minutes').toDate(),
-                        email: elem.email,
-                        phone: elem.telefono,
-                        cv: elem.cv,
-                        time: elem.time,
-                        date: elem.date,
-                        status: "pendiente",
-                        rescheduleDate: null,
                         feedBack: elem.feedBack,
                         fuente: elem.fuente,
-                        segundaEntrevista: elem.segundaEntrevista,
-                        diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                        horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                        horaSegundaEntrevista: elem.horaSegundaEntrevista,
-                        interviewPassed: elem.interviewPassed,
-                        isUrgent: elem.isUrgent,
                         displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `,
                         pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
                         pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
-                        horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                        horaTerceraEntrevista: elem.pasoTerceraEntrevista,
                         diaTerceraEntrevista: elem.diaTerceraEntrevista
                     }
                     entrevistas.push(object)
                 }
-
             })
 
             setInterviews([...entrevistas])
 
         }
-
-
 
 
         async function setupSubscription() {
@@ -164,8 +130,9 @@ export default function CalendarioEntrevistas() {
 
                         } else if (payload.eventType == 'UPDATE') {
 
+
                             return await obtenerEntrevistas()
-                            // return handleSelectEvent()
+
 
                         }
                     })
@@ -213,46 +180,12 @@ export default function CalendarioEntrevistas() {
 
         const { data, error } = await supabaseClient
             .from('cuposDisponibles')
-            .select().eq('date', dia).eq('time', hora)
+            .select().eq('diaTerceraEntrevista', dia).eq('horaTerceraEntrevista', hora)
+
+        console.log("DATOS DEL SELECT 222: " + JSON.stringify(data[0]));
 
 
-        if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
-            let listaReclutados = []
-
-            data[0]?.reclutados.map((elem, index) => {
-
-                const object = {
-                    start: moment(interview.start).tz("America/Argentina/Salta").format("DD/MM/yyyy HH:mm"),
-                    nombre: elem.nombre,
-                    email: elem.email,
-                    telefono: elem.telefono,
-                    cv: elem.cv,
-                    status: elem.status,
-                    feedBack: elem.feedBack,
-                    time: elem.time,
-                    date: elem.date,
-                    rescheduleDate: null,
-                    interviewPassed: elem.interviewPassed,
-                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-                    diaSegundaEntrevista: elem.diaSegundaEntrevista,
-                    horaSegundaEntrevista: elem.horaSegundaEntrevista,
-                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
-                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
-                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
-                    diaTerceraEntrevista: elem.diaTerceraEntrevista,
-                    fuente: elem.fuente,
-                }
-
-                listaReclutados.push(object)
-            })
-
-            setSelectedInterview(listaReclutados)
-            setIsModalOpen(true)
-        }
-
-
-        else if (data[0] != undefined && data[0]?.segundaEntrevista == true) {
+        if (data[0] != undefined && data[0]?.segundaEntrevista == true) {
 
             const object2 = {
                 nombre: data[0]?.nombreCompleto,
@@ -262,14 +195,12 @@ export default function CalendarioEntrevistas() {
                 status: "pendiente",
                 feedBack: data[0]?.feedBack,
                 rescheduleDate: null,
-                time: data[0]?.time,
-                date: data[0]?.date,
+                fuente: data[0]?.fuente,
                 interviewPassed: data[0]?.interviewPassed,
                 diaPrimeraEntrevista: data[0]?.diaPrimeraEntrevista,
                 horaPrimeraEntrevista: data[0]?.horaPrimeraEntrevista,
-                diaSegundaEntrevista: data[0]?.date,
-                fuente: data[0]?.fuente,
-                horaSegundaEntrevista: data[0]?.time,
+                diaSegundaEntrevista: data[0]?.diaSegundaEntrevista,
+                horaSegundaEntrevista: data[0]?.horaSegundaEntrevista,
                 pasoSegundaEntrevista: data[0]?.pasoSegundaEntrevista,
                 pasoTerceraEntrevista: data[0]?.pasoTerceraEntrevista,
                 horaTerceraEntrevista: data[0]?.horaTerceraEntrevista,
@@ -359,19 +290,19 @@ export default function CalendarioEntrevistas() {
     const eventStyleGetter = useCallback((event, start, end, isSelected) => {
         const now = moment(currentTime)
 
+        console.log("estado: " + event.horaTerceraEntrevista);
+
         const isNextInterview = event.email === nextInterview?.email && event.name === nextInterview?.name && event.start === nextInterview?.start
         let className = 'interview-event '
 
-        if (isNextInterview) {
+        if (isNextInterview && event.diaTerceraEntrevista != undefined && event.horaTerceraEntrevista != undefined) {
             className += 'upcoming'
-        } else if (event.status === 'aprobado') {
-            className += 'approved'
-        } else if (event.status === 'rechazado') {
-            className += 'rejected'
-        } else if (event.segundaEntrevista) {
+        } else if (event.diaTerceraEntrevista == undefined && event.horaTerceraEntrevista == undefined) {
+            className += 'sinProgramar'
+        } else if (event.diaTerceraEntrevista != undefined && event.horaTerceraEntrevista != undefined) {
             className += 'urgent'
         } else {
-            className += 'normal'
+            className += 'sinProgramar'
         }
 
         return {
@@ -388,35 +319,7 @@ export default function CalendarioEntrevistas() {
         )
     }, [])
 
-    // const eventStyleGetter = useCallback((event) => {
-    //     const now = moment(currentTime)
-    //     const isNextInterview = event.id === nextInterview?.id
-    //     let className = 'interview-event '
 
-    //     if (isNextInterview) {
-    //         className += 'upcoming'
-    //     } else if (event.status === 'aprobado') {
-    //         className += 'approved'
-    //     } else if (event.status === 'rechazado') {
-    //         className += 'rejected'
-    //     } else if (event.isUrgent) {
-    //         className += 'urgent'
-    //     } else {
-    //         className += 'normal'
-    //     }
-
-    //     return {
-    //         className: className
-    //     }
-    // }, [currentTime, nextInterview])
-
-    // const customEventWrapper = useCallback(({ event }) => {
-    //     return (
-    //         <div className="interview-event-content">
-    //             {event.displayContent || event.name}
-    //         </div>
-    //     )
-    // }, [])
 
     const formats = {
         timeGutterFormat: (date, culture, localizer) =>
@@ -440,43 +343,6 @@ export default function CalendarioEntrevistas() {
             </div>
         );
     };
-
-    // const CustomToolbar = (toolbar) => {
-    //     const goToBack = () => {
-    //         toolbar.onNavigate('PREV');
-    //     };
-
-    //     const goToNext = () => {
-    //         toolbar.onNavigate('NEXT');
-    //     };
-
-    //     const goToCurrent = () => {
-    //         toolbar.onNavigate('TODAY');
-    //     };
-
-    //     return (
-    //         <div className="rbc-toolbar">
-    //             <span className="rbc-btn-group">
-    //                 <button type="button" onClick={goToBack}>Anterior</button>
-    //                 <button type="button" onClick={goToCurrent}>Hoy</button>
-    //                 <button type="button" onClick={goToNext}>Siguiente</button>
-    //             </span>
-    //             <span className="rbc-toolbar-label">{toolbar.label}</span>
-    //             <span className="rbc-btn-group">
-    //                 {toolbar.views.map((view) => (
-    //                     <button
-    //                         key={view}
-    //                         type="button"
-    //                         onClick={() => toolbar.onView(view)}
-    //                         className={view === toolbar.view ? 'rbc-active' : ''}
-    //                     >
-    //                         {view === 'week' ? 'Semana' : 'Día'}
-    //                     </button>
-    //                 ))}
-    //             </span>
-    //         </div>
-    //     );
-    // };
 
 
     const CustomToolbar = (toolbar) => {
@@ -595,18 +461,19 @@ export default function CalendarioEntrevistas() {
                     //     timeGutterFormat: (date, culture, localizer) =>
                     //         localizer?.format(date, 'HH:mm', culture)
                     // }}
-                    dayPropGetter={(date) => {
-                        if (date.getDay() === 0 || date.getDay() === 6) {
-                            return { className: 'rbc-off-range-bg' };
-                        }
-                        return {};
-                    }}
                     formats={formats}
                     range={workWeekRange}
                     components={{
                         event: customEventWrapper,
                         toolbar: CustomToolbar,
                         header: CustomHeader
+                    }}
+
+                    dayPropGetter={(date) => {
+                        if (date.getDay() === 0 || date.getDay() === 6) {
+                            return { className: 'rbc-off-range-bg' };
+                        }
+                        return {};
                     }}
                     timeslots={1}
                     // components={{
@@ -630,18 +497,9 @@ export default function CalendarioEntrevistas() {
                 // style={{ height: 700, width: full}}
                 />
             </div>
-            {isModalOpen && (
-                <InterviewModal
-                    users2={selectedInterview}
-                    setOpen={setIsModalOpen}
-                    dia={diaSelect}
-                    hora={horaSelect}
-
-                />
-            )}
 
             {isModalOpen2 && (
-                <InterviewModal2
+                <InterviewModalCalendar
                     user={selectedInterview2}
                     setOpen={setIsModalOpen2}
                     dia={diaSelect}
@@ -651,16 +509,15 @@ export default function CalendarioEntrevistas() {
             )}
 
             {isSchedulerModalOpen && (
-                <InterviewSchedulerModal
-                    isOpen={isSchedulerModalOpen}
-                    onClose={() => setIsSchedulerModalOpen(false)}
-                    onSchedule={(interviewData) => {
-                        // Aquí manejaremos la lógica para programar la entrevista
-                        console.log(interviewData)
-                        setIsSchedulerModalOpen(false)
-                    }}
+                <InterviewModalProgramar
+                    setOpen={setIsSchedulerModalOpen}
+                    dia={diaSelect}
+                    hora={horaSelect}
+
                 />
             )}
+
+
         </div>
     )
 }

@@ -1,10 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import ProgressBarComponent from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/ProgressBarComponent'
+
 import PersonalInfoForm from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/PersonalInfoForm'
-import Survey from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/Survey'
 import InterviewScheduler from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/InterviewScheduler'
 import ConsentForm from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/ConsentForm'
 import { guardarCV } from '@/app/action'
@@ -14,14 +12,7 @@ import { useAppContext } from '@/app/(context)/AppWrapper'
 import CongratulationsStep from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/CongratulationsStep'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-
-const images = [
-    "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1735435106/banner_01_600x770px_jn3wbc.jpg",
-    "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1735435105/banner_02_600x770px_gnknxq.jpg",
-    "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1735435105/banner_03_600x770px_h8x4ds.jpg",
-    "https://res.cloudinary.com/dlxwkq6bm/image/upload/v1735435105/banner_04_600x770px_ybtsq6.jpg",
-]
-
+import ProgressBarComponent from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/ProgressBarComponent'
 
 const images2 = [
     {
@@ -189,6 +180,3 @@ export default function Home() {
 
     )
 }
-
-
-

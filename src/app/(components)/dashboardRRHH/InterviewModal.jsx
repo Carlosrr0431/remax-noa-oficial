@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Phone, Mail, FileText, Check, X, MessageCircle, UserIcon, Calendar, Clock, CalendarCheck } from 'lucide-react'
+import { Phone, Mail, FileText, Check, X, MessageCircle, UserIcon, Calendar, Clock, CalendarCheck, CloverIcon } from 'lucide-react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Separator } from "@radix-ui/react-select"
 import { Badge } from "@/components/ui/badge"
@@ -29,113 +29,139 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
         }
 
 
-        // const channelUsuarios = supabaseClient
-        //     .channel('cuposDisponibles')
-        //     .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
+        const channelUsuarios = supabaseClient
+            .channel('cuposDisponibles')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'cuposDisponibles' }, async (payload) => {
 
-        //         if (payload.eventType == "UPDATE") {
-
-        //             const actualizarInterview = async () => {
-
-        //                 const { data, error } = await supabaseClient
-        //                     .from('cuposDisponibles')
-        //                     .select().eq('date', dia).eq('time', hora)
-
-        //                 if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
-        //                     let listaReclutados = []
-
-        //                     data[0]?.reclutados.map((elem, index) => {
-
-        //                         const object = {
-        //                             nombre: elem.nombre,
-        //                             email: elem.email,
-        //                             telefono: elem.telefono,
-        //                             cv: elem.cv,
-        //                             status: elem.status,
-        //                             rescheduleDate: null,
-        //                             interviewPassed: elem.interviewPassed,
-        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-        //                             diaSegundaEntrevista: elem.diaSegundaEntrevista,
-        //                             horaSegundaEntrevista: elem.horaSegundaEntrevista
-        //                         }
-
-        //                         listaReclutados.push(object)
-        //                     })
-
-        //                     setUsers(listaReclutados)
-
-        //                 }
-        //             }
-        //             actualizarInterview()
+                if (payload.eventType == "UPDATE") {
 
 
-        //             const obtenerEntrevistas = async () => {
-        //                 const { data, error } = await supabaseClient
-        //                     .from('cuposDisponibles')
-        //                     .select('*')
+                    const actualizarInterview = async () => {
 
-        //                 let entrevistas = []
+                        const { data, error } = await supabaseClient
+                            .from('cuposDisponibles')
+                            .select().eq('date', dia).eq('time', hora)
 
-        //                 data?.map((elem, index) => {
-        //                     const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+                        if (data[0] !== undefined && data[0]?.segundaEntrevista == false) {
+                            let listaReclutados = []
 
-        //                     if (elem.segundaEntrevista) {
+                            data[0]?.reclutados.map((elem, index) => {
 
-        //                         const object = {
-        //                             start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-        //                             name: elem.nombreCompleto,
-        //                             end: elem.end || moment(date).add(20, 'minutes').toDate(),
-        //                             email: elem.email,
-        //                             phone: elem.telefono,
-        //                             cv: elem.cv,
-        //                             status: "pendiente",
-        //                             rescheduleDate: null,
-        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-        //                             segundaEntrevista: elem.segundaEntrevista,
-        //                             isUrgent: elem.isUrgent,
-        //                             displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-        //                         }
-        //                         entrevistas.push(object)
-        //                     } else {
-        //                         const object = {
-        //                             start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
-        //                             name: elem.nombreCompleto,
-        //                             end: elem.end || moment(date).add(40, 'minutes').toDate(),
-        //                             email: elem.email,
-        //                             phone: elem.telefono,
-        //                             cv: elem.cv,
-        //                             status: "pendiente",
-        //                             rescheduleDate: null,
-        //                             segundaEntrevista: elem.segundaEntrevista,
-        //                             diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
-        //                             horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
-        //                             isUrgent: elem.isUrgent,
-        //                             displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `
-        //                         }
-        //                         entrevistas.push(object)
-        //                     }
+                                const object = {
+                                    nombre: elem.nombre,
+                                    email: elem.email,
+                                    telefono: elem.telefono,
+                                    cv: elem.cv,
+                                    status: elem.status,
+                                    rescheduleDate: null,
+                                    fuente: elem.fuente,
+                                    feedBack: elem.feedBack,
+                                    interviewPassed: elem.interviewPassed,
+                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+                                    diaSegundaEntrevista: elem.diaSegundaEntrevista,
+                                    horaSegundaEntrevista: elem.horaSegundaEntrevista,
+                                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
+                                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
+                                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                                    diaTerceraEntrevista: elem.diaTerceraEntrevista
+                                }
 
-        //                 })
+                                listaReclutados.push(object)
+                            })
 
-        //                 setInterviews([...entrevistas])
+                            setUsers(listaReclutados)
 
-        //             }
-
-        //             await obtenerEntrevistas()
-        //         }
-
-        //     })
-        //     .subscribe()
+                        }
+                    }
+                    actualizarInterview()
 
 
 
+                    const obtenerEntrevistas = async () => {
+                        const { data, error } = await supabaseClient
+                            .from('cuposDisponibles')
+                            .select('*')
 
-        // window.addEventListener('keydown', handleEscape)
+                        let entrevistas = []
+
+                        data?.map((elem, index) => {
+                            const date = elem.date.split('/').reverse().join('-') + " " + elem.time;
+
+
+                            if (elem.segundaEntrevista) {
+
+                                const object = {
+                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+                                    name: elem.nombreCompleto,
+                                    end: elem.end || moment(date).add(20, 'minutes').toDate(),
+                                    email: elem.email,
+                                    phone: elem.telefono,
+                                    cv: elem.cv,
+                                    status: "pendiente",
+                                    rescheduleDate: null,
+                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+                                    segundaEntrevista: elem.segundaEntrevista,
+                                    horaSegundaEntrevista: elem.horaSegundaEntrevista,
+                                    diaSegundaEntrevista: elem.diaSegundaEntrevista,
+                                    isUrgent: elem.isUrgent,
+                                    fuente: elem.fuente,
+                                    interviewPassed: elem.interviewPassed,
+                                    feedBack: elem.feedBack,
+                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `,
+                                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
+                                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
+                                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                                    diaTerceraEntrevista: elem.diaTerceraEntrevista
+                                }
+                                entrevistas.push(object)
+                            } else {
+                                const object = {
+                                    start: elem.start || moment(date).tz("America/Argentina/Salta").toDate(),
+                                    name: elem.nombreCompleto,
+                                    end: elem.end || moment(date).add(40, 'minutes').toDate(),
+                                    email: elem.email,
+                                    phone: elem.telefono,
+                                    cv: elem.cv,
+                                    status: "pendiente",
+                                    rescheduleDate: null,
+                                    fuente: elem.fuente,
+                                    feedBack: elem.feedBack,
+                                    interviewPassed: elem.interviewPassed,
+                                    segundaEntrevista: elem.segundaEntrevista,
+                                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+                                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+                                    horaSegundaEntrevista: elem.horaSegundaEntrevista,
+                                    diaSegundaEntrevista: elem.diaSegundaEntrevista,
+                                    isUrgent: elem.isUrgent,
+                                    displayContent: `${elem.segundaEntrevista ? `${elem.nombreCompleto}` : `${elem.cantidadGrupo} Entrevistas programadas`} `,
+                                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
+                                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
+                                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                                    diaTerceraEntrevista: elem.diaTerceraEntrevista
+                                }
+                                entrevistas.push(object)
+                            }
+
+                        })
+
+                        setInterviews([...entrevistas])
+
+                    }
+
+                    obtenerEntrevistas()
+                }
+
+
+            })
+            .subscribe()
+
+
+        window.addEventListener('keydown', handleEscape)
 
         return () => {
-            // supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
+            supabaseClient.removeChannel(supabaseClient.channel(channelUsuarios))
             window.removeEventListener('keydown', handleEscape)
         }
     }, [])
@@ -154,7 +180,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
         setSchedulingUser(false)
 
 
-        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista);
+        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista)
 
         let nuevosReclutados = []
 
@@ -169,7 +195,13 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                     horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
                     diaSegundaEntrevista: datos.dia,
                     horaSegundaEntrevista: datos.hora,
+                    feedBack: elem.feedBack,
                     interviewPassed: "paso",
+                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
+                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
+                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                    diaTerceraEntrevista: elem.diaTerceraEntrevista,
+                    fuente: elem.fuente
                 }
 
                 nuevosReclutados.push(object)
@@ -186,7 +218,8 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
 
             })
             .eq("time", userSelect.horaPrimeraEntrevista)
-            .eq("date", userSelect.diaPrimeraEntrevista);
+            .eq("date", userSelect.diaPrimeraEntrevista)
+
 
 
         const result3 = await supabaseClient.from("cuposDisponibles").insert({
@@ -198,8 +231,14 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
             horaPrimeraEntrevista: userSelect.horaPrimeraEntrevista,
             segundaEntrevista: true,
             date: datos.dia,
-            time: datos.hora
+            time: datos.hora,
+            interviewPassed: userSelect.interviewPassed,
+            fuente: userSelect.fuente,
+            feedBack: userSelect.feedBack,
         });
+
+        console.log("RESULTADO: " + result3);
+
 
         // aqui va el mandar el mensaje automatico
         window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola!!!`, "_blank")
@@ -223,7 +262,13 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                     diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
                     horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
                     interviewPassed: `${dec ? 'paso' : 'no paso'}`,
-                    segundaEntrevista: true
+                    segundaEntrevista: true,
+                    pasoSegundaEntrevista: elem.pasoSegundaEntrevista,
+                    pasoTerceraEntrevista: elem.pasoTerceraEntrevista,
+                    horaTerceraEntrevista: elem.horaTerceraEntrevista,
+                    diaTerceraEntrevista: elem.diaTerceraEntrevista,
+                    fuente: elem.fuente,
+                    feedBack: elem.feedBack,
                 }
 
                 nuevosReclutados.push(object)
@@ -240,7 +285,17 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
 
             })
             .eq("time", hora)
-            .eq("date", dia);
+            .eq("date", dia)
+
+
+        const result6 = await supabaseClient
+            .from("cuposDisponibles")
+            .update({
+                interviewPassed: `${dec ? 'paso' : 'no paso'}`,
+
+            })
+            .eq("time", hora)
+            .eq("date", dia).eq('email', user.email).eq('telefono', user.telefono)
     }
 
     const sendWhatsAppMessage = (phone) => {
@@ -265,8 +320,8 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                             <span>{hora}</span>
                         </div>
                         <div className="grid gap-6 md:grid-cols-2">
-                            {users !== null && users?.map((user) => (
-                                <Card key={user.id} className="overflow-hidden transition-shadow hover:shadow-lg">
+                            {users !== null && users?.map((user, index) => (
+                                <Card key={index} className="overflow-hidden transition-shadow hover:shadow-lg">
                                     <CardContent className="p-6">
                                         <div className="flex items-center space-x-4 mb-4">
                                             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -275,7 +330,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                                             <div>
                                                 <h3 className="text-lg font-semibold text-black">{user.nombre}</h3>
                                                 <Badge variant={user.interviewPassed === undefined ? "secondary" : user.interviewPassed == "paso" ? "default" : "destructive"}>
-                                                    {user.interviewPassed === undefined ? "Pendiente" : user.interviewPassed == "paso" ? "Aprobado" : "No aprobado"}
+                                                    {user.interviewPassed === undefined ? "Pendiente" : user.pasoTerceraEntrevista == "paso" ? "Reclutado" : user.pasoSegundaEntrevista == "paso" ? "Paso 2° Entrevista" : user.interviewPassed === "paso" ? "Paso 1° Entrevista" : "No paso"}
                                                 </Badge>
                                             </div>
                                         </div>
@@ -290,6 +345,11 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                                                 <Phone className="mr-2 h-4 w-4 text-muted-foreground" />
                                                 <span className="text-muted-foreground">Teléfono:</span>
                                                 <span className="ml-2 text-black">{user.telefono}</span>
+                                            </p>
+                                            <p className="flex items-center text-sm">
+                                                <CloverIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                                                <span className="text-muted-foreground">Fuente:</span>
+                                                <span className="ml-2 text-black">{user.fuente}</span>
                                             </p>
                                             <p className="flex items-center text-sm">
                                                 <FileText className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -338,7 +398,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                                             onClick={() => sendWhatsAppMessage(user.telefono)}
                                         >
                                             <MessageCircle className="mr-2 h-4 w-4" />
-                                            WhatsApp
+                                            WhatsApp {user.pasoTerceraEntrevista}
                                         </Button>
 
                                         {user.interviewPassed == 'paso' && user.diaSegundaEntrevista == null && (
