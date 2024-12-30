@@ -38,7 +38,10 @@ export async function guardarCV(datos, dia, hora, fuente) {
     .eq("time", hora)
     .eq("date", dia);
 
-  if (file == null) {
+    console.log("FILE: " + file);
+    
+
+  if (file != null) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
