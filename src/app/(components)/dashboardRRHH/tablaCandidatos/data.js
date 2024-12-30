@@ -1,5 +1,5 @@
-import { addDays, subDays, isValid } from "date-fns";
-import { isWorkingDay } from "./date-utils";
+import { db } from "./db";
+import { isWorkingDay, isDateInRange } from "./date-utils";
 
 const sources = [
   "LinkedIn",
@@ -9,68 +9,28 @@ const sources = [
   "Job Fair",
 ];
 
-export const generateRecruits = (count) => {
-  const interviewStatuses = ["No pasó", "Pasó 1", "Pasó 2", "Pasó 3"];
-  return Array.from({ length: count }, (_, i) => {
-    let applicationDate;
-    do {
-      applicationDate = subDays(new Date(), Math.floor(Math.random() * 365));
-    } while (!isWorkingDay(applicationDate));
+export const getRecruitmentStats = async (startDate, endDate) => {
+  const recruits = await db.getRecruitsByDateRange(startDate, endDate);
 
-    return {
-      id: `recruit-${i + 1}`,
-      name: `Candidate ${i + 1}`,
-      source: sources[Math.floor(Math.random() * sources.length)],
-      applicationDate,
-      interviewStatus:
-        interviewStatuses[Math.floor(Math.random() * interviewStatuses.length)],
-    };
-  });
-};
-
-export const recruits = generateRecruits(100);
-
-export const getRecruitmentStats = (startDate, endDate) => {
-  if (!isValid(startDate) || !isValid(endDate)) {
-    return [];
-  }
-
-  const filteredRecruits = recruits.filter(
-    (recruit) =>
-      isValid(recruit.applicationDate) &&
-      recruit.applicationDate >= startDate &&
-      recruit.applicationDate <= endDate &&
-      isWorkingDay(recruit.applicationDate)
-  );
+  console.log("RECLUTADOS: " + JSON.stringify(recruits));
 
   const stats = sources.map((source) => ({
     name: source,
-    count: filteredRecruits.filter((recruit) => recruit.source === source)
-      .length,
+    count: recruits.filter((recruit) => recruit.source === source).length,
   }));
 
   return stats.sort((a, b) => b.count - a.count);
 };
 
-export const getInterviewStatsBySource = (startDate, endDate) => {
-  if (!isValid(startDate) || !isValid(endDate)) {
-    return [];
-  }
-
-  const filteredRecruits = recruits.filter(
-    (recruit) =>
-      isValid(recruit.applicationDate) &&
-      recruit.applicationDate >= startDate &&
-      recruit.applicationDate <= endDate &&
-      isWorkingDay(recruit.applicationDate)
-  );
+export const getInterviewStatsBySource = async (startDate, endDate) => {
+  const recruits = await db.getRecruitsByDateRange(startDate, endDate);
 
   const interviewStatuses = ["No pasó", "Pasó 1", "Pasó 2", "Pasó 3"];
 
   const stats = interviewStatuses.map((status) => {
     const statusObj = { status };
     sources.forEach((source) => {
-      statusObj[source] = filteredRecruits.filter(
+      statusObj[source] = recruits.filter(
         (recruit) =>
           recruit.interviewStatus === status && recruit.source === source
       ).length;
@@ -79,4 +39,12 @@ export const getInterviewStatsBySource = (startDate, endDate) => {
   });
 
   return stats;
+};
+
+export const getRecruits = async (startDate, endDate, isMonthView) => {
+  const recruits = await db.getRecruitsByDateRange(startDate, endDate);
+
+  return recruits.filter(
+    (recruit) => isMonthView || isWorkingDay(recruit.applicationDate)
+  );
 };

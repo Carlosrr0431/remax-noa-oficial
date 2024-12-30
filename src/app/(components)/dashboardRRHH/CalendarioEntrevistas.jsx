@@ -20,6 +20,15 @@ import InterviewSchedulerModal from './InterviewSchedulerModal'
 
 // Unite a la red inmobiliaria N°1 
 
+// LINKEDIN
+// EMPLEO12
+// COMPUTRABAJO
+// REDES
+// MAILING
+// WHATSAPP MASIVO
+// REFERIDOS
+
+
 moment.locale('es-AR')
 const localizer = momentLocalizer(moment)
 

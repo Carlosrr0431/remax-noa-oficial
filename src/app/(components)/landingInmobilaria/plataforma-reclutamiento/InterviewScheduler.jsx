@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay } from 'date-fns'
+import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay, isWeekend, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { supabaseClient } from '@/supabase/client'
 
@@ -50,6 +50,27 @@ export default function InterviewScheduler({ onSchedule }) {
 
     // const today = new Date()
     // const nextWeek = addDays(today, 7)
+
+
+    // FORMATO: AÑO - MES - DIA
+    // MES: EMPIEZA DEL 0(Enero) AL 11(Diciembre)
+    const holidays = [
+        new Date(2025, 0, 1), // Año Nuevo
+        new Date(2024, 11, 31), // Día de la Independencia
+    ];
+
+    function isHoliday(date) {
+        return holidays.some((holiday) => isSameDay(date, holiday));
+    }
+
+    function isNonWorkingDay(date) {
+        return (
+            isWeekend(date) ||
+            isHoliday(date) ||
+            isBefore(date, today) ||
+            isAfter(date, availableDates[availableDates.length - 1])
+        );
+    }
 
 
     const today = startOfDay(addDays(new Date(), 1))
@@ -112,7 +133,8 @@ export default function InterviewScheduler({ onSchedule }) {
                             <Calendar
                                 mode="single"
                                 selected={selectedDate}
-                                disabled={isDateDisabled}
+                                // disabled={isDateDisabled}
+                                disabled={isNonWorkingDay}
                                 onSelect={setSelectedDate}
                                 // disabled={(date) => date < today || date > nextWeek}
                                 className="rounded-md border w-full"

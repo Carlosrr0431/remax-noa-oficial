@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar } from "@/components/ui/calendar"
 import { es } from "date-fns/locale"
 import { Card, CardContent } from "@/components/ui/card"
-import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay } from 'date-fns'
+import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay, isSameDay } from 'date-fns'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, ChevronRight, Clock, CalendarIcon, User, Phone, Mail, FileText } from 'lucide-react'
 import moment from "moment-timezone";
@@ -130,6 +130,16 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
 
 
 
+    const holidays = [
+        new Date(2025, 0, 1), // Año Nuevo
+        new Date(2024, 11, 31), // Día de la Independencia
+    ];
+
+    function isHoliday(date) {
+        return holidays.some((holiday) => isSameDay(date, holiday));
+    }
+
+
     const today = startOfDay(addDays(new Date(), 1))
 
     const availableDates = useMemo(() => {
@@ -149,7 +159,7 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
     }, [today])
 
     const isDateDisabled = (date) => {
-        return isBefore(date, today) || isAfter(date, availableDates[availableDates.length - 1]) || isSaturday(date) || isSunday(date)
+        return isBefore(date, today) || isAfter(date, availableDates[availableDates.length - 1]) || isSaturday(date) || isSunday(date) || isHoliday(date)
     }
 
 

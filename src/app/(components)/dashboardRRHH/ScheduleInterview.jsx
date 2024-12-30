@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay } from 'date-fns'
+import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { supabaseClient } from '@/supabase/client'
 
@@ -68,6 +68,8 @@ export default function ScheduleInterview({ onSchedule, setSchedulingUser, userS
     onSchedule(datos)
 
   }
+
+
 
   const isDateDisabled = (date) => {
 

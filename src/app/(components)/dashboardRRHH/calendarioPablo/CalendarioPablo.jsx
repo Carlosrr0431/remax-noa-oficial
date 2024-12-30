@@ -16,7 +16,7 @@ import InterviewModalCalendar from './InterviewModalCalendar'
 // AZUL PRIMERA ENTREVISTA, VERDE SEGUNDA Y ROJO LA ENTREVISTA PROXIMA
 
 // Unite a la red inmobiliaria N°1 
-
+// 8:20 primera entrevista hasta 15:20 ultima entrevista - lunes a viernes - PABLO
 moment.locale('es-AR')
 const localizer = momentLocalizer(moment)
 
