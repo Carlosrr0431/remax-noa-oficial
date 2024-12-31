@@ -13,10 +13,10 @@ import { Home, BarChart2, Users, Settings, LogOut, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const menuItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard', color: 'bg-blue-500 text-white' },
-    { id: 'analytics', icon: BarChart2, label: 'Analytics', color: 'bg-green-500 text-white' },
-    { id: 'customers', icon: Users, label: 'Customers', color: 'bg-yellow-500 text-white' },
-    { id: 'settings', icon: Settings, label: 'Settings', color: 'bg-purple-500 text-white' },
+    { id: 'dashboard', icon: Home, label: 'Calendario', color: 'bg-blue-500 text-white' },
+    { id: 'analytics', icon: BarChart2, label: 'Estadistica', color: 'bg-green-500 text-white' },
+    { id: 'customers', icon: Users, label: 'Calendario Broker', color: 'bg-yellow-500 text-white' },
+    { id: 'settings', icon: Settings, label: 'Reprogramación', color: 'bg-purple-500 text-white' },
 ]
 
 export function AppSidebar({ setActiveItem, activeItem }) {

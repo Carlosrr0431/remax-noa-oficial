@@ -3,14 +3,15 @@ import { Menu } from 'lucide-react'
 import CalendarioEntrevistas from './CalendarioEntrevistas'
 import EstadisticaReclutados from './tablaCandidatos/EstadisticaReclutados'
 import CalendarioPablo from './calendarioPablo/CalendarioPablo'
+import RecruitmentPipeline from './pipeLine/RecruitmentPipeline'
 
 
 const components = {
     dashboard: CalendarioEntrevistas,
     analytics: EstadisticaReclutados,
-    customers: CalendarioPablo
+    customers: CalendarioPablo,
     // customers: CustomersComponent,
-    // settings: SettingsComponent,
+    settings: RecruitmentPipeline,
 }
 
 export function DashboardContent({ activeItem, isExpanded, toggleSidebar }) {

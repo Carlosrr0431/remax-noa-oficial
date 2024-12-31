@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay, isSameDay } from 'date-fns'
+import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { supabaseClient } from '@/supabase/client'
 
@@ -69,7 +69,23 @@ export default function ScheduleInterview({ onSchedule, setSchedulingUser, userS
 
   }
 
+  const today = startOfDay(addDays(new Date(), 1))
 
+  const availableDates = useMemo(() => {
+    const dates = []
+    let currentDate = today
+    let daysAdded = 0
+
+    while (daysAdded < 7) {
+      if (!isSaturday(currentDate) && !isSunday(currentDate)) {
+        dates.push(currentDate)
+        daysAdded++
+      }
+      currentDate = addDays(currentDate, 1)
+    }
+
+    return dates
+  }, [today])
 
   const isDateDisabled = (date) => {
 
@@ -82,34 +98,10 @@ export default function ScheduleInterview({ onSchedule, setSchedulingUser, userS
     return isBefore(date, today) || isAfter(date, availableDates[availableDates.length - 1]) || isSaturday(date) || isSunday(date) || flag
   }
 
-  const today = startOfDay(addDays(new Date(), 1))
-
-  const availableDates = useMemo(async () => {
-    const dates = []
-    let currentDate = today
-    let daysAdded = 0
-    // const { data, error } = await supabaseClient
-    //   .from('cuposDisponibles')
-    //   .select('*').eq('email', userSelect.email).eq('nombre', userSelect.nombre)
-
-    while (daysAdded < 6) {
-
-      let flag = true;
 
 
 
 
-      if (!isSaturday(currentDate) && !isSunday(currentDate)) {
-
-        dates.push(currentDate)
-        daysAdded++
-
-      }
-      currentDate = addDays(currentDate, 1)
-    }
-
-    return dates
-  }, [today])
 
 
   return (

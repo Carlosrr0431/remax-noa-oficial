@@ -21,7 +21,7 @@ export function FeedbackTextbox2({ user, dec }) {
         let nuevosReclutados = []
 
         result3.data[0].reclutados.map((elem) => {
-            if (elem.nombre == user.nombreCompleto && elem.email == user.email) {
+            if (elem.nombre == user.nombre && elem.telefono == user.telefono) {
                 const object = {
                     cv: elem.cv,
                     email: elem.email,
@@ -56,8 +56,6 @@ export function FeedbackTextbox2({ user, dec }) {
             .eq("time", user.horaPrimeraEntrevista)
             .eq("date", user.diaPrimeraEntrevista);
 
-        console.log("FEEDBACK: " + JSON.stringify(user));
-
         if (dec) {
             const result6 = await supabaseClient
                 .from("cuposDisponibles")
@@ -65,7 +63,7 @@ export function FeedbackTextbox2({ user, dec }) {
                     feedBack: feedback,
                 })
                 .eq("time", user.time)
-                .eq("date", user.date).eq('email', user.email).eq('telefono', user.telefono)
+                .eq("date", user.date).eq('nombreCompleto', user.nombre).eq('telefono', user.telefono)
         } else {
             const result6 = await supabaseClient
                 .from("cuposDisponibles")
@@ -73,7 +71,7 @@ export function FeedbackTextbox2({ user, dec }) {
                     feedBack: feedback,
                 })
                 .eq("horaTerceraEntrevista", user.horaTerceraEntrevista)
-                .eq("diaTerceraEntrevista", user.diaTerceraEntrevista).eq('email', user.email).eq('telefono', user.telefono)
+                .eq("diaTerceraEntrevista", user.diaTerceraEntrevista).eq('nombreCompleto', user.nombre).eq('telefono', user.telefono)
         }
 
 

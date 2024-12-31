@@ -21,7 +21,7 @@ export function FeedbackTextbox({ user }) {
         let nuevosReclutados = []
 
         result3.data[0].reclutados.map((elem) => {
-            if (elem.nombre == user.nombre && elem.email == user.email) {
+            if (elem.nombre == user.nombre && elem.telefono == user.telefono) {
                 const object = {
                     cv: elem.cv,
                     email: elem.email,
@@ -65,7 +65,7 @@ export function FeedbackTextbox({ user }) {
                 feedBack: feedback,
             })
             .eq("time", user.horaSegundaEntrevista)
-            .eq("date", user.diaSegundaEntrevista).eq('email', user.email).eq('telefono', user.telefono)
+            .eq("date", user.diaSegundaEntrevista).eq('nombreCompleto', user.nombre).eq('telefono', user.telefono)
 
 
         return result4.status

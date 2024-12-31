@@ -368,7 +368,7 @@ export default function CalendarioEntrevistas() {
     const eventStyleGetter = useCallback((event, start, end, isSelected) => {
         const now = moment(currentTime)
 
-        const isNextInterview = event.email === nextInterview?.email && event.name === nextInterview?.name && event.start === nextInterview?.start
+        const isNextInterview = event.phone === nextInterview?.phone && event.name === nextInterview?.name && event.start === nextInterview?.start
         let className = 'interview-event '
 
         if (isNextInterview) {

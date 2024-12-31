@@ -87,11 +87,13 @@ export default function InterviewModalCalendar({ user, setOpen, dia, hora }) {
         const result5 = await supabaseClient.from("cuposDisponibles").select('*').eq("time", userSelect.horaPrimeraEntrevista).eq("date", userSelect.diaPrimeraEntrevista);
 
 
+        console.log("CALENDAR: " + JSON.stringify(userSelect));
+
         let nuevosReclutados = []
 
         result5?.data[0]?.reclutados.map((elem) => {
 
-            if (elem.nombre == userSelect.nombre && elem.email == userSelect.email) {
+            if (elem.nombre == userSelect.nombre && elem.telefono == userSelect.telefono) {
                 const object = {
                     horaTerceraEntrevista: elem.diaTerceraEntrevista,
                     diaTerceraEntrevista: elem.horaTerceraEntrevista,
@@ -135,7 +137,7 @@ export default function InterviewModalCalendar({ user, setOpen, dia, hora }) {
             .update({
                 pasoTerceraEntrevista: `${dec ? 'paso' : 'no paso'}`,
             }).eq("horaTerceraEntrevista", userSelect.horaTerceraEntrevista)
-            .eq("diaTerceraEntrevista", userSelect.diaTerceraEntrevista).eq('email', userSelect.email).eq('telefono', userSelect.telefono)
+            .eq("diaTerceraEntrevista", userSelect.diaTerceraEntrevista).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
 
     }
 
@@ -159,7 +161,7 @@ export default function InterviewModalCalendar({ user, setOpen, dia, hora }) {
 
         result4?.data[0]?.reclutados.map((elem) => {
 
-            if (elem.nombre == userSelect.nombreCompleto && elem.email == userSelect.email) {
+            if (elem.nombre == userSelect.nombre && elem.telefono == userSelect.telefono) {
                 const object = {
                     horaTerceraEntrevista: datos.hora,
                     diaTerceraEntrevista: datos.dia,
@@ -250,7 +252,7 @@ export default function InterviewModalCalendar({ user, setOpen, dia, hora }) {
                                     <div className="space-y-2">
                                         <p className="flex items-center text-sm">
                                             <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-                                            <span className="text-muted-foreground">Email: {userSelect.interviewPassed}</span>
+                                            <span className="text-muted-foreground">Email:</span>
                                             <span className="ml-2 text-black">{userSelect.email}</span>
                                         </p>
                                         <p className="flex items-center text-sm">

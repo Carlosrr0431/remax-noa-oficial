@@ -95,7 +95,7 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
 
         result5?.data[0]?.reclutados.map((elem) => {
 
-            if (elem.nombre == userSelect.nombre && elem.email == userSelect.email) {
+            if (elem.nombre == userSelect.nombre && elem.telefono == userSelect.telefono) {
                 const object = {
                     nombre: elem.nombre,
                     email: elem.email,
@@ -135,7 +135,7 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
 
             })
             .eq("time", hora)
-            .eq("date", dia).eq('email', userSelect.email).eq('telefono', userSelect.telefono)
+            .eq("date", dia).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
     }
 
     const sendWhatsAppMessage = (phone) => {
@@ -177,7 +177,7 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
                                     <div className="space-y-2">
                                         <p className="flex items-center text-sm">
                                             <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-                                            <span className="text-muted-foreground">Email: {userSelect.interviewPassed}</span>
+                                            <span className="text-muted-foreground">Email: </span>
                                             <span className="ml-2 text-black">{userSelect.email}</span>
                                         </p>
                                         <p className="flex items-center text-sm">

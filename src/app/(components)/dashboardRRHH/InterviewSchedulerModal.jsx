@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, ChevronRight, Clock, CalendarIcon, User, Phone, Mail, FileText } from 'lucide-react'
 import moment from "moment-timezone";
 import { supabaseClient } from '@/supabase/client'
-import { guardarCV } from '@/app/action'
+import { guardarCV2 } from '@/app/action'
 import { motion } from 'framer-motion'
 
 const timeSlots = [
@@ -28,8 +28,6 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
-        email: '',
-        cv: null,
         date: undefined,
         time: ''
     })
@@ -73,12 +71,9 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
 
 
     const handleInputChange = (e) => {
-        const { name, value, files } = e.target
-        if (name === 'cv' && files) {
-            setFormData(prev => ({ ...prev, [name]: files[0] }))
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }))
-        }
+        const { name, value } = e.target
+
+        setFormData(prev => ({ ...prev, [name]: value }))
     }
 
     const handleDateSelect = (date) => {
@@ -105,15 +100,13 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
 
 
         const formData2 = new FormData()
-        formData2.append('file', formData.cv)
-        formData2.append('email', formData.email)
         formData2.append('nombre', formData.name)
         formData2.append('telefono', formData.phone)
 
         setIsLoading(true)
 
 
-        const result = await guardarCV(formData2, moment(formData.date).tz("America/Argentina/Salta").format("DD/MM/yyyy"), formData.time)
+        const result = await guardarCV2(formData2, moment(formData.date).tz("America/Argentina/Salta").format("DD/MM/yyyy"), formData.time)
 
         if (result.message == "File uploaded successfully!") {
             setIsLoading(false)
@@ -206,7 +199,7 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
                                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                                 </div>
                             </div>
-                            <div className="space-y-2">
+                            {/* <div className="space-y-2">
                                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
                                 <div className="relative">
                                     <Input
@@ -220,8 +213,8 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
                                     />
                                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                                 </div>
-                            </div>
-                            <div className="space-y-2">
+                            </div> */}
+                            {/* <div className="space-y-2">
                                 <Label htmlFor="cv" className="text-sm font-medium text-gray-700">CV (PDF)</Label>
                                 <div className="relative">
                                     <Input
@@ -234,7 +227,7 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
                                     />
                                     <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <Button type="submit" className="w-full">Siguiente</Button>
                     </form>
@@ -295,8 +288,6 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
                                 <div className="space-y-2">
                                     <p className="flex items-center text-black"><User className="mr-2" size={18} /> <strong>Nombre:</strong> {formData.name}</p>
                                     <p className="flex items-center text-black"><Phone className="mr-2" size={18} /> <strong>Teléfono:</strong> {formData.phone}</p>
-                                    <p className="flex items-center text-black"><Mail className="mr-2" size={18} /> <strong>Email:</strong> {formData.email}</p>
-                                    <p className="flex items-center text-black"><FileText className="mr-2" size={18} /> <strong>CV:</strong> {formData.cv?.name}</p>
                                     <p className="flex items-center text-black"><CalendarIcon className="mr-2" size={18} /> <strong>Fecha:</strong> {formData.date ? format(formData.date, 'dd/MM/yyyy', { locale: es }) : ''}</p>
                                     <p className="flex items-center text-black"><Clock className="mr-2" size={18} /> <strong>Hora:</strong> {formData.time}</p>
                                 </div>

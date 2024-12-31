@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay } from 'date-fns'
+import { format, addDays, isSaturday, isSunday, isAfter, isBefore, startOfDay, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { supabaseClient } from '@/supabase/client'
 
@@ -34,7 +34,7 @@ export default function ScheduleInterview2({ onSchedule, setSchedulingUser, user
     try {
       const { data, error } = await supabaseClient
         .from('cuposDisponibles')
-        .select('*').eq('pasoTerceraEntrevista', 'paso')
+        .select('*').neq('diaTerceraEntrevista', null)
 
       if (error) throw error
 
@@ -69,45 +69,46 @@ export default function ScheduleInterview2({ onSchedule, setSchedulingUser, user
 
   }
 
-  const isDateDisabled = (date) => {
 
-    let flag = false
+  const holidays = [
+    new Date(2025, 0, 1), // Año Nuevo
+    new Date(2024, 11, 31), // Día de la Independencia
+  ];
 
-    if (userSelect.diaPrimeraEntrevista == format(date, 'dd/MM/yyyy', { locale: es })) {
-      flag = true
-    }
-
-    return isBefore(date, today) || isAfter(date, availableDates[availableDates.length - 1]) || isSaturday(date) || isSunday(date) || flag
+  function isHoliday(date) {
+    return holidays.some((holiday) => isSameDay(date, holiday));
   }
 
   const today = startOfDay(addDays(new Date(), 1))
 
-  const availableDates = useMemo(async () => {
+  const availableDates = useMemo(() => {
     const dates = []
     let currentDate = today
     let daysAdded = 0
-    // const { data, error } = await supabaseClient
-    //   .from('cuposDisponibles')
-    //   .select('*').eq('email', userSelect.email).eq('nombre', userSelect.nombre)
 
-    while (daysAdded < 6) {
-
-      let flag = true;
-
-
-
-
+    while (daysAdded < 7) {
       if (!isSaturday(currentDate) && !isSunday(currentDate)) {
-
         dates.push(currentDate)
         daysAdded++
-
       }
       currentDate = addDays(currentDate, 1)
     }
 
     return dates
   }, [today])
+
+  const isDateDisabled = (date) => {
+
+    let flag = false
+
+    if (userSelect.diaSegundaEntrevista == format(date, 'dd/MM/yyyy', { locale: es })) {
+      flag = true
+    }
+
+    return isBefore(date, today) || isAfter(date, availableDates[availableDates.length - 1]) || isSaturday(date) || isSunday(date) || flag || isHoliday(date)
+  }
+
+
 
 
   return (
@@ -146,9 +147,9 @@ export default function ScheduleInterview2({ onSchedule, setSchedulingUser, user
                   let flag = true
                   if (availableSlots.map((item, index) => {
 
-                    if (item.date == format(selectedDate, 'dd/MM/yyyy')) {
+                    if (item.diaTerceraEntrevista == format(selectedDate, 'dd/MM/yyyy')) {
 
-                      if (item.time == time) {
+                      if (item.horaTerceraEntrevista == time) {
                         flag = false
 
                       }

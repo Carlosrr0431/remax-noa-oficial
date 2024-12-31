@@ -16,6 +16,78 @@ cloudinary.config({
   api_secret: "OuD06O8Izb2EVH8rnWYr9Xjfeak",
 });
 
+export async function guardarCV2(datos, dia, hora, fuente) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: () => cookieStore,
+    }
+  );
+
+  const telefono = datos.get("telefono");
+  const nombre = datos.get("nombre");
+
+  const data2 = await supabase
+    .from("cuposDisponibles")
+    .select("*")
+    .eq("time", hora)
+    .eq("date", dia);
+
+  const object = {
+    nombre: nombre,
+    telefono: telefono,
+    diaPrimeraEntrevista: dia,
+    horaPrimeraEntrevista: hora,
+    fuente: fuente,
+  };
+
+  if (
+    data2?.data[0]?.date != null &&
+    data2?.data[0]?.time != null &&
+    data2?.data[0]?.reclutados == null
+  ) {
+    const result3 = await supabase
+      .from("cuposDisponibles")
+      .update({
+        telefono: telefono,
+        nombreCompleto: nombre,
+        reclutados: [object],
+        cantidadGrupo: 1,
+      })
+      .eq("time", hora)
+      .eq("date", dia);
+  } else if (
+    data2?.data[0]?.date != null &&
+    data2?.data[0]?.time != null &&
+    data2?.data[0].reclutados != null
+  ) {
+    const result3 = await supabase
+      .from("cuposDisponibles")
+      .update({
+        telefono: telefono,
+        nombreCompleto: nombre,
+        reclutados: [...data2?.data[0].reclutados, object],
+        cantidadGrupo: data2?.data[0].cantidadGrupo + 1,
+      })
+      .eq("time", hora)
+      .eq("date", dia);
+  } else if (data2?.data[0]?.date == null && data2?.data[0]?.time == null) {
+    const result3 = await supabase.from("cuposDisponibles").insert({
+      telefono: telefono,
+      nombreCompleto: nombre,
+      reclutados: [object],
+      cantidadGrupo: 1,
+      date: dia,
+      time: hora,
+    });
+  }
+
+  return { success: true, message: "File uploaded successfully!" };
+}
+
 export async function guardarCV(datos, dia, hora, fuente) {
   const cookieStore = cookies();
 
@@ -37,9 +109,6 @@ export async function guardarCV(datos, dia, hora, fuente) {
     .select("*")
     .eq("time", hora)
     .eq("date", dia);
-
-    console.log("FILE: " + file);
-    
 
   if (file != null) {
     const bytes = await file.arrayBuffer();

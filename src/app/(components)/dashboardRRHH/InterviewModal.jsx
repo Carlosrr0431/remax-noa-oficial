@@ -241,7 +241,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
 
 
         // aqui va el mandar el mensaje automatico
-        window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola!!!`, "_blank")
+        window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola, nos contactamos para citarte a la siguiente etapa del proceso de selección. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608 para una entrevista individual. Aguardamos confirmación. Muchas gracias.`, "_blank")
         // setStep(3)
     }
 
@@ -253,7 +253,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
         let nuevosReclutados = []
 
         result3.data[0].reclutados.map((elem) => {
-            if (elem.nombre == user.nombre && elem.email == user.email) {
+            if (elem.nombre == user.nombre && elem.telefono == user.telefono) {
                 const object = {
                     cv: elem.cv,
                     email: elem.email,
@@ -338,7 +338,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                                         <div className="space-y-2">
                                             <p className="flex items-center text-sm">
                                                 <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-                                                <span className="text-muted-foreground">Email: {user.interviewPassed}</span>
+                                                <span className="text-muted-foreground">Email: </span>
                                                 <span className="ml-2 text-black">{user.email}</span>
                                             </p>
                                             <p className="flex items-center text-sm">

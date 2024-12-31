@@ -169,7 +169,8 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
         setSchedulingUser(false)
 
 
-        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista).eq('email', userSelect.email).eq('telefono', userSelect.telefono)
+        console.log("Datos: " + JSON.stringify(userSelect));
+        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista).eq('nombreCompleto', userSelect.nombreCompleto).eq('telefono', userSelect.telefono)
 
 
         console.log("fecha " + datos.hora + " " + datos.dia);
@@ -178,7 +179,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
 
         result4?.data[0]?.reclutados.map((elem) => {
 
-            if (elem.nombre == userSelect.nombreCompleto && elem.email == userSelect.email) {
+            if (elem.nombre == userSelect.nombreCompleto && elem.telefono == userSelect.telefono) {
                 const object = {
                     horaTerceraEntrevista: datos.hora,
                     diaTerceraEntrevista: datos.dia,
@@ -222,7 +223,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
 
             })
             .eq("time", userSelect.time)
-            .eq("date", userSelect.date).eq('email', userSelect.email).eq('telefono', userSelect.telefono)
+            .eq("date", userSelect.date).eq('nombreCompleto', userSelect.nombreCompleto).eq('telefono', userSelect.telefono)
 
 
         // const result3 = await supabaseClient.from("cuposDisponibles").insert({
@@ -231,7 +232,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
         // });
 
         // aqui va el mandar el mensaje automatico
-        // window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola!!!`, "_blank")
+        window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola ${userSelect.nombre}, ¡Felicidades! Nos comunicamos para invitarte a la última entrevista del proceso de selección con nuestro corredor inmobiliario, Pablo Castañeda. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608.`, "_blank")
         // setStep(3)
     }
 
@@ -316,7 +317,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
                                         <div className="space-y-2">
                                             <p className="flex items-center text-sm">
                                                 <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-                                                <span className="text-muted-foreground">Email: {user.interviewPassed}</span>
+                                                <span className="text-muted-foreground">Email:</span>
                                                 <span className="ml-2 text-black">{user.email}</span>
                                             </p>
                                             <p className="flex items-center text-sm">
