@@ -7,7 +7,6 @@ import { Separator } from "@radix-ui/react-select"
 import { Badge } from "@/components/ui/badge"
 import { supabaseClient } from "@/supabase/client"
 import { FeedbackTextbox } from "./FeedbackTextbox"
-import { generateUniqueId } from "../landingInmobilaria/plataforma-reclutamiento/segundaEntrevista/RandomLinks"
 
 export default function InterviewModal2({ user, setOpen, dia, hora }) {
 
