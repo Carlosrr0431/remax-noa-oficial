@@ -12,7 +12,8 @@ import { supabaseClient } from "@/supabase/client"
 import moment from "moment-timezone";
 import { useAppContext } from "@/app/(context)/AppWrapper"
 import { FeedbackTextbox } from "./FeedbackTextbox"
-import { generateUniqueId } from "../landingInmobilaria/plataforma-reclutamiento/segundaEntrevista/RandomLinks"
+import { generateUniqueId } from "../landingInmobilaria/plataforma-reclutamiento/segundaEntrevista/randomLinks"
+
 
 export default function InterviewModal({ users2, setOpen, dia, hora }) {
 
@@ -291,6 +292,10 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
             .eq("time", hora)
             .eq("date", dia)
 
+        const id = generateUniqueId()
+
+
+
 
         const result8 = await supabaseClient.from("cuposDisponibles").insert({
             email: user.email,
@@ -305,8 +310,11 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
             date: "SD",
             fuente: user.fuente,
             feedBack: user.feedBack,
-            linkEntrevistaIndividual: `https://remaxnoa.com.ar/sumate/segundaEntrevista/${generateUniqueId()}`
+            linkEntrevistaIndividual: `https://remaxnoa.com.ar/sumate/segundaEntrevista/${id}`
         });
+
+
+
         // const result6 = await supabaseClient
         //     .from("cuposDisponibles")
         //     .update({
