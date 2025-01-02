@@ -16,7 +16,7 @@ const timeSlots = [
     "05:00 PM", "06:00 PM"
 ]
 
-const TOTAL_TIME = 300 // 5 minutes in seconds
+const TOTAL_TIME = 500 // 5 minutes in seconds
 
 export default function ItemPage({ params }) {
     const router = useRouter()
@@ -31,7 +31,7 @@ export default function ItemPage({ params }) {
         const obtenerLink = async () => {
             const { data, error } = await supabaseClient
                 .from('cuposDisponibles')
-                .select('*').eq('linkEntrevistaIndividual', `https://www.remaxnoa.com.ar/sumate/segundaEntrevista/${params.id}`)
+                .select('*').eq('linkEntrevistaIndividual', `http://localhost:3000/sumate/segundaEntrevista/${params.id}`)
 
             if (data.length == 0) {
                 router.push('/')
@@ -40,7 +40,7 @@ export default function ItemPage({ params }) {
 
         }
 
-        obtenerLink()
+        // obtenerLink()
 
         const storedStartTime = localStorage.getItem(`timer-start-${params.id}`)
         const startTime = storedStartTime ? parseInt(storedStartTime, 10) : Date.now()
