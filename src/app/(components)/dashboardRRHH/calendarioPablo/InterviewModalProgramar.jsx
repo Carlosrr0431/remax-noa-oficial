@@ -170,7 +170,9 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
 
 
         console.log("Datos: " + JSON.stringify(userSelect));
-        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista).eq('nombreCompleto', userSelect.nombreCompleto).eq('telefono', userSelect.telefono)
+
+
+        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista)
 
 
         console.log("fecha " + datos.hora + " " + datos.dia);
@@ -206,6 +208,9 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
 
         })
 
+        console.log("PABLO CALENDAR: " + JSON.stringify(userSelect));
+
+
         const result7 = await supabaseClient
             .from("cuposDisponibles")
             .update({
@@ -232,7 +237,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
         // });
 
         // aqui va el mandar el mensaje automatico
-        window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola ${userSelect.nombre}, ¡Felicidades! Nos comunicamos para invitarte a la última entrevista del proceso de selección con nuestro corredor inmobiliario, Pablo Castañeda. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608.`, "_blank")
+        // window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola ${userSelect.nombre}, ¡Felicidades! Nos comunicamos para invitarte a la última entrevista del proceso de selección con nuestro corredor inmobiliario, Pablo Castañeda. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608.`, "_blank")
         // setStep(3)
     }
 

@@ -131,14 +131,13 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
         console.log("USER SELECCIONADO: " + JSON.stringify(userSelect));
 
 
-        // const result4 = await supabaseClient
-        //     .from("cuposDisponibles")
-        //     .update({
-        //         pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`,
+        const result4 = await supabaseClient
+            .from("cuposDisponibles")
+            .update({
+                pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`,
 
-        //     })
-        //     .eq("time", hora)
-        //     .eq("date", dia).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
+            })
+            .eq("horaPrimeraEntrevista", userSelect.horaPrimeraEntrevista).eq("diaPrimeraEntrevista", userSelect.diaPrimeraEntrevista).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
     }
 
     const sendWhatsAppMessage = (phone) => {

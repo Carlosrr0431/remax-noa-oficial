@@ -2,13 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { supabaseClient } from '@/supabase/client'
 import Image from 'next/image'
-import { Calendar } from "@/components/ui/calendar"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import ScheduleInterviewSegunda from '@/app/(components)/landingInmobilaria/plataforma-reclutamiento/segundaEntrevista/ScheduleInterviewSegunda'
 
 const timeSlots = [
     "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
@@ -24,6 +20,7 @@ export default function ItemPage({ params }) {
     const [date, setDate] = useState(undefined)
     const [selectedTime, setSelectedTime] = useState(null)
     const timeSlotsRef = useRef(null)
+    const [userSelect, setUserSelect] = useState()
 
 
     useEffect(() => {
@@ -37,10 +34,38 @@ export default function ItemPage({ params }) {
                 router.push('/')
             }
 
+            console.log("data" + JSON.stringify(data[0].diaPrimeraEntrevista));
+
+
+            const result2 = await supabaseClient
+                .from('cuposDisponibles')
+                .select('*').eq('date', data[0].diaPrimeraEntrevista).eq('time', data[0].horaPrimeraEntrevista)
+
+
+            result2?.data[0]?.reclutados.map((elem) => {
+                if (elem.nombre == data[0].nombreCompleto && elem.telefono == data[0].telefono) {
+                    const object = {
+                        cv: elem.cv,
+                        email: elem.email,
+                        nombre: elem.nombre,
+                        telefono: elem.telefono,
+                        diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+                        horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+                        feedBack: elem.feedBack,
+                        interviewPassed: "paso",
+                        fuente: elem.fuente
+                    }
+
+                    setUserSelect(object)
+
+                }
+
+            })
+
 
         }
 
-        // obtenerLink()
+        obtenerLink()
 
         const storedStartTime = localStorage.getItem(`timer-start-${params.id}`)
         const startTime = storedStartTime ? parseInt(storedStartTime, 10) : Date.now()
@@ -89,6 +114,68 @@ export default function ItemPage({ params }) {
         return `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
 
+
+    const handleInterviewScheduled = async (datos) => {
+
+        const result4 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', userSelect.diaPrimeraEntrevista).eq('time', userSelect.horaPrimeraEntrevista)
+
+
+        let nuevosReclutados = []
+
+        result4?.data[0]?.reclutados.map((elem) => {
+            if (elem.nombre == userSelect.nombre && elem.telefono == userSelect.telefono) {
+                const object = {
+                    cv: elem.cv,
+                    email: elem.email,
+                    nombre: elem.nombre,
+                    telefono: elem.telefono,
+                    diaPrimeraEntrevista: elem.diaPrimeraEntrevista,
+                    horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
+                    diaSegundaEntrevista: datos.dia,
+                    horaSegundaEntrevista: datos.hora,
+                    feedBack: elem.feedBack,
+                    interviewPassed: "paso",
+                    fuente: elem.fuente
+                }
+
+                nuevosReclutados.push(object)
+
+            } else
+                nuevosReclutados.push(elem)
+
+        })
+
+
+        const result6 = await supabaseClient
+            .from("cuposDisponibles")
+            .update({
+                reclutados: nuevosReclutados,
+
+            })
+            .eq("time", userSelect.horaPrimeraEntrevista)
+            .eq("date", userSelect.diaPrimeraEntrevista)
+
+        const result3 = await supabaseClient.from("cuposDisponibles").update({
+            email: userSelect.email,
+            cv: userSelect.cv,
+            telefono: userSelect.telefono,
+            nombreCompleto: userSelect.nombre,
+            diaPrimeraEntrevista: userSelect.diaPrimeraEntrevista,
+            horaPrimeraEntrevista: userSelect.horaPrimeraEntrevista,
+            segundaEntrevista: true,
+            date: datos.dia,
+            time: datos.hora,
+            interviewPassed: userSelect.interviewPassed,
+            fuente: userSelect.fuente,
+            feedBack: userSelect.feedBack,
+        }).eq("nombreCompleto", userSelect.nombre).eq("telefono", userSelect.telefono).eq('diaPrimeraEntrevista', userSelect.diaPrimeraEntrevista).eq('horaPrimeraEntrevista', userSelect.horaPrimeraEntrevista)
+
+        console.log("RESULTADO: " + result3);
+
+
+        // window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola, nos contactamos para citarte a la siguiente etapa del proceso de selección. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608 para una entrevista individual. Aguardamos confirmación. Muchas gracias.`, "_blank")
+    }
+
     return (
         <div className="flex flex-col lg:flex-row h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
             {/* Left side - Full height image */}
@@ -110,46 +197,56 @@ export default function ItemPage({ params }) {
 
             {/* Right side - Scrollable Calendar and Time Slots */}
             <div className="w-full lg:w-1/2 h-screen overflow-y-auto">
-                <div className="max-w-2xl mx-auto p-6 md:p-10">
-                    {timeLeft != null && <Card className="w-full shadow-2xl bg-white rounded-2xl overflow-hidden border-t-4 border-blue-500">
-                        <CardContent className="p-8">
-                            <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">Select Your Interview Date</h2>
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                className="rounded-lg border-2 border-gray-200 shadow-md mb-8 p-3 mx-auto"
-                            />
-                            <div ref={timeSlotsRef}>
-                                <h3 className="text-2xl font-medium mb-4 text-gray-700 text-center">Available Time Slots</h3>
-                                <ScrollArea className="h-64 rounded-lg border-2 border-gray-200 p-4 bg-gray-50">
-                                    <div className="space-y-2">
-                                        {timeSlots.map((time) => (
-                                            <Button
-                                                key={time}
-                                                variant={selectedTime === time ? "default" : "outline"}
-                                                className="w-full text-lg transition-all duration-200 ease-in-out hover:bg-blue-100 hover:text-blue-700"
-                                                onClick={() => setSelectedTime(time)}
-                                            >
-                                                {time}
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </ScrollArea>
-                            </div>
-                            {selectedTime && date && (
-                                <div className="mt-8 p-6 bg-green-100 rounded-lg border-2 border-green-300 shadow-inner">
-                                    <p className="text-center text-green-800 font-medium">
-                                        Interview scheduled for:<br />
-                                        <span className="text-2xl font-bold">{date.toDateString()} at {selectedTime}</span>
-                                    </p>
-                                    <Button className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white">
-                                        Confirm Booking
-                                    </Button>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>}
+                <div className="max-w-2xl mx-auto p-6 md:p-10 md:my-14 mb-[130px]">
+                    {timeLeft != null &&
+
+                        userSelect != undefined && <ScheduleInterviewSegunda
+                            onSchedule={handleInterviewScheduled}
+                            userSelect={userSelect}
+
+                        />
+                        // <Card className="w-full shadow-2xl bg-white rounded-2xl overflow-hidden border-t-4 border-blue-500">
+                        //     <CardContent className="p-8">
+                        //         <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">Select Your Interview Date</h2>
+                        //         <Calendar
+                        //             mode="single"
+                        //             selected={date}
+                        //             onSelect={setDate}
+                        //             className="rounded-lg border-2 border-gray-200 shadow-md mb-8 p-3 mx-auto"
+                        //         />
+                        //         <div ref={timeSlotsRef}>
+                        //             <h3 className="text-2xl font-medium mb-4 text-gray-700 text-center">Available Time Slots</h3>
+                        //             <ScrollArea className="h-64 rounded-lg border-2 border-gray-200 p-4 bg-gray-50">
+                        //                 <div className="space-y-2">
+                        //                     {timeSlots.map((time) => (
+                        //                         <Button
+                        //                             key={time}
+                        //                             variant={selectedTime === time ? "default" : "outline"}
+                        //                             className="w-full text-lg transition-all duration-200 ease-in-out hover:bg-blue-100 hover:text-blue-700"
+                        //                             onClick={() => setSelectedTime(time)}
+                        //                         >
+                        //                             {time}
+                        //                         </Button>
+                        //                     ))}
+                        //                 </div>
+                        //             </ScrollArea>
+                        //         </div>
+                        //         {selectedTime && date && (
+                        //             <div className="mt-8 p-6 bg-green-100 rounded-lg border-2 border-green-300 shadow-inner">
+                        //                 <p className="text-center text-green-800 font-medium">
+                        //                     Interview scheduled for:<br />
+                        //                     <span className="text-2xl font-bold">{date.toDateString()} at {selectedTime}</span>
+                        //                 </p>
+                        //                 <Button className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white">
+                        //                     Confirm Booking
+                        //                 </Button>
+                        //             </div>
+                        //         )}
+                        //     </CardContent>
+                        // </Card>
+
+
+                    }
                 </div>
             </div>
         </div>
