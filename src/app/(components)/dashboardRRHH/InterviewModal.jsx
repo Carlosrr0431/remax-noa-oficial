@@ -255,6 +255,8 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
         // interviewPassed = "paso"
         const result3 = await supabaseClient.from("cuposDisponibles").select('*').eq('date', dia).eq('time', hora);
 
+        const id = generateUniqueId()
+
         let nuevosReclutados = []
 
         result3.data[0].reclutados.map((elem) => {
@@ -274,6 +276,7 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
                     diaTerceraEntrevista: elem.diaTerceraEntrevista,
                     fuente: elem.fuente,
                     feedBack: elem.feedBack,
+                    linkEntrevistaIndividual: `https://remaxnoa.com.ar/sumate/segundaEntrevista/${id}`
                 }
 
                 nuevosReclutados.push(object)
@@ -292,15 +295,15 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
             .eq("time", hora)
             .eq("date", dia)
 
-        const id = generateUniqueId()
+
 
 
 
 
         const result8 = await supabaseClient.from("cuposDisponibles").insert({
-            email: user.email,
-            cv: user.cv,
-            telefono: user.telefono,
+            email: "" || user.email,
+            cv: "" || user.cv,
+            telefono: "" || user.telefono,
             nombreCompleto: user.nombre,
             diaPrimeraEntrevista: user.diaPrimeraEntrevista,
             horaPrimeraEntrevista: user.horaPrimeraEntrevista,
@@ -308,12 +311,14 @@ export default function InterviewModal({ users2, setOpen, dia, hora }) {
             interviewPassed: `${dec ? 'paso' : 'no paso'}`,
             time: "SD",
             date: "SD",
-            fuente: user.fuente,
-            feedBack: user.feedBack,
+            fuente: "" || user.fuente,
+            feedBack: "" || user.feedBack,
             linkEntrevistaIndividual: `https://remaxnoa.com.ar/sumate/segundaEntrevista/${id}`
         });
 
 
+
+        console.log("RESULT: " + JSON.stringify(result8));
 
         // const result6 = await supabaseClient
         //     .from("cuposDisponibles")

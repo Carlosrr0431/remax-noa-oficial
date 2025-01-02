@@ -31,7 +31,7 @@ export default function ItemPage({ params }) {
         const obtenerLink = async () => {
             const { data, error } = await supabaseClient
                 .from('cuposDisponibles')
-                .select('*').eq('linkEntrevistaIndividual', `http://localhost:3000/sumate/segundaEntrevista/${params.id}`)
+                .select('*').eq('linkEntrevistaIndividual', `https://www.remaxnoa.com.ar/sumate/segundaEntrevista/${params.id}`)
 
             if (data.length == 0) {
                 router.push('/')
