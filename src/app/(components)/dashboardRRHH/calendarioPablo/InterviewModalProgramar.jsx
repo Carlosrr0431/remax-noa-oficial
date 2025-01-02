@@ -309,7 +309,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
                                             <div>
                                                 <h3 className="text-lg font-semibold text-black">{user.nombreCompleto}</h3>
                                                 <Badge variant={user.interviewPassed === undefined ? "secondary" : user.interviewPassed == "paso" ? "default" : "destructive"}>
-                                                    {user.interviewPassed === undefined ? "Pendiente" : user.pasoTerceraEntrevista == "paso" ? "Reclutado" : user.pasoSegundaEntrevista == "paso" ? "Paso 2° Entrevista" : user.interviewPassed === "paso" ? "Paso 1° Entrevista" : "No paso"}
+                                                    {user.interviewPassed === undefined ? "Pendiente" : user.pasoTerceraEntrevista == "paso" ? "Reclutado" : user.pasoSegundaEntrevista == "paso" ? "Paso 1° Entrevista Individual" : user.interviewPassed === "paso" ? "Paso 1° Entrevista Grupal" : "No paso"}
                                                 </Badge>
                                             </div>
                                         </div>
@@ -375,7 +375,7 @@ export default function InterviewModalProgramar({ setOpen, dia, hora }) {
                                             >
 
                                                 <CalendarCheck className="mr-2 h-4 w-4" />
-                                                Programar 3era Entrevista
+                                                Programar 2da Entrevista
                                                 {user.diaSegundaEntrevista}
                                             </Button>
                                         )}

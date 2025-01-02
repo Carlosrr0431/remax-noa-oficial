@@ -7,6 +7,7 @@ import { Separator } from "@radix-ui/react-select"
 import { Badge } from "@/components/ui/badge"
 import { supabaseClient } from "@/supabase/client"
 import { FeedbackTextbox } from "./FeedbackTextbox"
+import { generateUniqueId } from "../landingInmobilaria/plataforma-reclutamiento/segundaEntrevista/RandomLinks"
 
 export default function InterviewModal2({ user, setOpen, dia, hora }) {
 
@@ -110,7 +111,7 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
                     horaPrimeraEntrevista: elem.horaPrimeraEntrevista,
                     diaSegundaEntrevista: elem.diaSegundaEntrevista,
                     horaSegundaEntrevista: elem.horaSegundaEntrevista,
-                    pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`,
+                    pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`
                 }
 
                 nuevosReclutados.push(object)
@@ -128,14 +129,17 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
             .eq("time", userSelect.horaPrimeraEntrevista)
             .eq("date", userSelect.diaPrimeraEntrevista)
 
-        const result4 = await supabaseClient
-            .from("cuposDisponibles")
-            .update({
-                pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`,
+        console.log("USER SELECCIONADO: " + JSON.stringify(userSelect));
 
-            })
-            .eq("time", hora)
-            .eq("date", dia).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
+
+        // const result4 = await supabaseClient
+        //     .from("cuposDisponibles")
+        //     .update({
+        //         pasoSegundaEntrevista: `${dec ? 'paso' : 'no paso'}`,
+
+        //     })
+        //     .eq("time", hora)
+        //     .eq("date", dia).eq('nombreCompleto', userSelect.nombre).eq('telefono', userSelect.telefono)
     }
 
     const sendWhatsAppMessage = (phone) => {
@@ -168,7 +172,7 @@ export default function InterviewModal2({ user, setOpen, dia, hora }) {
                                         <div>
                                             <h3 className="text-lg font-semibold text-black">{userSelect.nombre}</h3>
                                             <Badge variant={userSelect.interviewPassed === undefined ? "secondary" : userSelect.interviewPassed == "paso" ? "default" : "destructive"}>
-                                                {userSelect.interviewPassed === undefined ? "Pendiente" : userSelect.pasoTerceraEntrevista == "paso" ? "Reclutado" : userSelect.pasoSegundaEntrevista == "paso" ? "Paso 2° Entrevista" : userSelect.interviewPassed === "paso" ? "Paso 1° Entrevista" : "No paso"}
+                                                {userSelect.interviewPassed === undefined ? "Pendiente" : userSelect.pasoTerceraEntrevista == "paso" ? "Reclutado" : userSelect.pasoSegundaEntrevista == "paso" ? "Paso 1° Entrevista Individual" : userSelect.interviewPassed === "paso" ? "Paso 1° Entrevista Grupal" : "No paso"}
                                             </Badge>
                                         </div>
 
