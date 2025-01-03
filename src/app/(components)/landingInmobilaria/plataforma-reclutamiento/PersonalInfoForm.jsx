@@ -136,7 +136,7 @@ export default function PersonalInfoForm({ onSubmit }) {
                                     <p className="pl-1 text-gray-600">o arrastra y suelta</p>
                                 </div>
                                 <p className="text-xs text-gray-500">
-                                    PDF, DOC, DOCX hasta 10MB
+                                    Solo archivos PDF
                                 </p>
                             </div>
                         </div>
