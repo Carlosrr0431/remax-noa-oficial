@@ -15,6 +15,7 @@ import moment from "moment-timezone";
 import { supabaseClient } from '@/supabase/client'
 import { guardarCV2 } from '@/app/action'
 import { motion } from 'framer-motion'
+import { emailCaptacionHTML } from '../emailCaptacionHTML'
 
 const timeSlots = [
     "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -111,6 +112,29 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
         if (result.message == "File uploaded successfully!") {
             setIsLoading(false)
         }
+
+
+        const sendMail = async (htmlContent) => {
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                // 'castanedasantos@gmail.com'
+                body: JSON.stringify({
+                    // 'castanedasantos@gmail.com'
+                    listaEmail: ["carlos.facundo.rr@gmail.com"],
+                    htmlContenido: htmlContent,
+                    titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+                })
+            })
+        }
+
+
+        const result2 = await sendMail(emailCaptacionHTML())
+
+        console.log("email: " + JSON.stringify(result2));
+
 
         onClose()
     }

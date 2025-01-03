@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { format, isValid, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from 'recharts'
-import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, Users, BarChart3, UserPlus } from 'lucide-react'
+import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, Users, BarChart3, UserPlus, FileText } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select"
 import { getRecruitmentStats, getInterviewStatsBySource, getRecruits, Recruit, RecruitmentSource, InterviewStatsBySource } from './data'
 import { getWorkWeekRange, moveWorkWeek, getMonthRange } from './date-utils'
+import Link from 'next/link'
 
 const months = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -186,7 +187,7 @@ export default function Dashboard() {
 
           <Card className="shadow-lg border-t-4 border-yellow-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Entrevistas</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Citados</CardTitle>
               <UserPlus className="h-4 w-4 text-yellow-500" />
             </CardHeader>
             <CardContent>
@@ -290,21 +291,33 @@ export default function Dashboard() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[200px]">Nombre</TableHead>
+                    <TableHead>Nombre</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Teléfono</TableHead>
                     <TableHead>Fuente</TableHead>
                     <TableHead>Fecha de Aplicación</TableHead>
                     <TableHead>Estado de Entrevista</TableHead>
+                    <TableHead>CV</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {recruits.map((recruit, index) => (
                     <TableRow key={index}>
-                      <TableCell className="font-medium text-black">{recruit.nombre}</TableCell>
-                      <TableCell className="text-black">{recruit.fuente}</TableCell>
-                      <TableCell className="text-black">
-                        {recruit.diaPrimeraEntrevista}
+                      <TableCell className="font-medium">{recruit.nombre}</TableCell>
+                      <TableCell>{recruit.email}</TableCell>
+                      <TableCell>{recruit.telefono}</TableCell>
+                      <TableCell>{recruit.fuente}</TableCell>
+                      <TableCell>{recruit.diaPrimeraEntrevista}</TableCell>
+                      <TableCell>{recruit.interviewStatus}</TableCell>
+                      <TableCell>
+                        {
+                          recruit.cv != undefined &&
+                          <Link href={recruit.cv} target='_blank'>
+                            <FileText className="h-4 w-4" />
+                            <span className="sr-only">Ver CV</span>
+                          </Link>
+                        }
                       </TableCell>
-                      <TableCell className="text-black">{recruit.interviewStatus}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -143,27 +143,27 @@
 //     };
 
 
-//     const sendMail = async (htmlContent) => {
+    // const sendMail = async (htmlContent) => {
 
 
-//         for (let index = 0; index < values.length; index++) {
-//             const element = values[index];
+    //     for (let index = 0; index < values.length; index++) {
+    //         const element = values[index];
 
-//             const response = await fetch('/api/sendEmail', {
-//                 method: 'POST',
-//                 headers: {
-//                     'content-type': 'application/json'
-//                 },
-//                 // 'castanedasantos@gmail.com'
-//                 body: JSON.stringify({
-//                     // 'castanedasantos@gmail.com'
-//                     listaEmail: element,
-//                     htmlContenido: htmlContent,
-//                     titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
-//                 })
-//             })
+            // const response = await fetch('/api/sendEmail', {
+            //     method: 'POST',
+            //     headers: {
+            //         'content-type': 'application/json'
+            //     },
+            //     // 'castanedasantos@gmail.com'
+            //     body: JSON.stringify({
+            //         // 'castanedasantos@gmail.com'
+            //         listaEmail: element,
+            //         htmlContenido: htmlContent,
+            //         titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+            //     })
+            // })
 
-//         }
+    //     }
 
 
 //         return "Enviado correctamente"
