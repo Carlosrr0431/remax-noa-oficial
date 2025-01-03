@@ -114,24 +114,33 @@ export default function InterviewSchedulerModal({ isOpen, onClose, onSchedule })
         }
 
 
-        const sendMail = async (htmlContent) => {
-            const response = await fetch('/api/sendEmail', {
+        // const sendMail = async (htmlContent) => {
+        //     const response = await fetch('/api/sendEmail', {
+        //         method: 'POST',
+        //         headers: {
+        //             'content-type': 'application/json'
+        //         },
+        //         // 'castanedasantos@gmail.com'
+        //         body: JSON.stringify({
+        //             // 'castanedasantos@gmail.com'
+        //             listaEmail: ["carlos.facundo.rr@gmail.com"],
+        //             htmlContenido: htmlContent,
+        //             titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
+        //         })
+        //     })
+        // }
+
+
+        const sendMail = async () => {
+            const response = await fetch('/api/resend', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
-                },
-                // 'castanedasantos@gmail.com'
-                body: JSON.stringify({
-                    // 'castanedasantos@gmail.com'
-                    listaEmail: ["carlos.facundo.rr@gmail.com"],
-                    htmlContenido: htmlContent,
-                    titulo: '¡Tu proximo trabajo esta cerca en RE/MAX NOA!'
-                })
+                }
             })
         }
 
-
-        const result2 = await sendMail(emailCaptacionHTML())
+        const result2 = await sendMail()
 
         console.log("email: " + JSON.stringify(result2));
 
