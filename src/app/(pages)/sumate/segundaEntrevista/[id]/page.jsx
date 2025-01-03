@@ -175,6 +175,7 @@ export default function ItemPage({ params }) {
         console.log("RESULTADO: " + result3);
 
 
+        router.push('/')
         // window.open(`https://wa.me/+549${userSelect.telefono}?text=Hola, nos contactamos para citarte a la siguiente etapa del proceso de selección. Te esperamos el ${datos.dia} a las ${datos.hora} en Pueyrredón 608 para una entrevista individual. Aguardamos confirmación. Muchas gracias.`, "_blank")
     }
 

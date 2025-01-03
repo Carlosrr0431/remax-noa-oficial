@@ -93,6 +93,7 @@
     "react-scroll-parallax": "^3.4.5",
     "react-spinners": "^0.14.1",
     "recharts": "^2.13.3",
+    "resend": "^4.0.1",
     "sonner": "^1.4.32",
     "swiper": "^11.0.7",
     "tailwind-merge": "^2.5.2",
