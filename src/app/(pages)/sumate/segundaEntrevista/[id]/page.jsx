@@ -135,7 +135,8 @@ export default function ItemPage({ params }) {
                     horaSegundaEntrevista: datos.hora,
                     feedBack: elem.feedBack,
                     interviewPassed: "paso",
-                    fuente: elem.fuente
+                    fuente: elem.fuente,
+                    linkEntrevistaIndividual: null,
                 }
 
                 nuevosReclutados.push(object)
@@ -168,6 +169,7 @@ export default function ItemPage({ params }) {
             interviewPassed: userSelect.interviewPassed,
             fuente: userSelect.fuente,
             feedBack: userSelect.feedBack,
+            linkEntrevistaIndividual: null,
         }).eq("nombreCompleto", userSelect.nombre).eq("telefono", userSelect.telefono).eq('diaPrimeraEntrevista', userSelect.diaPrimeraEntrevista).eq('horaPrimeraEntrevista', userSelect.horaPrimeraEntrevista)
 
         console.log("RESULTADO: " + result3);

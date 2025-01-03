@@ -1,69 +1,98 @@
 import {
+  parse,
+  format,
   addDays,
   subDays,
   isWeekend,
   startOfWeek,
   endOfWeek,
-  isSameDay,
   startOfMonth,
   endOfMonth,
   isValid,
-  parse,
-  format,
 } from "date-fns";
 
-export function getNextWorkingDay(date) {
-  let nextDay = addDays(parse(date, "dd/MM/yyyy", new Date()), 1);
-  while (isWeekend(nextDay)) {
-    nextDay = addDays(nextDay, 1);
+function parseDate(dateString) {
+  if (typeof dateString !== "string") {
+    console.error("Invalid date input:", dateString);
+    return null; // Return current date as fallback
   }
-  return format(nextDay, "dd/MM/yyyy");
+  const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
+  return isValid(parsedDate) ? parsedDate : new Date();
+}
+
+export function getNextWorkingDay(date) {
+  try {
+    let nextDay = addDays(parseDate(date), 1);
+    while (isWeekend(nextDay)) {
+      nextDay = addDays(nextDay, 1);
+    }
+    return format(nextDay, "dd/MM/yyyy");
+  } catch (error) {
+    console.error("Error in getNextWorkingDay:", error);
+    return date; // Return original date as fallback
+  }
 }
 
 export function getPreviousWorkingDay(date) {
-  let previousDay = subDays(parse(date, "dd/MM/yyyy", new Date()), 1);
-  while (isWeekend(previousDay)) {
-    previousDay = subDays(previousDay, 1);
+  try {
+    let previousDay = subDays(parseDate(date), 1);
+    while (isWeekend(previousDay)) {
+      previousDay = subDays(previousDay, 1);
+    }
+    return format(previousDay, "dd/MM/yyyy");
+  } catch (error) {
+    console.error("Error in getPreviousWorkingDay:", error);
+    return date; // Return original date as fallback
   }
-  return format(previousDay, "dd/MM/yyyy");
 }
 
 export function getWorkWeekRange(date) {
-  let from = startOfWeek(parse(date, "dd/MM/yyyy", new Date()), {
-    weekStartsOn: 1,
-  }); // Start from Monday
-  let to = endOfWeek(parse(date, "dd/MM/yyyy", new Date()), {
-    weekStartsOn: 1,
-  }); // End on Sunday
+  try {
+    let from = startOfWeek(parseDate(date), { weekStartsOn: 1 }); // Start from Monday
+    let to = endOfWeek(parseDate(date), { weekStartsOn: 1 }); // End on Sunday
 
-  // Adjust 'from' if it's a weekend
-  while (isWeekend(from)) {
-    from = addDays(from, 1);
+    // Adjust 'from' if it's a weekend
+    while (isWeekend(from)) {
+      from = addDays(from, 1);
+    }
+
+    // Adjust 'to' if it's a weekend
+    while (isWeekend(to)) {
+      to = subDays(to, 1);
+    }
+
+    return { from: format(from, "dd/MM/yyyy"), to: format(to, "dd/MM/yyyy") };
+  } catch (error) {
+    console.error("Error in getWorkWeekRange:", error);
+    return { from: date, to: date }; // Return original date as fallback
   }
-
-  // Adjust 'to' if it's a weekend
-  while (isWeekend(to)) {
-    to = subDays(to, 1);
-  }
-
-  return { from: format(from, "dd/MM/yyyy"), to: format(to, "dd/MM/yyyy") };
 }
 
 export function moveWorkWeek(date, direction) {
-  const daysToMove = direction === "forward" ? 7 : -7;
-  let newDate = addDays(parse(date, "dd/MM/yyyy", new Date()), daysToMove);
+  try {
+    const daysToMove = direction === "forward" ? 7 : -7;
+    let newDate = addDays(parseDate(date), daysToMove);
 
-  // If we land on a weekend, adjust to the next working day
-  while (isWeekend(newDate)) {
-    newDate =
-      direction === "forward" ? addDays(newDate, 1) : subDays(newDate, 1);
+    // If we land on a weekend, adjust to the next working day
+    while (isWeekend(newDate)) {
+      newDate =
+        direction === "forward" ? addDays(newDate, 1) : subDays(newDate, 1);
+    }
+
+    return format(newDate, "dd/MM/yyyy");
+  } catch (error) {
+    console.error("Error in moveWorkWeek:", error);
+    return date; // Return original date as fallback
   }
-
-  return format(newDate, "dd/MM/yyyy");
 }
 
 export function isWorkingDay(date) {
-  return !isWeekend(parse(date, "dd/MM/yyyy", new Date()));
+  try {
+    return !isWeekend(parseDate(date));
+  } catch (error) {
+    console.error("Error in isWorkingDay:", error);
+    return false; // Assume it's not a working day if there's an error
+  }
 }
 
 export function getMonthRange(year, month) {
@@ -73,8 +102,20 @@ export function getMonthRange(year, month) {
 }
 
 export function isDateInRange(date, start, end) {
-  const dateObj = parse(date, "dd/MM/yyyy", new Date());
-  const startObj = parse(start, "dd/MM/yyyy", new Date());
-  const endObj = parse(end, "dd/MM/yyyy", new Date());
-  return isValid(dateObj) && dateObj >= startObj && dateObj <= endObj;
+  try {
+    const dateObj = parseDate(date);
+    const startObj = parseDate(start);
+    const endObj = parseDate(end);
+    return dateObj >= startObj && dateObj <= endObj;
+  } catch (error) {
+    console.error("Error in isDateInRange:", error);
+    return false; // Assume it's not in range if there's an error
+  }
+}
+
+export function formatDate(date) {
+  if (typeof date === "string") {
+    date = parseDate(date);
+  }
+  return format(date, "dd/MM/yyyy");
 }

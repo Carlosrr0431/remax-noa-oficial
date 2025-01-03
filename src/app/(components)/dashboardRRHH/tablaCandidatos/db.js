@@ -1,4 +1,15 @@
 import { supabaseClient } from "@/supabase/client";
+import moment from "moment-timezone";
+
+const establecerFecha = (fecha1) => {
+  if (fecha1 != null) {
+    // var fecha2 = moment(new Date().toLocaleDateString().split('/').reverse().join('/'));
+
+    let fecha2 = moment().tz("America/Argentina/Salta");
+
+    return Math.abs(fecha2.diff(fecha1.split("/").reverse().join("/"), "days"));
+  } else return 1;
+};
 
 export const db = {
   getRecruits: async () => {
@@ -17,16 +28,46 @@ export const db = {
   getRecruitsByDateRange: async (startDate, endDate) => {
     const { data, error } = await supabaseClient
       .from("cuposDisponibles")
-      .select("*")
-      .gte("creaded_at", startDate)
-      .lte("creaded_at", endDate);
+      .select("*");
+
+    let reclutados = [];
+    const interviewStatuses = ["No pasó", "Pasó 1", "Pasó 2", "Pasó 3"];
+
+    data.map((elem, index) => {
+      if (elem.reclutados != null) {
+        const applicationDate = elem.diaPrimeraEntrevista;
+        let interviewStatus = "";
+
+        elem.reclutados.map((elem) => {
+          if (elem.pasoTerceraEntrevista == "paso") {
+            interviewStatus = "Pasó 3";
+          } else if (elem.pasoSegundaEntrevista == "paso") {
+            interviewStatus = "Pasó 2";
+          } else if (elem.segundaEntrevista == true) {
+            interviewStatus = "Pasó 1";
+          } else interviewStatus = "No pasó";
+
+          const fechaEval = moment(elem.diaPrimeraEntrevista, "DD:MM:YYYY");
+          const inicio = moment(startDate, "DD:MM:YYYY");
+          const fin = moment(endDate, "DD:MM:YYYY");
+
+          if (fechaEval.isBetween(inicio, fin, null, "[]")) {
+            return reclutados.push({
+              ...elem,
+              applicationDate,
+              interviewStatus,
+            });
+          }
+        });
+      }
+    });
 
     if (error) {
       console.error("Error fetching recruits by date range:", error);
       return [];
     }
 
-    return data || [];
+    return reclutados || [];
   },
 };
 
@@ -44,29 +85,29 @@ export const db = {
 // const interviewStatuses = ["No pasó", "Pasó 1", "Pasó 2", "Pasó 3"];
 
 // const getRecruits = async () => {
-//   const { data, error } = await supabaseClient
-//     .from("cuposDisponibles")
-//     .select("*");
+// const { data, error } = await supabaseClient
+//   .from("cuposDisponibles")
+//   .select("*");
 
-//   let reclutados = [];
+// let reclutados = [];
 
-//   data.map((elem, index) => {
-//     if (elem.reclutados != null) {
-//       const applicationDate = elem.created_at
-//         .substr(0, 10)
-//         .split("-")
-//         .reverse()
-//         .join("/");
-//       elem.reclutados.map((elem) => {
-//         return reclutados.push({
-//           ...elem,
-//           applicationDate,
-//         });
+// data.map((elem, index) => {
+//   if (elem.reclutados != null) {
+//     const applicationDate = elem.created_at
+//       .substr(0, 10)
+//       .split("-")
+//       .reverse()
+//       .join("/");
+//     elem.reclutados.map((elem) => {
+//       return reclutados.push({
+//         ...elem,
+//         applicationDate,
 //       });
-//     }
-//   });
+//     });
+//   }
+// });
 
-//   return reclutados;
+// return reclutados;
 // };
 
 // export const db = {

@@ -1,22 +1,14 @@
 import { db } from "./db";
-import { isWorkingDay, isDateInRange } from "./date-utils";
+import { isWorkingDay, isDateInRange, formatDate } from "./date-utils";
 
-const sources = [
-  "LinkedIn",
-  "Indeed",
-  "Referral",
-  "Company Website",
-  "Job Fair",
-];
+const sources = ["Empleo12", "CompuTrabajo", "Redes", "Referidos", "Mailing"];
 
 export const getRecruitmentStats = async (startDate, endDate) => {
   const recruits = await db.getRecruitsByDateRange(startDate, endDate);
 
-  console.log("RECLUTADOS: " + JSON.stringify(recruits));
-
   const stats = sources.map((source) => ({
     name: source,
-    count: recruits.filter((recruit) => recruit.source === source).length,
+    count: recruits.filter((recruit) => recruit.fuente === source).length,
   }));
 
   return stats.sort((a, b) => b.count - a.count);
@@ -32,7 +24,7 @@ export const getInterviewStatsBySource = async (startDate, endDate) => {
     sources.forEach((source) => {
       statusObj[source] = recruits.filter(
         (recruit) =>
-          recruit.interviewStatus === status && recruit.source === source
+          recruit.interviewStatus === status && recruit.fuente === source
       ).length;
     });
     return statusObj;
@@ -44,7 +36,10 @@ export const getInterviewStatsBySource = async (startDate, endDate) => {
 export const getRecruits = async (startDate, endDate, isMonthView) => {
   const recruits = await db.getRecruitsByDateRange(startDate, endDate);
 
-  return recruits.filter(
-    (recruit) => isMonthView || isWorkingDay(recruit.applicationDate)
-  );
+  return recruits
+    .filter((recruit) => isMonthView || isWorkingDay(recruit.applicationDate))
+    .map((recruit) => ({
+      ...recruit,
+      applicationDate: formatDate(recruit.applicationDate),
+    }));
 };

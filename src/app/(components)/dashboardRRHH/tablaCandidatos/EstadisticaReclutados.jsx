@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { format, isValid, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Cell } from 'recharts'
 import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, Users, BarChart3, UserPlus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -47,7 +47,7 @@ const colorPalette = [
   '#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6', '#1abc9c', '#f39c12', '#d35400'
 ]
 
-const sources = ['LinkedIn', 'Indeed', 'Referral', 'Company Website', 'Job Fair']
+const sources = ['Redes', 'Empleo12', 'CompuTrabajo', 'Referidos', 'LinkedIn']
 
 export default function Dashboard() {
   const [dateRange, setDateRange] = useState(() => {
@@ -119,10 +119,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto p-6 space-y-8">
-        <header className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Dashboard de Reclutamiento</h1>
-          <p className="text-gray-600 dark:text-gray-400">Análisis y seguimiento de procesos de reclutamiento</p>
-        </header>
+
 
         <Card className="shadow-lg border-t-4 border-blue-500">
           <CardHeader>
@@ -177,18 +174,7 @@ export default function Dashboard() {
         </Card>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <Card className="shadow-lg border-t-4 border-green-500">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Reclutados</CardTitle>
-              <Users className="h-4 w-4 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalRecruits}</div>
-              <p className="text-xs text-muted-foreground">
-                que pasaron la entrevista 3
-              </p>
-            </CardContent>
-          </Card>
+
           <Card className="shadow-lg border-t-4 border-yellow-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Entrevistas</CardTitle>
@@ -198,6 +184,19 @@ export default function Dashboard() {
               <div className="text-2xl font-bold">{totalInterviews}</div>
               <p className="text-xs text-muted-foreground">
                 que pasaron entrevistas 1, 2 o 3
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-lg border-t-4 border-green-500">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Reclutados</CardTitle>
+              <Users className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalRecruits}</div>
+              <p className="text-xs text-muted-foreground">
+                que pasaron la entrevista 3
               </p>
             </CardContent>
           </Card>
@@ -215,7 +214,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-1">
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl flex items-center gap-2">
@@ -232,7 +231,11 @@ export default function Dashboard() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="count" fill="#3498db" name="Cantidad de reclutados" />
+                  <Bar dataKey="count" fill="#3498db" name="Cantidad de reclutados">
+                    {recruitmentStats.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={colorPalette[index % colorPalette.length]} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -247,7 +250,7 @@ export default function Dashboard() {
               <CardDescription>Comparación de fuentes de reclutamiento en cada etapa de entrevista</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={interviewStats}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="status" />
@@ -283,14 +286,14 @@ export default function Dashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recruits.map((recruit) => (
-                    <TableRow key={recruit.id}>
-                      <TableCell className="font-medium">{recruit.name}</TableCell>
-                      <TableCell>{recruit.source}</TableCell>
-                      <TableCell>
-                        {recruit.applicationDate}
+                  {recruits.map((recruit, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium text-black">{recruit.nombre}</TableCell>
+                      <TableCell className="text-black">{recruit.fuente}</TableCell>
+                      <TableCell className="text-black">
+                        {recruit.diaPrimeraEntrevista}
                       </TableCell>
-                      <TableCell>{recruit.interviewStatus}</TableCell>
+                      <TableCell className="text-black">{recruit.interviewStatus}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

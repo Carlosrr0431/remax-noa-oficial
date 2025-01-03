@@ -21,10 +21,8 @@ export default function ScheduleInterview({ onSchedule, setSchedulingUser, userS
   const availableTimeSlots = {
     0: [], // Domingo
     1: ['08:20', '11:00', '11:40', '12:20', '14:00'], // Lunes
-    2: ['08:20', '11:00', '11:40', '12:20', '14:00'], // MarteS
-
+    2: ['08:20', '11:00', '11:40', '12:20', '14:00'], // Martes
     3: ['08:20', '09:00', '11:40', '12:20', '14:00'], // Miércoles
-
     4: ['08:20', '11:00', '11:40', '12:20', '14:00'], // Jueves
     5: ['08:20', '09:00', '11:40', '12:20', '14:00'], // Viernes
     6: [], // Sábado
