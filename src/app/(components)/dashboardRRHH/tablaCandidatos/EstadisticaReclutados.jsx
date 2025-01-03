@@ -107,13 +107,22 @@ export default function Dashboard() {
       .reduce((sum, [_, value]) => sum + (value), 0)
     : 0
 
+  // const totalInterviews = interviewStats.reduce((sum, stat) => {
+
+  //   console.log("INTERVIEW: " + JSON.stringify(stat));
+
+  //   if (['No pasó', 'Pasó 1', 'Pasó 2', 'Pasó 3'].includes(stat.status)) {
+  //     return sum + Object.entries(stat)
+  //       .filter(([key, value]) => key !== 'status' && typeof value === 'number')
+  //       .reduce((innerSum, [_, value]) => innerSum + (value), 0)
+  //   }
+  //   return sum
+  // }, 0)
+
   const totalInterviews = interviewStats.reduce((sum, stat) => {
-    if (['Pasó 1', 'Pasó 2', 'Pasó 3'].includes(stat.status)) {
-      return sum + Object.entries(stat)
-        .filter(([key, value]) => key !== 'status' && typeof value === 'number')
-        .reduce((innerSum, [_, value]) => innerSum + (value), 0)
-    }
-    return sum
+    return sum + Object.entries(stat)
+      .filter(([key, value]) => key !== 'status' && typeof value === 'number')
+      .reduce((innerSum, [_, value]) => innerSum + (value), 0)
   }, 0)
 
   return (
@@ -181,7 +190,9 @@ export default function Dashboard() {
               <UserPlus className="h-4 w-4 text-yellow-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalInterviews}</div>
+              {/* <div className="text-2xl font-bold">{totalInterviews}</div> */}
+              <div className="text-2xl font-bold">{recruits.length}</div>
+
               <p className="text-xs text-muted-foreground">
                 que pasaron entrevistas 1, 2 o 3
               </p>

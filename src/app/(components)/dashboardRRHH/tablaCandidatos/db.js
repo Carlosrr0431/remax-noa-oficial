@@ -31,7 +31,6 @@ export const db = {
       .select("*");
 
     let reclutados = [];
-    const interviewStatuses = ["No pasó", "Pasó 1", "Pasó 2", "Pasó 3"];
 
     data.map((elem, index) => {
       if (elem.reclutados != null) {
@@ -45,7 +44,9 @@ export const db = {
             interviewStatus = "Pasó 2";
           } else if (elem.segundaEntrevista == true) {
             interviewStatus = "Pasó 1";
-          } else interviewStatus = "No pasó";
+          } else if (elem.interviewPassed == "no paso")
+            interviewStatus = "No pasó";
+          else interviewStatus = "Pendiente";
 
           const fechaEval = moment(elem.diaPrimeraEntrevista, "DD:MM:YYYY");
           const inicio = moment(startDate, "DD:MM:YYYY");
